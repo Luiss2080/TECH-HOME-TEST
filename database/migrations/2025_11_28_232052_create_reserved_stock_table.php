@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('reserved_stock', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('libro_id')->constrained('books')->onDelete('cascade');
+            $table->foreignId('venta_id')->constrained('sales')->onDelete('cascade');
+            $table->integer('cantidad_reservada');
+            $table->timestamp('fecha_reserva')->useCurrent();
+            $table->timestamp('fecha_expiracion');
+            $table->enum('estado', ['activa', 'liberada', 'convertida'])->default('activa');
+            
+            // Índices
+            $table->index('estado');
+            $table->index('fecha_expiracion');
         });
     }
 
