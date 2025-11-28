@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('active_sessions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->string('session_token', 100)->unique();
+            $table->string('ip_address', 45);
+            $table->text('user_agent')->nullable();
+            $table->timestamp('ultimo_acceso')->useCurrent();
+            $table->timestamp('fecha_inicio')->useCurrent();
+            
+            // Índices
+            $table->index('session_token');
+            $table->index('ultimo_acceso');
         });
     }
 

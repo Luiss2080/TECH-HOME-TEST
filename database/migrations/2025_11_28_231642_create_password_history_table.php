@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('password_history', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->string('password_hash');
+            $table->timestamp('fecha_creacion')->useCurrent();
+            
+            // Índices
+            $table->index('usuario_id');
+            $table->index('fecha_creacion');
         });
     }
 

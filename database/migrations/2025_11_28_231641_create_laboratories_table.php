@@ -13,7 +13,21 @@ return new class extends Migration
     {
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nombre', 200);
+            $table->text('descripcion')->nullable();
+            $table->foreignId('categoria_id')->constrained('categories');
+            $table->foreignId('docente_responsable_id')->constrained('users');
+            $table->string('ubicacion', 150)->nullable();
+            $table->integer('capacidad_estudiantes')->default(20);
+            $table->json('equipamiento')->nullable();
+            $table->boolean('disponible')->default(1);
+            $table->text('normas_seguridad')->nullable();
+            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->timestamp('fecha_actualizacion')->useCurrent()->useCurrentOnUpdate();
+            
+            // Índices
+            $table->index('disponible');
+            $table->index('capacidad_estudiantes');
         });
     }
 
