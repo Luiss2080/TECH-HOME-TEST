@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('estudiante_id')->constrained('users');
+            $table->foreignId('curso_id')->constrained('courses');
+            $table->timestamp('fecha_inscripcion')->useCurrent();
+            
+            // Índice único para evitar inscripciones duplicadas
+            $table->unique(['estudiante_id', 'curso_id']);
         });
     }
 

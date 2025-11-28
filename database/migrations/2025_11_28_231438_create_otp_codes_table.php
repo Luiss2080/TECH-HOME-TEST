@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('otp_codes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->string('codigo', 6);
+            $table->datetime('expira_en');
+            $table->boolean('utilizado')->default(0);
+            $table->timestamp('creado_en')->useCurrent();
+            
+            // Índices
+            $table->index('usuario_id');
+            $table->index('codigo');
+            $table->index('expira_en');
         });
     }
 
