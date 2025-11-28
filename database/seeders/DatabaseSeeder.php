@@ -15,10 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ejecutar seeders en orden
+        // Ejecutar seeders en orden de dependencias
         $this->call([
-            UsersSeeder::class,
+            RolesSeeder::class,
+            PermissionsSeeder::class,
             CategoriesSeeder::class,
+            UsersSeeder::class,
+            CursosSeeder::class,
+            LibrosSeeder::class,
         ]);
     }
 }
