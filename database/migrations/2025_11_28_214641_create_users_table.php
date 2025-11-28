@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nombre', 100);
             $table->string('apellido', 100);
             $table->string('email', 150)->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('telefono', 20)->nullable();
             $table->date('fecha_nacimiento')->nullable();
@@ -24,8 +23,12 @@ return new class extends Migration
             $table->boolean('estado')->default(1);
             $table->integer('intentos_fallidos')->default(0);
             $table->datetime('bloqueado_hasta')->nullable();
-            $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->timestamp('fecha_actualizacion')->useCurrent()->useCurrentOnUpdate();
+            
+            // Índices
+            $table->index('email');
+            $table->index('estado');
         });
     }
 
