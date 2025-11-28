@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('inventory_entries', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('componente_id')->constrained('components');
+            $table->integer('cantidad');
+            $table->decimal('precio_compra', 10, 2);
+            $table->string('lote', 100)->nullable();
+            $table->date('fecha_vencimiento')->nullable();
+            $table->foreignId('usuario_registro_id')->constrained('users');
+            $table->text('observaciones')->nullable();
+            $table->timestamp('fecha_entrada')->useCurrent();
+            
+            // Índices
+            $table->index('lote');
+            $table->index('fecha_entrada');
         });
     }
 

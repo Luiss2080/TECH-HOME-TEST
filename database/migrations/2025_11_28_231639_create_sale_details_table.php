@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('venta_id')->constrained('sales')->onDelete('cascade');
+            $table->string('producto_tipo', 50); // 'componente', 'libro', etc.
+            $table->unsignedBigInteger('producto_id');
+            $table->string('producto_nombre', 200);
+            $table->integer('cantidad');
+            $table->decimal('precio_unitario', 10, 2);
+            $table->decimal('subtotal', 10, 2);
+            
+            // Índices
+            $table->index(['producto_tipo', 'producto_id']);
         });
     }
 

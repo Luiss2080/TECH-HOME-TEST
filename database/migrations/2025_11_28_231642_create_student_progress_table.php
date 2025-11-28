@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('student_progress', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('estudiante_id')->constrained('users');
+            $table->foreignId('curso_id')->constrained('courses');
+            $table->integer('progreso_porcentaje')->default(0);
+            $table->integer('lecciones_completadas')->default(0);
+            $table->integer('tiempo_total_minutos')->default(0);
+            $table->timestamp('ultima_actividad')->useCurrent();
+            $table->timestamp('fecha_inicio')->useCurrent();
+            
+            // Índices
+            $table->unique(['estudiante_id', 'curso_id']);
+            $table->index('progreso_porcentaje');
+            $table->index('ultima_actividad');
         });
     }
 

@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('numero_venta', 20)->unique();
+            $table->foreignId('vendedor_id')->constrained('users');
+            $table->foreignId('cliente_id')->constrained('users');
+            $table->decimal('total', 10, 2);
+            $table->enum('estado', ['Pendiente', 'Completada', 'Cancelada'])->default('Pendiente');
+            $table->string('metodo_pago', 50)->nullable();
+            $table->text('notas')->nullable();
+            $table->timestamp('fecha_venta')->useCurrent();
+            
+            // Índices
+            $table->index('numero_venta');
+            $table->index('estado');
+            $table->index('fecha_venta');
         });
     }
 

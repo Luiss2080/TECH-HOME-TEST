@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('estudiante_id')->constrained('users');
+            $table->foreignId('curso_id')->constrained('courses');
+            $table->decimal('calificacion', 3, 2)->nullable();
+            $table->text('comentarios')->nullable();
+            $table->foreignId('docente_id')->constrained('users');
+            $table->timestamp('fecha_calificacion')->useCurrent();
+            
+            // Índices
+            $table->unique(['estudiante_id', 'curso_id']);
+            $table->index('calificacion');
         });
     }
 
