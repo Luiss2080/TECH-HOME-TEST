@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
+            $table->string('email', 150)->unique();
+            $table->string('password');
+            $table->string('telefono', 20)->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('avatar')->nullable();
+            $table->boolean('estado')->default(1);
+            $table->integer('intentos_fallidos')->default(0);
+            $table->datetime('bloqueado_hasta')->nullable();
+            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->timestamp('fecha_actualizacion')->useCurrent()->useCurrentOnUpdate();
+            
+            // Índices
+            $table->index('email');
+            $table->index('estado');
         });
     }
 
