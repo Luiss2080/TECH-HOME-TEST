@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users');
+            $table->string('numero_venta', 50)->unique();
+            $table->decimal('total', 10, 2);
+            $table->decimal('subtotal', 10, 2);
+            $table->decimal('impuestos', 10, 2)->default(0);
+            $table->decimal('descuento', 10, 2)->default(0);
+            $table->enum('estado', ['pendiente', 'confirmada', 'enviada', 'entregada', 'cancelada'])->default('pendiente');
+            $table->enum('metodo_pago', ['efectivo', 'tarjeta', 'transferencia', 'credito']);
+            $table->text('direccion_envio')->nullable();
+            $table->text('notas')->nullable();
+            $table->timestamp('fecha_venta')->useCurrent();
+            $table->timestamp('fecha_actualizacion')->useCurrent()->useCurrentOnUpdate();
+            
+            // Índices
+            $table->index('estado');
+            $table->index('fecha_venta');
         });
     }
 
