@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('guest_access', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->date('fecha_inicio');
+            $table->date('fecha_vencimiento');
+            $table->integer('dias_restantes')->default(3);
+            $table->date('ultima_notificacion')->nullable();
+            $table->json('notificaciones_enviadas')->nullable();
+            $table->boolean('acceso_bloqueado')->default(0);
+            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->timestamp('fecha_actualizacion')->useCurrent()->useCurrentOnUpdate();
+            
+            // Índices
+            $table->index('fecha_vencimiento');
+            $table->index('acceso_bloqueado');
         });
     }
 

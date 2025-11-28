@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('rate_limit_attempts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('client_id');
+            $table->string('action');
+            $table->integer('attempts')->default(1);
+            $table->timestamp('window_start')->useCurrent();
+            $table->timestamp('last_attempt')->useCurrent();
+            
+            // Índices
+            $table->index(['client_id', 'action']);
+            $table->index('window_start');
         });
     }
 
