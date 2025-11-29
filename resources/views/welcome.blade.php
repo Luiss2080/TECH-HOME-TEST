@@ -1,4 +1,17 @@
 
+@extends('layouts.app')
+
+@section('title', 'Bienvenido - Tech Home')
+
+@push('styles')
+    @vite(['resources/css/modulos/home/welcome.css'])
+@endpush
+
+@section('content')
+<!-- Contenedor principal de la vista Home -->
+<div class="crud-edit-container">
+    <div class="crud-edit-wrapper">
+
         <!-- Header principal de bienvenida -->
         <div class="crud-section-card tech-home-hero">
             <div class="crud-section-header">
