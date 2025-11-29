@@ -18,8 +18,6 @@ class UsersSeeder extends Seeder
             'name' => 'Administrador',
             'email' => 'admin@techhome.com',
             'password' => bcrypt('admin123'),
-            'tipo_usuario' => 'admin',
-            'activo' => true,
             'email_verified_at' => now(),
         ]);
 
@@ -28,8 +26,6 @@ class UsersSeeder extends Seeder
             'name' => 'Docente Ejemplo',
             'email' => 'docente@techhome.com', 
             'password' => bcrypt('docente123'),
-            'tipo_usuario' => 'docente',
-            'activo' => true,
             'email_verified_at' => now(),
         ]);
 
@@ -38,8 +34,6 @@ class UsersSeeder extends Seeder
             'name' => 'Estudiante Ejemplo',
             'email' => 'estudiante@techhome.com',
             'password' => bcrypt('estudiante123'),
-            'tipo_usuario' => 'estudiante',
-            'activo' => true,
             'email_verified_at' => now(),
         ]);
     }
