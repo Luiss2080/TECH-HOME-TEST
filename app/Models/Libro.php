@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Core\Model;
-use Core\DB;
-use PDO;
-use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Libro extends Model
 {
-    protected $table = 'libros';
-    protected $primaryKey = 'id';
+    protected $table = 'books';
+    
     protected $fillable = [
         'titulo',
-        'slug',
         'autor',
         'descripcion',
         'categoria_id',
@@ -21,12 +19,6 @@ class Libro extends Model
         'paginas',
         'editorial',
         'año_publicacion',
-        'idioma',
-        'formato',
-        'descargas_totales',
-        'calificacion_promedio',
-        'total_calificaciones',
-        'palabras_clave',
         'imagen_portada',
         'archivo_pdf',
         'enlace_externo',
@@ -34,12 +26,26 @@ class Libro extends Model
         'stock',
         'stock_minimo',
         'precio',
-        'es_gratuito',
-        'estado'
+        'estado',
+        'descargas',
+        'es_gratuito'
     ];
-    protected $hidden = [];
-    protected $timestamps = true;
-    protected $softDeletes = false;
+    
+    protected $casts = [
+        'precio' => 'decimal:2',
+        'es_gratuito' => 'boolean',
+        'paginas' => 'integer',
+        'tamaño_archivo' => 'integer',
+        'stock' => 'integer',
+        'stock_minimo' => 'integer',
+        'descargas' => 'integer',
+        'año_publicacion' => 'integer',
+        'fecha_creacion' => 'datetime',
+        'fecha_actualizacion' => 'datetime'
+    ];
+    
+    const CREATED_AT = 'fecha_creacion';
+    const UPDATED_AT = 'fecha_actualizacion';
 
     // ==========================================
     // RELACIONES
