@@ -2,19 +2,28 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ActivationToken extends Model
 {
+    use HasFactory;
+
     protected $table = 'activation_tokens';
-    protected $primaryKey = 'id';
+    
     protected $fillable = [
         'email',
         'token',
         'usado',
         'fecha_creacion'
     ];
-    protected $timestamps = false;
+
+    public $timestamps = false;
+
+    protected $casts = [
+        'usado' => 'boolean',
+        'fecha_creacion' => 'datetime'
+    ];
 
     /**
      * Crear un token de activación
@@ -25,16 +34,17 @@ class ActivationToken extends Model
         $token = bin2hex(random_bytes(32));
         
         // Eliminar tokens anteriores del mismo email que no hayan sido usados
-        $db = \Core\DB::getInstance();
-        $db->query("DELETE FROM activation_tokens WHERE email = ? AND usado = 0", [$email]);
+        static::where('email', $email)
+              ->where('usado', false)
+              ->delete();
         
         // Crear nuevo token
-        $activationToken = new static();
-        $activationToken->email = $email;
-        $activationToken->token = $token;
-        $activationToken->usado = 0;
-        $activationToken->fecha_creacion = date('Y-m-d H:i:s');
-        $activationToken->save();
+        static::create([
+            'email' => $email,
+            'token' => $token,
+            'usado' => false,
+            'fecha_creacion' => now()
+        ]);
         
         return $token;
     }
@@ -42,23 +52,11 @@ class ActivationToken extends Model
     /**
      * Validar un token de activación
      */
-    public static function validateToken(string $token): ?array
+    public static function validateToken(string $token): ?static
     {
-        $activationToken = static::where('token', $token)->first();
-        
-        if (!$activationToken) {
-            return null;
-        }
-        
-        // Verificar si ya fue usado
-        if ($activationToken->usado) {
-            return null;
-        }
-        
-        return [
-            'email' => $activationToken->email,
-            'token' => $activationToken->token
-        ];
+        return static::where('token', $token)
+                    ->where('usado', false)
+                    ->first();
     }
 
     /**
@@ -72,30 +70,18 @@ class ActivationToken extends Model
             return false;
         }
         
-        $activationToken->usado = 1;
-        $result = $activationToken->save();
-        return $result !== false;
+        return $activationToken->update(['usado' => true]);
     }
 
     /**
      * Obtener token por email
      */
-    public static function getByEmail(string $email): ?array
+    public static function getByEmail(string $email): ?static
     {
-        $activationToken = static::where('email', $email)
-                                ->where('usado', '=', 0)
-                                ->orderBy('fecha_creacion', 'DESC')
-                                ->first();
-        
-        if (!$activationToken) {
-            return null;
-        }
-        
-        return [
-            'email' => $activationToken->email,
-            'token' => $activationToken->token,
-            'fecha_creacion' => $activationToken->fecha_creacion
-        ];
+        return static::where('email', $email)
+                    ->where('usado', false)
+                    ->orderBy('fecha_creacion', 'desc')
+                    ->first();
     }
 
     /**
@@ -103,10 +89,9 @@ class ActivationToken extends Model
      */
     public static function deleteExpiredTokens(): int
     {
-        $db = \Core\DB::getInstance();
         // Eliminar tokens usados de más de 30 días
-        $result = $db->query("DELETE FROM activation_tokens WHERE usado = 1 AND fecha_creacion < DATE_SUB(NOW(), INTERVAL 30 DAY)");
-        
-        return $result->rowCount();
+        return static::where('usado', true)
+                    ->where('fecha_creacion', '<', now()->subDays(30))
+                    ->delete();
     }
 }
