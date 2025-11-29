@@ -24,8 +24,9 @@ return new class extends Migration
             $table->timestamp('fecha_movimiento')->useCurrent();
             
             // Índices
-            $table->index(['producto_tipo', 'producto_id', 'fecha_movimiento']);
-            $table->index('tipo_movimiento');
+            $table->index(['producto_tipo', 'producto_id'], 'mov_stock_producto_idx');
+            $table->index('fecha_movimiento', 'mov_stock_fecha_idx');
+            $table->index('tipo_movimiento', 'mov_stock_tipo_idx');
         });
     }
 
