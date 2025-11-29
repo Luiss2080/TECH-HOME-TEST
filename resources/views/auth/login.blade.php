@@ -96,7 +96,7 @@
                         <input type="checkbox" class="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
                         <span>Recordarme</span>
                     </label>
-                    <a href="{{ route('password.request') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    <a href="{{ route('auth.forgot-password') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
                 </div>
 
                 <button type="submit" class="login-btn">
@@ -131,7 +131,7 @@
             </div>
 
             <div class="register-link">
-                ¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a>
+                ¿No tienes cuenta? <a href="{{ route('auth.register') }}">Regístrate aquí</a>
             </div>
         </div>
     </div>

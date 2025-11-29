@@ -84,9 +84,9 @@
                      BOTÓN CERRAR SESIÓN / INICIAR SESIÓN
                      ============================================ -->
                 @auth
-                    <form action="{{ route('logout') }}" method="POST" class="logout-btn" title="Cerrar Sesión">
+                    <form action="{{ route('auth.logout') }}" method="POST" class="logout-btn" title="Cerrar Sesión">
                         @csrf
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn btn-outline-light">
                             <i class="fas fa-sign-out-alt"></i>
                             Cerrar Sesión
                         </button>

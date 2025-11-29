@@ -75,7 +75,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('password.store') }}">
+            <form method="POST" action="{{ route('auth.reset-password.submit') }}">
                 @csrf
                 <!-- Password Reset Token -->
                 <input type="hidden" name="token" value="{{ $token }}">

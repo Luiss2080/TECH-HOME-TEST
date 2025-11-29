@@ -61,7 +61,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('auth.register.submit') }}">
                 @csrf
                 <div class="form-row">
                     <div class="form-group">

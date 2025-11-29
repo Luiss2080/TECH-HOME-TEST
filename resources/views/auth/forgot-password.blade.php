@@ -75,7 +75,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('password.email') }}">
+            <form method="POST" action="{{ route('auth.forgot-password.submit') }}">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Correo Electrónico</label>
