@@ -1931,3 +1931,99 @@ body.dark-theme .crud-invalid-feedback {
     background: var(--gradient-primary);
     box-shadow: var(--shadow-light);
 }
+/* ============================================
+   ESTADÍSTICAS ADAPTADAS (MIGRACIÓN)
+   ============================================ */
+.tech-home-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition-bounce);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: statItemAppear 0.6s ease-out forwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.2s; border-left: 4px solid var(--secondary-blue); }
+.stat-card:nth-child(2) { animation-delay: 0.4s; border-left: 4px solid var(--success-color); }
+.stat-card:nth-child(3) { animation-delay: 0.6s; border-left: 4px solid var(--warning-color); }
+.stat-card:nth-child(4) { animation-delay: 0.8s; border-left: 4px solid var(--danger-color); }
+
+.stat-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: var(--shadow-strong);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-medium);
+}
+
+.stat-icon.bg-blue { background: linear-gradient(135deg, var(--secondary-blue), var(--secondary-blue-light)); }
+.stat-icon.bg-green { background: linear-gradient(135deg, var(--success-color), #34d399); }
+.stat-icon.bg-yellow { background: linear-gradient(135deg, var(--warning-color), #fbbf24); }
+.stat-icon.bg-red { background: linear-gradient(135deg, var(--danger-color), #f87171); }
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: var(--shadow-strong);
+}
+
+.stat-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-content h4 {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.stat-value {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+    transition: var(--transition-base);
+}
+
+.stat-card:hover .stat-value {
+    color: var(--primary-red);
+    transform: scale(1.1);
+}
+
+@keyframes statItemAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
