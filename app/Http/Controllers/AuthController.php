@@ -75,7 +75,7 @@ class AuthController extends Controller
                     return response()->json(['success' => false, 'message' => $error], 401);
                 }
                 $request->session()->flash('error', $error);
-                return \Core\Response::back();
+                return redirect(back());
             }
 
             // Intentar autenticar
@@ -99,7 +99,7 @@ class AuthController extends Controller
                     ]);
                 }
 
-                return \Core\Response::redirect($this->getRedirectUrl($user));
+return redirect($this->getRedirectUrl($user));
             }
 
             $error = 'Credenciales incorrectas.';
