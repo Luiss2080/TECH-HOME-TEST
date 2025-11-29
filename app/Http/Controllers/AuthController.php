@@ -115,7 +115,7 @@ return redirect($this->getRedirectUrl($user));
                 return response()->json(['success' => false, 'message' => $error], 500);
             }
             $request->session()->flash('error', $error);
-            return \Core\Response::back();
+            return redirect(back());
         }
     }
 
