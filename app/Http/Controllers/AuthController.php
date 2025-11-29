@@ -420,4 +420,12 @@ return redirect($this->getRedirectUrl($user));
             return '/estudiante/dashboard';
         }
     }
+    /**
+     * Verificar OTP (2FA)
+     */
+    public function verifyOtp(Request $request)
+    {
+        // Implementación pendiente
+        return redirect()->route('dashboard');
+    }
 }
