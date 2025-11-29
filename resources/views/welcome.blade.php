@@ -1,15 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Bienvenido - Tech Home')
-
-@section('styles')
-    @vite(['resources/css/modulos/home/welcome.css'])
-@endsection
-
-@section('content')
-<!-- Contenedor principal de la vista Home -->
-<div class="crud-edit-container">
-    <div class="crud-edit-wrapper">
 
         <!-- Header principal de bienvenida -->
         <div class="crud-section-card tech-home-hero">
@@ -738,7 +726,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Función para cambiar tabs de información
@@ -1024,4 +1012,4 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-@endsection
+@endpush
