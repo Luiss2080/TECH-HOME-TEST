@@ -50,6 +50,23 @@ Route::prefix('auth')->name('auth.')->group(function () {
     
     // Forgot Password
     Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
+    
+    // Reset Password
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
+    
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    // Verify OTP
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.otp');
+});
+
+// Ruta de logout también accesible por GET para compatibilidad
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
+
+// RUTAS PROTEGIDAS (REQUIEREN AUTENTICACIÓN)
 // ============================================
 Route::middleware(['auth'])->group(function () {
     
