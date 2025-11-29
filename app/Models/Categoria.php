@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Categoria extends Model
 {
-    protected $table = 'categorias';
-    protected $primaryKey = 'id';
+    protected $table = 'categories';
+    
     protected $fillable = [
         'nombre',
         'descripcion',
@@ -16,37 +17,68 @@ class Categoria extends Model
         'icono',
         'estado'
     ];
-    protected $timestamps = true;
+    
+    protected $casts = [
+        'estado' => 'boolean',
+        'fecha_creacion' => 'datetime'
+    ];
 
-    // Relaciones
-    public function cursos()
+    const CREATED_AT = 'fecha_creacion';
+    const UPDATED_AT = null;
+
+    // ==========================================
+    // RELACIONES
+    // ==========================================
+
+    /**
+     * Cursos de esta categoría
+     */
+    public function cursos(): HasMany
     {
-        return $this->hasMany(Curso::class, 'categoria_id', 'id');
+        return $this->hasMany(Curso::class, 'categoria_id');
     }
 
-    public function libros()
+    /**
+     * Libros de esta categoría
+     */
+    public function libros(): HasMany
     {
-        return $this->hasMany(Libro::class, 'categoria_id', 'id');
+        return $this->hasMany(Libro::class, 'categoria_id');
     }
 
-    public function componentes()
+    /**
+     * Componentes de esta categoría
+     */
+    public function componentes(): HasMany
     {
-        return $this->hasMany(Componente::class, 'categoria_id', 'id');
+        return $this->hasMany(Componente::class, 'categoria_id');
     }
 
-    public function materiales()
+    /**
+     * Materiales de esta categoría
+     */
+    public function materiales(): HasMany
     {
-        return $this->hasMany(Material::class, 'categoria_id', 'id');
+        return $this->hasMany(Material::class, 'categoria_id');
     }
 
-    // Scopes
-    public static function porTipo($tipo)
+    // ==========================================
+    // SCOPES
+    // ==========================================
+
+    /**
+     * Scope para categorías por tipo
+     */
+    public function scopePorTipo($query, $tipo)
     {
-        return self::where('tipo', $tipo);
+        return $query->where('tipo', $tipo);
     }
 
-    public static function activas()
+    /**
+     * Scope para categorías activas
+     */
+    public function scopeActivas($query)
     {
-        return self::where('estado', 1);
+        return $query->where('estado', 1);
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Core\Model;
-use Core\DB;
-use PDO;
-use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Curso extends Model
 {
-    protected $table = 'cursos';
-    protected $primaryKey = 'id';
+    protected $table = 'courses';
+    
     protected $fillable = [
         'titulo',
         'descripcion',
@@ -22,13 +22,15 @@ class Curso extends Model
         'estado',
         'es_gratuito'
     ];
-    protected $hidden = [];
-    protected $timestamps = true;
-    protected $softDeletes = false;
-
-    // Definir nombres personalizados para timestamps
-    protected $createdAtColumn = 'fecha_creacion';
-    protected $updatedAtColumn = 'fecha_actualizacion';
+    
+    protected $casts = [
+        'es_gratuito' => 'boolean',
+        'fecha_creacion' => 'datetime',
+        'fecha_actualizacion' => 'datetime'
+    ];
+    
+    const CREATED_AT = 'fecha_creacion';
+    const UPDATED_AT = 'fecha_actualizacion';
 
     /**
      * Override para usar nombres de columna personalizados para timestamps

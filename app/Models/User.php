@@ -2,47 +2,68 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model
+class User extends Authenticatable
 {
-    protected $table = 'usuarios';
-    protected $primaryKey = 'id';
+    use HasFactory, Notifiable;
+
+    protected $table = 'users';
+    
     protected $fillable = [
-        'nombre',
-        'apellido',
+        'name',
         'email',
+        'email_verified_at',
         'password',
-        'telefono',
-        'fecha_nacimiento',
-        'avatar',
-        'estado',
-        'intentos_fallidos',
-        'bloqueado_hasta',
-        'fecha_creacion',
-        'fecha_actualizacion'
+        'remember_token'
     ];
+    
     protected $hidden = [
-        'password'
+        'password',
+        'remember_token'
     ];
-    protected $timestamps = false; // No usamos timestamps automáticos
-    protected $softDeletes = false;
+    
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed'
+    ];
 
     // ==========================================
-    // MÉTODOS PARA ROLES Y PERMISOS (HasRoles)
+    // RELACIONES
     // ==========================================
 
     /**
-     * Obtener todos los roles del usuario
+     * Cursos como docente
      */
-    public function roles()
+    public function cursosDocente(): HasMany
     {
-        return ModelHasRoles::getRolesForModel('App\\Models\\User', $this->id);
+        return $this->hasMany(Curso::class, 'docente_id');
     }
 
     /**
-     * Obtener todos los permisos del usuario (directos + a través de roles)
+     * Inscripciones como estudiante
      */
+    public function inscripciones(): HasMany
+    {
+        return $this->hasMany(Enrollment::class, 'estudiante_id');
+    }
+
+    /**
+     * Roles del usuario
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')
+                    ->where('model_type', User::class);
+    }
+
+    // ==========================================
+    // MÉTODOS DE ROLES Y PERMISOS
+    // ==========================================
     public function permissions()
     {
         // Permisos directos del usuario
