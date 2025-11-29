@@ -6,15 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use App\Models\Curso;
 use App\Models\Categoria;
 use App\Models\User;
 use App\Models\Enrollment;
+use App\Models\Componente;
+use App\Models\Material;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Exception;
 
 class CursoController extends Controller
