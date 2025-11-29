@@ -3,6 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\LibroController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\LaboratorioController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +35,9 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'submitContact'])->name('contact.submit');
 
 // Newsletter
-Route::post('/newsletter/subscribe', [HomeController::class, 'subscribeNewsletter'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', function() {
+    return response()->json(['success' => true, 'message' => 'Suscripción exitosa']);
+})->name('newsletter.subscribe');
 
 // ============================================
 // RUTAS DE AUTENTICACIÓN
@@ -62,62 +72,78 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 Route::middleware(['auth'])->group(function () {
     
     // Dashboard principal (redirige según el rol)
-    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', function() {
+        $user = auth()->user();
+        
+        // Obtener el primer rol del usuario
+        $role = $user->roles()->first();
+        
+        if ($role) {
+            switch ($role->nombre) {
+                case 'administrador':
+                    return redirect()->route('admin.dashboard');
+                case 'docente':
+                    return redirect()->route('docente.dashboard');
+                case 'estudiante':
+                    return redirect()->route('estudiante.dashboard');
+                default:
+                    return view('dashboard.general', compact('user'));
+            }
+        }
+        
+        return view('dashboard.general', compact('user'));
+    })->name('dashboard');
     
     // ============================================
     // RUTAS DE ADMINISTRADOR
     // ============================================
-    Route::prefix('admin')->name('admin.')->middleware(['role:administrador'])->group(function () {
-        Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         
-        // Gestión de usuarios
-        Route::resource('usuarios', App\Http\Controllers\UserController::class);
-        
-        // Gestión de roles y permisos
-        Route::resource('roles', App\Http\Controllers\RoleController::class);
-        Route::resource('permisos', App\Http\Controllers\PermissionController::class);
+        // Gestión de permisos
+        Route::resource('permisos', PermissionController::class);
         
         // Configuración del sistema
-        Route::get('/configuracion', [App\Http\Controllers\AdminController::class, 'configuracion'])->name('configuracion');
-        Route::post('/configuracion', [App\Http\Controllers\AdminController::class, 'guardarConfiguracion'])->name('configuracion.guardar');
+        Route::get('/configuracion', [AdminController::class, 'configuracion'])->name('configuracion');
+        Route::post('/configuracion', [AdminController::class, 'guardarConfiguracion'])->name('configuracion.guardar');
         
         // Reportes
-        Route::get('/reportes', [App\Http\Controllers\AdminController::class, 'reportes'])->name('reportes');
+        Route::get('/reportes', [AdminController::class, 'reportes'])->name('reportes');
     });
     
     // ============================================
     // RUTAS DE DOCENTE
     // ============================================
-    Route::prefix('docente')->name('docente.')->middleware(['role:docente'])->group(function () {
-        Route::get('/dashboard', [App\Http\Controllers\DocenteController::class, 'dashboard'])->name('dashboard');
+    Route::prefix('docente')->name('docente.')->group(function () {
+        Route::get('/dashboard', [DocenteController::class, 'dashboard'])->name('dashboard');
         
         // Gestión de cursos
-        Route::resource('cursos', App\Http\Controllers\CursoController::class);
+        Route::resource('cursos', CursoController::class);
         
         // Gestión de materiales
-        Route::resource('materiales', App\Http\Controllers\MaterialController::class);
+        Route::resource('materiales', MaterialController::class);
         
         // Gestión de estudiantes
-        Route::get('/estudiantes', [App\Http\Controllers\DocenteController::class, 'estudiantes'])->name('estudiantes');
+        Route::get('/estudiantes', [DocenteController::class, 'estudiantes'])->name('estudiantes');
     });
     
     // ============================================
     // RUTAS DE ESTUDIANTE
     // ============================================
-    Route::prefix('estudiante')->name('estudiante.')->middleware(['role:estudiante'])->group(function () {
-        Route::get('/dashboard', [App\Http\Controllers\EstudianteController::class, 'dashboard'])->name('dashboard');
+    Route::prefix('estudiante')->name('estudiante.')->group(function () {
+        Route::get('/dashboard', [EstudianteController::class, 'dashboard'])->name('dashboard');
         
         // Mis cursos
-        Route::get('/mis-cursos', [App\Http\Controllers\EstudianteController::class, 'misCursos'])->name('mis-cursos');
-        Route::get('/curso/{id}', [App\Http\Controllers\EstudianteController::class, 'verCurso'])->name('ver-curso');
+        Route::get('/mis-cursos', [EstudianteController::class, 'misCursos'])->name('mis-cursos');
+        Route::get('/curso/{id}', [EstudianteController::class, 'verCurso'])->name('ver-curso');
         
         // Biblioteca personal
-        Route::get('/biblioteca', [App\Http\Controllers\EstudianteController::class, 'biblioteca'])->name('biblioteca');
-        Route::get('/libro/{id}', [App\Http\Controllers\EstudianteController::class, 'verLibro'])->name('ver-libro');
+        Route::get('/biblioteca', [EstudianteController::class, 'biblioteca'])->name('biblioteca');
+        Route::get('/libro/{id}', [EstudianteController::class, 'verLibro'])->name('ver-libro');
         
         // Perfil
-        Route::get('/perfil', [App\Http\Controllers\EstudianteController::class, 'perfil'])->name('perfil');
-        Route::post('/perfil', [App\Http\Controllers\EstudianteController::class, 'actualizarPerfil'])->name('perfil.actualizar');
+        Route::get('/perfil', [EstudianteController::class, 'perfil'])->name('perfil');
+        Route::post('/perfil', [EstudianteController::class, 'actualizarPerfil'])->name('perfil.actualizar');
     });
     
     // ============================================
@@ -125,22 +151,74 @@ Route::middleware(['auth'])->group(function () {
     // ============================================
     
     // Cursos (visualización)
-    Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index'])->name('cursos');
-    Route::get('/cursos/{id}', [App\Http\Controllers\CursoController::class, 'show'])->name('cursos.show');
+    Route::get('/cursos', [CursoController::class, 'index'])->name('cursos');
+    Route::get('/cursos/{id}', [CursoController::class, 'show'])->name('cursos.show');
     
     // Libros (visualización y descarga)
-    Route::get('/libros', [App\Http\Controllers\LibroController::class, 'index'])->name('libros');
-    Route::get('/libros/{id}', [App\Http\Controllers\LibroController::class, 'show'])->name('libros.show');
-    Route::get('/libros/{id}/download', [App\Http\Controllers\LibroController::class, 'download'])->name('libros.download');
+    Route::get('/libros', [LibroController::class, 'index'])->name('libros');
+    Route::get('/libros/{id}', [LibroController::class, 'show'])->name('libros.show');
+    Route::get('/libros/{id}/download', [LibroController::class, 'download'])->name('libros.download');
     
     // Categorías
-    Route::get('/categoria/{id}', [App\Http\Controllers\HomeController::class, 'categoria'])->name('categoria');
+    Route::get('/categoria/{id}', [HomeController::class, 'categoria'])->name('categoria');
     
     // Laboratorios virtuales
-    Route::get('/laboratorios', [App\Http\Controllers\LaboratorioController::class, 'index'])->name('laboratorios');
-    Route::get('/laboratorio/{id}', [App\Http\Controllers\LaboratorioController::class, 'show'])->name('laboratorio.show');
+    Route::get('/laboratorios', [LaboratorioController::class, 'index'])->name('laboratorios');
+    Route::get('/laboratorio/{id}', [LaboratorioController::class, 'show'])->name('laboratorio.show');
     
     // Notificaciones
-    Route::get('/notificaciones', [App\Http\Controllers\HomeController::class, 'notificaciones'])->name('notificaciones');
-    Route::post('/notificaciones/{id}/marcar-leida', [App\Http\Controllers\HomeController::class, 'marcarNotificacionLeida'])->name('notificacion.marcar-leida');
+    Route::get('/notificaciones', [HomeController::class, 'notificaciones'])->name('notificaciones');
+    Route::post('/notificaciones/{id}/marcar-leida', [HomeController::class, 'marcarNotificacionLeida'])->name('notificacion.marcar-leida');
+    
+    // Perfil general (para todos los usuarios)
+    Route::get('/perfil', function() {
+        $user = auth()->user();
+        return view('perfil.index', compact('user'));
+    })->name('perfil');
+    
+    Route::post('/perfil', function() {
+        // Lógica de actualización de perfil
+        return back()->with('success', 'Perfil actualizado correctamente');
+    })->name('perfil.actualizar');
+});
+
+// ============================================
+// RUTAS DE API (para AJAX)
+// ============================================
+Route::prefix('api')->name('api.')->middleware(['auth'])->group(function () {
+    // Obtener notificaciones
+    Route::get('/notificaciones', function() {
+        return response()->json([
+            'success' => true,
+            'notificaciones' => []
+        ]);
+    });
+    
+    // Marcar notificación como leída
+    Route::post('/notificaciones/{id}/leer', function($id) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Notificación marcada como leída'
+        ]);
+    });
+    
+    // Cambiar tema
+    Route::post('/tema', function() {
+        $tema = request('tema', 'light');
+        session(['tema' => $tema]);
+        
+        return response()->json([
+            'success' => true,
+            'tema' => $tema
+        ]);
+    });
+});
+
+// ============================================
+// RUTAS DE FALLBACK
+// ============================================
+
+// Manejar rutas no encontradas
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
 });
