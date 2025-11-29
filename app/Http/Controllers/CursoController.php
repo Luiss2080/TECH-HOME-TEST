@@ -659,7 +659,7 @@ class CursoController extends Controller
                     return [
                         'id' => $curso->id,
                         'titulo' => $curso->titulo,
-                        'descripcion' => \Str::limit($curso->descripcion, 100),
+                        'descripcion' => Str::limit($curso->descripcion, 100),
                         'categoria' => $curso->categoria->nombre,
                         'docente' => $curso->docente->nombre,
                         'nivel' => ucfirst($curso->nivel),
