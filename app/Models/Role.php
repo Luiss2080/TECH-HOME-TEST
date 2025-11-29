@@ -29,123 +29,76 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id'); 
-                      INNER JOIN model_has_roles mhr ON u.id = mhr.model_id 
-                      WHERE mhr.role_id = ? AND mhr.model_type = ?";
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id')
+                    ->withTimestamps();
+    }
 
-            $result = $db->query($query, [$this->id, 'App\\Models\\User']);
-            $result = $result ? $result->fetchAll(\PDO::FETCH_ASSOC) : [];
-            
-            $users = [];
-            foreach ($result as $userData) {
-                $users[] = new User($userData);
-            }
-            return $users;
-        } catch (\Exception $e) {
-            return [];
-        }
+    /**
+     * Relación con los permisos (muchos a muchos)
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id')
+                    ->withTimestamps();
     }
 
     /**
      * Verificar si el rol tiene un permiso específico
      */
-    public function hasPermissionTo($permission)
+    public function hasPermission($permission)
     {
-        $permissionId = is_numeric($permission) ? $permission : $this->getPermissionIdByName($permission);
-        if (!$permissionId) return false;
-
-        return RoleHasPermissions::roleHasPermission($this->id, $permissionId);
-    }
-
-    /**
-     * Asignar un permiso a este rol
-     */
-    public function givePermissionTo($permission)
-    {
-        $permissionId = is_numeric($permission) ? $permission : $this->getPermissionIdByName($permission);
-
-        if (!$permissionId) {
-            throw new \Exception("Permiso no encontrado: {$permission}");
+        if (is_string($permission)) {
+            return $this->permissions()
+                        ->where('nombre', $permission)
+                        ->exists();
         }
 
-        RoleHasPermissions::assignPermissionToRole($this->id, $permissionId);
-        return $this;
+        return $this->permissions()
+                    ->where('id', $permission)
+                    ->exists();
     }
 
     /**
-     * Remover un permiso de este rol
+     * Asignar permiso al rol
      */
-    public function revokePermissionTo($permission)
+    public function assignPermission($permission)
     {
-        $permissionId = is_numeric($permission) ? $permission : $this->getPermissionIdByName($permission);
-
-        if (!$permissionId) {
-            return $this;
+        if (is_string($permission)) {
+            $permission = Permission::where('nombre', $permission)->first();
         }
 
-        RoleHasPermissions::removePermissionFromRole($this->id, $permissionId);
-        return $this;
+        if ($permission) {
+            $this->permissions()->syncWithoutDetaching([$permission->id]);
+        }
     }
 
     /**
-     * Sincronizar permisos (remover todos y asignar los nuevos)
+     * Revocar permiso del rol
      */
-    public function syncPermissions($permissions)
+    public function revokePermission($permission)
     {
-        if (!is_array($permissions)) {
-            $permissions = [$permissions];
+        if (is_string($permission)) {
+            $permission = Permission::where('nombre', $permission)->first();
         }
 
-        $permissionIds = [];
-        foreach ($permissions as $permission) {
-            $permissionId = is_numeric($permission) ? $permission : $this->getPermissionIdByName($permission);
-            if ($permissionId) {
-                $permissionIds[] = $permissionId;
-            }
+        if ($permission) {
+            $this->permissions()->detach($permission->id);
         }
-
-        RoleHasPermissions::syncPermissionsForRole($this->id, $permissionIds);
-        return $this;
     }
 
     /**
-     * Obtener ID del permiso por nombre
+     * Scope para roles activos
      */
-    private function getPermissionIdByName($permissionName)
+    public function scopeActivos($query)
     {
-        $db = \Core\DB::getInstance();
-        $query = "SELECT id FROM permissions WHERE name = ? LIMIT 1";
-        $result = $db->query($query, [$permissionName]);
-
-        if ($result) {
-            $row = $result->fetch(\PDO::FETCH_ASSOC);
-            return $row ? $row['id'] : null;
-        }
-
-        return null;
+        return $query->where('estado', 'activo');
     }
 
     /**
-     * Obtener todos los roles ordenados por nombre
+     * Verificar si el rol está activo
      */
-    public static function getAll()
+    public function estaActivo()
     {
-        return self::orderBy('nombre')->get();
-    }
-
-    /**
-     * Obtener rol por nombre
-     */
-    public static function findByName($name)
-    {
-        return self::where('nombre', '=', $name)->first();
-    }
-
-    /**
-     * Obtener roles activos
-     */
-    public static function activos()
-    {
-        return self::where('estado', '=', 1)->get();
+        return $this->estado === 'activo';
     }
 }
