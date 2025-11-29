@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DetalleVenta extends Model
 {
-    protected $table = 'detalle_ventas';
-    protected $primaryKey = 'id';
+    use HasFactory;
+
+    protected $table = 'sales';
+    
     protected $fillable = [
         'venta_id',
         'producto_id',
@@ -17,11 +21,20 @@ class DetalleVenta extends Model
         'descuento',
         'subtotal'
     ];
-    protected $timestamps = true;
+
+    protected $casts = [
+        'cantidad' => 'integer',
+        'precio_unitario' => 'decimal:2',
+        'descuento' => 'decimal:2',
+        'subtotal' => 'decimal:2'
+    ];
+
+    const CREATED_AT = 'creado_en';
+    const UPDATED_AT = 'actualizado_en';
 
     // Relaciones
-    public function venta()
+    public function venta(): BelongsTo
     {
-        return $this->belongsTo(Venta::class, 'venta_id', 'id');
+        return $this->belongsTo(Venta::class, 'venta_id');
     }
 }

@@ -39,25 +39,25 @@ class Venta extends Model
     const UPDATED_AT = 'actualizado_en';
 
     // Relaciones
-    public function cliente()
+    public function cliente(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'cliente_id', 'id');
+        return $this->belongsTo(User::class, 'cliente_id');
     }
 
-    public function vendedor()
+    public function vendedor(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'vendedor_id', 'id');
+        return $this->belongsTo(User::class, 'vendedor_id');
     }
 
-    public function detalles()
+    public function detalles(): HasMany
     {
-        return $this->hasMany(DetalleVenta::class, 'venta_id', 'id');
+        return $this->hasMany(DetalleVenta::class, 'venta_id');
     }
 
     // Scopes
-    public static function completadas()
+    public function scopeCompletadas($query)
     {
-        return self::where('estado', '=', 'Completada');
+        return $query->where('estado', 'completada');
     }
 
     public static function delMes($mes = null, $año = null)
