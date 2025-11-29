@@ -107,7 +107,7 @@ return redirect($this->getRedirectUrl($user));
                 return response()->json(['success' => false, 'message' => $error], 401);
             }
             $request->session()->flash('error', $error);
-            return \Core\Response::back();
+            return redirect(back());
 
         } catch (Exception $e) {
             $error = 'Error en el servidor. Intente nuevamente.';
