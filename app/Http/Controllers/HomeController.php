@@ -20,36 +20,48 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            // Si el usuario está autenticado, redirigir a su dashboard
-            if (Auth::check()) {
-                return redirect('/dashboard');
-            }
-
-            // Datos simulados para página pública
-            $cursosDestacados = collect();
-            $librosRecientes = collect();
-            $categorias = collect();
-            
+            // Datos completos para mostrar la página de inicio - Welcome estilo TECH HOME original
             $estadisticas = [
-                'total_cursos' => 15,
-                'total_libros' => 230,
-                'total_estudiantes' => 1250,
-                'total_docentes' => 45
+                'libros' => 2847,
+                'libros_total' => 2847,
+                'libros_nuevos' => 15,
+                'cursos' => 45,
+                'cursos_total' => 45,
+                'cursos_nuevos' => 3,
+                'componentes' => 1523,
+                'componentes_total' => 1523,
+                'componentes_nuevos' => 8,
+                'usuarios' => 892,
+                'usuarios_total' => 892,
+                'usuarios_nuevos' => 27,
+                'proyectos' => 128,
+                'actividades' => 156,
+                'visitas_hoy' => 1247,
+                'descargas_hoy' => 89,
+                'total_cursos' => 45,
+                'total_libros' => 2847,
+                'total_estudiantes' => 892,
+                'total_docentes' => 24
             ];
 
-            return view('home.index', compact('cursosDestacados', 'librosRecientes', 'categorias', 'estadisticas'));
+            $actividades_recientes = [
+                'Nuevo curso de IA agregado',
+                'Actualización de componentes Arduino',
+                'Sistema de backup completado'
+            ];
+
+            return view('welcome', compact('estadisticas', 'actividades_recientes'));
             
         } catch (Exception $e) {
-            return view('home.index', [
-                'cursosDestacados' => collect(),
-                'librosRecientes' => collect(),
-                'categorias' => collect(),
+            return view('welcome', [
                 'estadisticas' => [
-                    'total_cursos' => 0,
-                    'total_libros' => 0,
-                    'total_estudiantes' => 0,
-                    'total_docentes' => 0
-                ]
+                    'libros' => 2847,
+                    'cursos' => 45,
+                    'componentes' => 1523,
+                    'usuarios' => 892,
+                    'proyectos' => 128
+                ],
+                'actividades_recientes' => []
             ]);
         }
     }
