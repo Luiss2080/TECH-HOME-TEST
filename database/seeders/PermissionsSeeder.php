@@ -80,8 +80,8 @@ class PermissionsSeeder extends Seeder
 
         foreach ($permissions as $permission) {
             DB::table('permissions')->insert(array_merge($permission, [
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ]));
         }
     }
