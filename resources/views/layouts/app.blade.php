@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Dashboard - Tech Home Bolivia')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Evitar cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Meta tags -->
+    <meta name="author" content="Desarrollado por estudiantes de la UPDS">
+    <link rel="icon" href="{{ asset('faviconTH.png') }}" type="image/png">
+    
+    <!-- SEO Meta tags -->
+    <meta name="description" content="Tech Home Bolivia: Una plataforma educativa que simula un entorno de estudio, venta de libros y herramientas, además de ofrecer cursos especializados.">
+    <meta property="og:title" content="Tech Home Bolivia">
+    <meta property="og:description" content="Explora nuestra plataforma educativa para estudiar, comprar libros y herramientas, y realizar cursos especializados.">
+    <meta property="og:image" content="{{ asset('faviconTH.png') }}">
+    <meta property="og:url" content="{{ config('app.url') }}">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- CSS Personalizados -->
+    <link rel="stylesheet" href="{{ asset('css/layout/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout/footer.css') }}">
+    
+    @stack('styles')
+</head>
+<body>
+    <!-- Sidebar Component -->
+    @include('components.sidebar')
+    
+    <!-- Header Component -->
+    @include('components.header')
+    
+    <div style="height: 180px;"></div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content-area">
+        @yield('content')
+    </div>
+    
+    <!-- Footer Component -->
+    @include('components.footer')
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/layout/sidebar.js') }}"></script>
+    <script src="{{ asset('js/layout/header.js') }}"></script>
+    <script src="{{ asset('js/layout/footer.js') }}"></script>
+    
+    @stack('scripts')
+    
+    <script>
+        // Inicializar el dashboard cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preparar datos del usuario para JavaScript
+            const userData = {
+                nombre: '{{ auth()->user()->nombre ?? "" }}',
+                apellido: '{{ auth()->user()->apellido ?? "" }}',
+                roles: @json(auth()->user()->roles()->pluck('name')->toArray() ?? ['Sin rol']),
+                email: '{{ auth()->user()->email ?? "" }}',
+                sessionId: '{{ session()->getId() }}'
+            };
+            
+            console.log('Tech Home App initialized', userData);
+        });
+    </script>
+</body>
+</html>
