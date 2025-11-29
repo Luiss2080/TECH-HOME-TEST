@@ -224,7 +224,7 @@ class AuthController extends Controller
             $this->log2FAEvent($user->id, $email, '2FA_INITIATED', [
                 'codigo_enviado' => true,
                 'expira_en' => $otpResult['expira_en'],
-                'ip' => $request->ip()
+                'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
             ]);
 
             return redirect()->route('auth.otp.verify');
@@ -473,8 +473,8 @@ class AuthController extends Controller
         Log::warning('Failed login attempt', [
             'email' => $email,
             'reason' => $reason,
-            'ip' => request()->ip(),
-            'user_agent' => request()->userAgent()
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
         ]);
     }
 
@@ -487,7 +487,7 @@ class AuthController extends Controller
             'user_id' => $userId,
             'email' => $email,
             'data' => $data,
-            'ip' => request()->ip()
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
         ]);
     }
 
