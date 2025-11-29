@@ -6,20 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     protected $table = 'usuarios';
-    protected $primaryKey = 'id';
     
-    /**
-     * The attributes that are mass assignable.
-     */
+    // Constantes para timestamps personalizados
+    const CREATED_AT = 'fecha_creacion';
+    const UPDATED_AT = 'fecha_actualizacion';
+    
     protected $fillable = [
         'nombre',
-        'apellido',
+        'apellido', 
         'email',
         'password',
         'telefono',
@@ -27,27 +29,17 @@ class User extends Authenticatable
         'avatar',
         'estado',
         'intentos_fallidos',
-        'bloqueado_hasta',
-        'fecha_creacion',
-        'fecha_actualizacion'
+        'bloqueado_hasta'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     */
     protected $hidden = [
         'password',
         'remember_token'
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
             'fecha_nacimiento' => 'date',
             'fecha_creacion' => 'datetime',
             'fecha_actualizacion' => 'datetime',
