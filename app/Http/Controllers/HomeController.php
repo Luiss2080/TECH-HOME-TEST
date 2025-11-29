@@ -263,4 +263,76 @@ class HomeController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Lista de materiales
+     */
+    public function materiales()
+    {
+        $materiales = collect([
+            (object)['id' => 1, 'titulo' => 'Manual Arduino', 'tipo' => 'PDF'],
+            (object)['id' => 2, 'titulo' => 'Código Python', 'tipo' => 'TXT'],
+            (object)['id' => 3, 'titulo' => 'Diagramas PCB', 'tipo' => 'ZIP']
+        ]);
+        
+        return view('materiales.index', compact('materiales'));
+    }
+
+    /**
+     * Ver material específico
+     */
+    public function materialShow($id)
+    {
+        return view('materiales.show', ['material' => (object)['id' => $id, 'titulo' => 'Material #' . $id]]);
+    }
+
+    /**
+     * Lista de usuarios
+     */
+    public function usuarios()
+    {
+        $usuarios = collect([
+            (object)['id' => 1, 'name' => 'Admin Usuario', 'email' => 'admin@techhome.com'],
+            (object)['id' => 2, 'name' => 'Docente Usuario', 'email' => 'docente@techhome.com'],
+            (object)['id' => 3, 'name' => 'Estudiante Usuario', 'email' => 'estudiante@techhome.com']
+        ]);
+        
+        return view('usuarios.index', compact('usuarios'));
+    }
+
+    /**
+     * Ver usuario específico
+     */
+    public function usuarioShow($id)
+    {
+        return view('usuarios.show', ['usuario' => (object)['id' => $id, 'name' => 'Usuario #' . $id]]);
+    }
+
+    /**
+     * Lista de componentes
+     */
+    public function componentes()
+    {
+        $componentes = collect([
+            (object)['id' => 1, 'nombre' => 'Arduino UNO', 'cantidad' => 25],
+            (object)['id' => 2, 'nombre' => 'Raspberry Pi 4', 'cantidad' => 15],
+            (object)['id' => 3, 'nombre' => 'Sensor Ultrasonico', 'cantidad' => 50]
+        ]);
+        
+        return view('componentes.index', compact('componentes'));
+    }
+
+    /**
+     * Lista de docentes
+     */
+    public function docentes()
+    {
+        $docentes = collect([
+            (object)['id' => 1, 'name' => 'Dr. Juan Pérez', 'especialidad' => 'Robótica'],
+            (object)['id' => 2, 'name' => 'Dra. Ana García', 'especialidad' => 'IA'],
+            (object)['id' => 3, 'name' => 'Ing. Carlos López', 'especialidad' => 'IoT']
+        ]);
+        
+        return view('docentes.index', compact('docentes'));
+    }
 }

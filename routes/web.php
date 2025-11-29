@@ -166,6 +166,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laboratorios', [LaboratorioController::class, 'index'])->name('laboratorios');
     Route::get('/laboratorio/{id}', [LaboratorioController::class, 'show'])->name('laboratorio.show');
     
+    // Materiales (visualización)
+    Route::get('/materiales', [HomeController::class, 'materiales'])->name('materiales');
+    Route::get('/materiales/{id}', [HomeController::class, 'materialShow'])->name('materiales.show');
+    
+    // Gestión de usuarios (acceso temporal)
+    Route::get('/usuarios', [HomeController::class, 'usuarios'])->name('usuarios');
+    Route::get('/usuarios/{id}', [HomeController::class, 'usuarioShow'])->name('usuarios.show');
+    
+    // Componentes (visualización)
+    Route::get('/componentes', [HomeController::class, 'componentes'])->name('componentes');
+    
+    // Docentes (visualización)
+    Route::get('/docentes', [HomeController::class, 'docentes'])->name('docentes');
+    
     // Notificaciones
     Route::get('/notificaciones', [HomeController::class, 'notificaciones'])->name('notificaciones');
     Route::post('/notificaciones/{id}/marcar-leida', [HomeController::class, 'marcarNotificacionLeida'])->name('notificacion.marcar-leida');

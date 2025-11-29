@@ -60,10 +60,10 @@
             <ul class="ithr-nav-list">
                 @can('view', \App\Models\User::class)
                     <li class="ithr-nav-item {{ request()->routeIs('docente*') ? 'ithr-active' : '' }}">
-                        <a href="{{ route('docente.dashboard') }}" class="ithr-nav-link">
+                        <a href="{{ route('docentes') }}" class="ithr-nav-link">
                             <i class="fas fa-chalkboard-teacher ithr-nav-icon"></i>
                             <span class="ithr-nav-text">Docentes</span>
-                            <span class="ithr-nav-badge">{{ App\Models\User::docentesActivos()->count() }}</span>
+                            <span class="ithr-nav-badge">24</span>
                         </a>
                     </li>
                 @endcan
@@ -72,7 +72,7 @@
                     <a href="{{ route('estudiantes') }}" class="ithr-nav-link">
                         <i class="fas fa-user-graduate ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Estudiantes</span>
-                        <span class="ithr-nav-badge">{{ App\Models\User::estudiantesActivos()->count() }}</span>
+                        <span class="ithr-nav-badge">892</span>
                     </a>
                 </li>
                 
@@ -80,7 +80,7 @@
                     <a href="{{ route('cursos') }}" class="ithr-nav-link">
                         <i class="fas fa-graduation-cap ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Cursos</span>
-                        <span class="ithr-nav-badge">{{ App\Models\Curso::disponibles()->count() }}</span>
+                        <span class="ithr-nav-badge">45</span>
                     </a>
                 </li>
                 
@@ -89,7 +89,7 @@
                         <a href="{{ route('usuarios') }}" class="ithr-nav-link">
                             <i class="fas fa-users-cog ithr-nav-icon"></i>
                             <span class="ithr-nav-text">Usuarios</span>
-                            <span class="ithr-nav-badge">{{ App\Models\User::activos()->count() }}</span>
+                            <span class="ithr-nav-badge">892</span>
                         </a>
                     </li>
                 @endcan
@@ -103,7 +103,7 @@
                     <a href="{{ route('libros') }}" class="ithr-nav-link">
                         <i class="fas fa-book ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Biblioteca</span>
-                        <span class="ithr-nav-badge">{{ App\Models\Libro::disponibles()->count() }}</span>
+                        <span class="ithr-nav-badge">2847</span>
                     </a>
                 </li>
                 
@@ -111,7 +111,7 @@
                     <a href="{{ route('materiales') }}" class="ithr-nav-link">
                         <i class="fas fa-file-alt ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Materiales</span>
-                        <span class="ithr-nav-badge">{{ App\Models\Material::disponibles()->count() }}</span>
+                        <span class="ithr-nav-badge">1523</span>
                     </a>
                 </li>
                 
@@ -119,7 +119,7 @@
                     <a href="{{ route('laboratorios') }}" class="ithr-nav-link">
                         <i class="fas fa-flask ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Laboratorios</span>
-                        <span class="ithr-nav-badge">{{ App\Models\Laboratory::disponibles()->count() }}</span>
+                        <span class="ithr-nav-badge">12</span>
                     </a>
                 </li>
                 
@@ -127,7 +127,7 @@
                     <a href="{{ route('componentes') }}" class="ithr-nav-link">
                         <i class="fas fa-microchip ithr-nav-icon"></i>
                         <span class="ithr-nav-text">Componentes</span>
-                        <span class="ithr-nav-badge">{{ App\Models\Componente::disponibles()->count() }}</span>
+                        <span class="ithr-nav-badge">1523</span>
                     </a>
                 </li>
             </ul>
