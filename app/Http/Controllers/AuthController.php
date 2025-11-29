@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\OtpCode;
@@ -93,7 +97,7 @@ class AuthController extends Controller
                     ]);
                 }
 
-                return redirect()->intended($this->getRedirectUrl($user));
+                return redirect($this->getRedirectUrl($user));
             }
 
             $error = 'Credenciales incorrectas.';
@@ -210,17 +214,21 @@ class AuthController extends Controller
     public function activateAccount(Request $request, string $token): RedirectResponse
     {
         try {
-            $activationToken = ActivationToken::where('token', $token)
-                                            ->where('expires_at', '>', now())
-                                            ->first();
+            $activationToken = ActivationToken::validateToken($token);
 
             if (!$activationToken) {
-                return redirect('/login')
-                              ->withErrors(['error' => 'Token de activación inválido o expirado.']);
+                $request->session()->flash('error', 'Token de activación inválido o expirado.');
+                return redirect('/login');
             }
 
-            $user = $activationToken->user;
+            // Obtener usuario por email
+            $user = User::where('email', $activationToken->email)->first();
             
+            if (!$user) {
+                $request->session()->flash('error', 'Usuario no encontrado.');
+                return redirect('/login');
+            }
+
             DB::beginTransaction();
 
             $user->update([
@@ -229,17 +237,17 @@ class AuthController extends Controller
                 'email_verified_at' => now()
             ]);
 
-            $activationToken->delete();
+            ActivationToken::markAsUsed($token);
 
             DB::commit();
 
-            return redirect('/login')
-                          ->with('success', 'Cuenta activada exitosamente. Ya puede iniciar sesión.');
+            $request->session()->flash('success', 'Cuenta activada exitosamente. Ya puede iniciar sesión.');
+            return redirect('/login');
 
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect('/login')
-                          ->withErrors(['error' => 'Error al activar la cuenta. Contacte al administrador.']);
+            $request->session()->flash('error', 'Error al activar la cuenta. Contacte al administrador.');
+            return redirect('/login');
         }
     }
 
@@ -296,7 +304,7 @@ class AuthController extends Controller
         try {
             $user = User::where('email', $request->email)->first();
             
-            // Generar código OTP
+            // Generar código OTP (usar el campo correcto usuario_id)
             $otpCode = OtpCode::generarCodigo($user->id, 15); // 15 minutos de vida
 
             // Enviar email con código (aquí implementarías el envío)
@@ -360,7 +368,7 @@ class AuthController extends Controller
         try {
             $user = User::findOrFail($userId);
             
-            // Verificar código OTP
+            // Verificar código OTP (usar el campo correcto usuario_id)
             $otpCode = OtpCode::verificarCodigo($user->id, $request->codigo);
             
             if (!$otpCode) {
