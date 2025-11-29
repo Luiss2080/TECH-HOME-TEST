@@ -29,6 +29,40 @@ use App\Http\Controllers\PermissionController;
 // Página principal
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Newsletter
+Route::post('/newsletter/subscribe', function() {
+    return response()->json(['success' => true, 'message' => 'Suscripción exitosa']);
+})->name('newsletter.subscribe');
+
+// ============================================
+// RUTAS DE AUTENTICACIÓN
+// ============================================
+Route::redirect('/login', '/auth/login');
+
+Route::prefix('auth')->name('auth.')->group(function () {
+    // Login
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    
+    // Register
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+    
+    // Forgot Password
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
+    
+    // Reset Password
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
+    
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+// Ruta de logout también accesible por GET para compatibilidad
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
+
 // RUTAS PROTEGIDAS (REQUIEREN AUTENTICACIÓN)
 // ============================================
 Route::middleware(['auth'])->group(function () {
