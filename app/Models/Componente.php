@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Componente extends Model
 {
     protected $table = 'componentes';
-    protected $primaryKey = 'id';
     
     protected $fillable = [
         'nombre',
@@ -27,9 +26,7 @@ class Componente extends Model
         'marca',
         'modelo',
         'especificaciones',
-        'imagen_url',
-        'fecha_creacion',
-        'fecha_actualizacion'
+        'imagen_url'
     ];
     
     protected $casts = [
@@ -46,8 +43,6 @@ class Componente extends Model
     
     const CREATED_AT = 'fecha_creacion';
     const UPDATED_AT = 'fecha_actualizacion';
-    
-    public $timestamps = true;
 
     // ==========================================
     // RELACIONES

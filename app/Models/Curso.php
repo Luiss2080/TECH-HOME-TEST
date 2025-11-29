@@ -10,20 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Curso extends Model
 {
     protected $table = 'cursos';
-    protected $primaryKey = 'id';
     
     protected $fillable = [
         'titulo',
-        'descripcion',
+        'descripcion', 
         'video_url',
         'docente_id',
         'categoria_id',
         'imagen_portada',
         'nivel',
         'estado',
-        'es_gratuito',
-        'fecha_creacion',
-        'fecha_actualizacion'
+        'es_gratuito'
     ];
     
     protected $casts = [
@@ -34,11 +31,8 @@ class Curso extends Model
         'fecha_actualizacion' => 'datetime'
     ];
     
-    // Usar nombres de columna personalizados para timestamps
     const CREATED_AT = 'fecha_creacion';
     const UPDATED_AT = 'fecha_actualizacion';
-    
-    public $timestamps = true;
 
     // ==========================================
     // RELACIONES
@@ -115,19 +109,14 @@ class Curso extends Model
     }
 
     /**
-     * Scope para cursos gratuitos
+     * Scope para filtrar por tipo de curso
      */
-    public function scopeGratuitos($query)
+    public function scopeTipoCurso($query, $esGratuito = null)
     {
-        return $query->where('es_gratuito', true);
-    }
-
-    /**
-     * Scope para cursos de pago
-     */
-    public function scopeDePago($query)
-    {
-        return $query->where('es_gratuito', false);
+        if ($esGratuito !== null) {
+            return $query->where('es_gratuito', $esGratuito);
+        }
+        return $query;
     }
 
     /**
@@ -147,10 +136,13 @@ class Curso extends Model
     }
 
     /**
-     * Scope para búsqueda por texto
+     * Scope para búsqueda por texto (optimizado)
      */
     public function scopeBuscar($query, $texto)
     {
+        if (empty($texto)) return $query;
+        
+        $texto = trim($texto);
         return $query->where(function($q) use ($texto) {
             $q->where('titulo', 'like', "%{$texto}%")
               ->orWhere('descripcion', 'like', "%{$texto}%");

@@ -40,14 +40,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-            'fecha_nacimiento' => 'date',
-            'fecha_creacion' => 'datetime',
-            'fecha_actualizacion' => 'datetime',
-            'bloqueado_hasta' => 'datetime',
-            'estado' => 'integer',
-            'intentos_fallidos' => 'integer'
-        ];
-    }
+        'fecha_nacimiento' => 'date',
+        'fecha_creacion' => 'datetime',
+        'fecha_actualizacion' => 'datetime',
+        'bloqueado_hasta' => 'datetime',
+        'estado' => 'integer',
+        'intentos_fallidos' => 'integer'
+    ];
 
     /**
      * Indicates if the model should be timestamped.
@@ -80,25 +79,15 @@ class User extends Authenticatable
      */
     public function permissions(): array
     {
-        // Permisos directos del usuario
-        $directPermissions = ModelHasPermissions::getPermissionsForModel('App\\Models\\User', $this->id);
-
-        // Permisos a través de roles
-        $rolePermissions = $this->getPermissionsViaRoles();
-
-        // Combinar y eliminar duplicados
-        $allPermissions = array_merge($directPermissions, $rolePermissions);
-        $uniquePermissions = [];
-        $seen = [];
-
-        foreach ($allPermissions as $permission) {
-            if (!in_array($permission['id'], $seen)) {
-                $uniquePermissions[] = $permission;
-                $seen[] = $permission['id'];
-            }
-        }
-
-        return $uniquePermissions;
+        // Usar cache para evitar consultas repetidas
+        return cache()->remember("user_permissions_{$this->id}", 300, function () {
+            $directPermissions = ModelHasPermissions::getPermissionsForModel('App\\Models\\User', $this->id);
+            $rolePermissions = $this->getPermissionsViaRoles();
+            
+            // Combinar y eliminar duplicados usando array_unique con SORT_REGULAR
+            $allPermissions = array_merge($directPermissions, $rolePermissions);
+            return array_values(array_unique($allPermissions, SORT_REGULAR));
+        });
     }
 
     /**
@@ -106,10 +95,15 @@ class User extends Authenticatable
      */
     public function hasRole($role): bool
     {
-        $roleId = is_numeric($role) ? $role : $this->getRoleIdByName($role);
-        if (!$roleId) return false;
-
-        return ModelHasRoles::modelHasRole('App\\Models\\User', $this->id, $roleId);
+        if (is_numeric($role)) {
+            return ModelHasRoles::modelHasRole('App\\Models\\User', $this->id, $role);
+        }
+        
+        $roleId = cache()->remember("role_id_{$role}", 3600, function () use ($role) {
+            return $this->getRoleIdByName($role);
+        });
+        
+        return $roleId && ModelHasRoles::modelHasRole('App\\Models\\User', $this->id, $roleId);
     }
 
     /**
@@ -117,16 +111,14 @@ class User extends Authenticatable
      */
     public function hasAnyRole($roles): bool
     {
-        if (!is_array($roles)) {
-            $roles = [$roles];
-        }
-
+        $roles = is_array($roles) ? $roles : [$roles];
+        
         foreach ($roles as $role) {
             if ($this->hasRole($role)) {
                 return true;
             }
         }
-
+        
         return false;
     }
 
@@ -135,16 +127,14 @@ class User extends Authenticatable
      */
     public function hasAllRoles($roles): bool
     {
-        if (!is_array($roles)) {
-            $roles = [$roles];
-        }
-
+        $roles = is_array($roles) ? $roles : [$roles];
+        
         foreach ($roles as $role) {
             if (!$this->hasRole($role)) {
                 return false;
             }
         }
-
+        
         return true;
     }
 
