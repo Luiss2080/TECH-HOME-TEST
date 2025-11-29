@@ -2,90 +2,68 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends Model
 {
-    protected $table = 'permissions';
-    protected $primaryKey = 'id';
-    protected $fillable = [
-        'name',
-        'guard_name'
-    ];
-    protected $hidden = [];
-    protected $timestamps = true;
-    protected $softDeletes = false;
+    use HasFactory, SoftDeletes;
 
-    // Relación: roles que tienen este permiso
+    protected $table = 'permissions';
+    
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'modulo',
+        'estado'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
+    /**
+     * Relación con los roles (muchos a muchos)
+     */
     public function roles()
     {
-        // Esto retornará un array de roles que tienen este permiso
-        $db = \Core\DB::getInstance();
-        $query = "SELECT r.* FROM roles r 
-                  INNER JOIN role_has_permissions rhp ON r.id = rhp.role_id 
-                  WHERE rhp.permission_id = ?";
-        
-        $result = $db->query($query, [$this->id]);
-        return $result ? $result->fetchAll(\PDO::FETCH_ASSOC) : [];
+        return $this->belongsToMany(Role::class, 'role_permissions', 'permission_id', 'role_id')
+                    ->withTimestamps();
     }
 
-    // Relación: usuarios que tienen este permiso directamente
+    /**
+     * Relación con los usuarios (muchos a muchos)
+     */
     public function users()
     {
-        $db = \Core\DB::getInstance();
-        $query = "SELECT u.* FROM usuarios u 
-                  INNER JOIN model_has_permissions mhp ON u.id = mhp.model_id 
-                  WHERE mhp.permission_id = ? AND mhp.model_type = ?";
-        
-        $result = $db->query($query, [$this->id, 'App\\Models\\User']);
-        return $result ? $result->fetchAll(\PDO::FETCH_ASSOC) : [];
-    }
-
-    // Método para verificar si el permiso está asignado a un rol
-    public function isAssignedToRole($roleId)
-    {
-        $db = \Core\DB::getInstance();
-        $query = "SELECT COUNT(*) as count FROM role_has_permissions WHERE role_id = ? AND permission_id = ?";
-        $result = $db->query($query, [$roleId, $this->id]);
-        $row = $result->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'] > 0;
-    }
-
-    // Método para verificar si el permiso está asignado directamente a un usuario
-    public function isAssignedToUser($userId)
-    {
-        $db = \Core\DB::getInstance();
-        $query = "SELECT COUNT(*) as count FROM model_has_permissions 
-                  WHERE model_id = ? AND permission_id = ? AND model_type = ?";
-        $result = $db->query($query, [$userId, $this->id, 'App\\Models\\User']);
-        $row = $result->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'] > 0;
-    }
-
-    // Scopes estáticos
-    public static function byGuard($guard = 'web')
-    {
-        return self::where('guard_name', '=', $guard);
-    }
-
-    public static function byName($name)
-    {
-        return self::where('name', '=', $name);
+        return $this->belongsToMany(User::class, 'user_permissions', 'permission_id', 'user_id')
+                    ->withTimestamps();
     }
 
     /**
-     * Obtener todos los permisos ordenados por nombre
+     * Scope para permisos activos
      */
-    public static function getAll()
+    public function scopeActivos($query)
     {
-        return self::orderBy('name')->get();
+        return $query->where('estado', 'activo');
     }
 
     /**
-     * Obtener permiso por nombre
+     * Scope para permisos por módulo
      */
-    public static function findByName($name)
+    public function scopePorModulo($query, $modulo)
     {
-        return self::where('name', '=', $name)->first();
+        return $query->where('modulo', $modulo);
+    }
+
+    /**
+     * Verificar si el permiso está activo
+     */
+    public function estaActivo()
+    {
+        return $this->estado === 'activo';
     }
 }
