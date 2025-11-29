@@ -109,7 +109,7 @@
 
             <!-- Enlace de regreso -->
             <div style="text-align: center;">
-                <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; color: #6b7280; text-decoration: none; font-size: 14px; transition: all 0.3s ease;">
+                <a href="{{ route('auth.login') }}" style="display: inline-flex; align-items: center; color: #6b7280; text-decoration: none; font-size: 14px; transition: all 0.3s ease;">
                     <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
                     Volver al inicio de sesión
                 </a>

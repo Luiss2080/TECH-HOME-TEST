@@ -44,7 +44,7 @@
             @endif
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('password.email') }}" class="reset-form">
+            <form method="POST" action="{{ route('auth.forgot-password.submit') }}" class="reset-form">
                 @csrf
                 
                 <div class="form-group">
@@ -73,7 +73,7 @@
 
             <!-- Enlaces -->
             <div class="back-link">
-                <a href="{{ route('login') }}">
+                <a href="{{ route('auth.login') }}">
                     <i class="fas fa-arrow-left"></i>
                     Volver al inicio de sesión
                 </a>

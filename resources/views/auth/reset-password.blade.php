@@ -33,7 +33,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.update') }}">
+            <form method="POST" action="{{ route('auth.reset-password.submit') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
                 <input type="hidden" name="email" value="{{ $email }}">
@@ -82,7 +82,7 @@
             </form>
 
             <div class="back-link">
-                <a href="{{ route('login') }}">
+                <a href="{{ route('auth.login') }}">
                     <i class="fas fa-arrow-left"></i>
                     Volver al inicio de sesión
                 </a>

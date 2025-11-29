@@ -83,7 +83,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('register.store') }}" id="registerForm">
+            <form method="POST" action="{{ route('auth.register.submit') }}" id="registerForm">
                 @csrf
 
                 <div class="form-row">
@@ -259,7 +259,7 @@
             </div>
 
             <div class="login-link">
-                ¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a>
+                ¿Ya tienes cuenta? <a href="{{ route('auth.login') }}">Inicia sesión aquí</a>
             </div>
         </div>
     </div>
@@ -272,7 +272,7 @@
             error: @json(session('error')),
             success: @json(session('success')),
             errors: @json($errors->toArray()),
-            loginRoute: '{{ route('login') }}'
+            loginRoute: '{{ route('auth.login') }}'
         };
     </script>
 </body>

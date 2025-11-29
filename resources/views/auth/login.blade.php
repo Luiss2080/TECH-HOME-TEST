@@ -60,7 +60,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('auth.login.submit') }}">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Correo Electrónico</label>
@@ -96,7 +96,7 @@
                         <span>Recordarme</span>
                     </label>
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        <a href="{{ route('auth.forgot-password') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
                     @endif
                 </div>
 
@@ -132,7 +132,7 @@
             </div>
 
             <div class="register-link">
-                ¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a>
+                ¿No tienes cuenta? <a href="{{ route('auth.register') }}">Regístrate aquí</a>
             </div>
         </div>
     </div>
