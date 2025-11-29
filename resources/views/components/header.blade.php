@@ -92,7 +92,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{ route('login') }}" method="GET" class="login-btn" title="Iniciar Sesión">
+                    <form action="{{ route('auth.login') }}" method="GET" class="login-btn" title="Iniciar Sesión">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-sign-in-alt"></i>
                             Iniciar Sesión

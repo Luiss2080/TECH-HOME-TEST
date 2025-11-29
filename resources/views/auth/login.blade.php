@@ -61,7 +61,7 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('auth.login.submit') }}">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Correo Electrónico</label>

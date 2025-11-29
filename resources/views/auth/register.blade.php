@@ -145,7 +145,7 @@
             </form>
 
             <div class="login-link">
-                ¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a>
+                ¿Ya tienes cuenta? <a href="{{ route('auth.login') }}">Inicia sesión aquí</a>
             </div>
         </div>
     </div>

@@ -116,7 +116,7 @@
             </div>
 
             <div class="back-to-login">
-                <a href="{{ route('login') }}" class="back-link">
+                <a href="{{ route('auth.login') }}" class="back-link">
                     <i class="fas fa-arrow-left"></i>
                     Volver al login
                 </a>
