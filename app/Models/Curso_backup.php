@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Exception;
 
 class Curso extends Model
 {
@@ -30,10 +29,6 @@ class Curso extends Model
         'es_gratuito' => 'boolean',
         'precio' => 'decimal:2'
     ];
-    
-    // Usar timestamps estándar de Laravel
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
 
     // ==========================================
     // RELACIONES ELOQUENT
@@ -81,179 +76,113 @@ class Curso extends Model
     }
 
     // ==========================================
-    // SCOPES ESTÁTICOS
+    // SCOPES
     // ==========================================
 
     /**
-     * Obtener cursos publicados
+     * Scope para cursos activos
      */
-    public static function publicados()
+    public function scopeActivos($query)
     {
-        return self::where('estado', '=', 'Publicado');
+        return $query->where('estado', 'activo');
     }
 
     /**
-     * Obtener cursos por nivel
+     * Scope para cursos publicados
      */
-    public static function porNivel(string $nivel)
+    public function scopePublicados($query)
     {
-        return self::where('nivel', '=', $nivel);
+        return $query->where('estado', 'publicado');
     }
 
     /**
-     * Obtener cursos por docente
+     * Scope para cursos gratuitos
      */
-    public static function porDocente(int $docenteId)
+    public function scopeGratuitos($query)
     {
-        return self::where('docente_id', '=', $docenteId);
+        return $query->where('es_gratuito', true);
     }
 
     /**
-     * Obtener cursos por categoría
+     * Scope para cursos por nivel
      */
-    public static function porCategoria(int $categoriaId)
+    public function scopePorNivel($query, $nivel)
     {
-        return self::where('categoria_id', '=', $categoriaId);
+        return $query->where('nivel', $nivel);
+    }
+
+    /**
+     * Scope para cursos por categoría
+     */
+    public function scopePorCategoria($query, $categoriaId)
+    {
+        return $query->where('categoria_id', $categoriaId);
     }
 
     // ==========================================
-    // MÉTODOS DE UTILIDAD
+    // ACCESSORS
     // ==========================================
 
     /**
-     * Obtener clase CSS según el estado
+     * Obtener la URL completa de la imagen
      */
-    public function getEstadoClass(): string
+    public function getImagenCompletaAttribute()
     {
-        $classes = [
-            'Publicado' => 'success',
-            'Borrador' => 'secondary',
-            'Archivado' => 'warning'
-        ];
-        
-        return $classes[$this->estado] ?? 'secondary';
-    }
-
-    /**
-     * Obtener clase CSS según el nivel
-     */
-    public function getNivelClass(): string
-    {
-        $classes = [
-            'Principiante' => 'success',
-            'Intermedio' => 'warning',
-            'Avanzado' => 'danger'
-        ];
-        
-        return $classes[$this->nivel] ?? 'secondary';
-    }
-
-    /**
-     * Verificar si el curso está disponible para visualización
-     */
-    public function estaDisponible(): bool
-    {
-        return $this->estado === 'Publicado' && !empty($this->video_url);
-    }
-
-    /**
-     * Obtener URL de la imagen de portada
-     */
-    public function getImagenPortadaUrl(): string
-    {
-        if (!$this->imagen_portada) {
-            return asset('images/cursos/default.jpg');
+        if ($this->imagen_portada) {
+            return asset('storage/cursos/' . $this->imagen_portada);
         }
-        
-        return asset('images/cursos/' . $this->imagen_portada);
+        return asset('images/default-course.jpg');
     }
 
     /**
-     * Obtener ID del video de YouTube
+     * Obtener el precio formateado
      */
-    public function getYoutubeVideoId(): ?string
+    public function getPrecioFormateadoAttribute()
     {
-        if (empty($this->video_url)) {
-            return null;
+        if ($this->es_gratuito) {
+            return 'Gratuito';
         }
+        return '$' . number_format($this->precio, 0);
+    }
 
-        // Extraer ID de diferentes formatos de URL de YouTube
-        $patterns = [
-            '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
-            '/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/',
-            '/youtube\.com\/v\/([a-zA-Z0-9_-]{11})/'
+    /**
+     * Obtener el nivel formateado
+     */
+    public function getNivelFormateadoAttribute()
+    {
+        $niveles = [
+            'principiante' => 'Principiante',
+            'intermedio' => 'Intermedio',
+            'avanzado' => 'Avanzado'
         ];
 
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $this->video_url, $matches)) {
-                return $matches[1];
-            }
-        }
+        return $niveles[$this->nivel] ?? ucfirst($this->nivel);
+    }
 
-        return null;
+    // ==========================================
+    // MÉTODOS ESTÁTICOS
+    // ==========================================
+
+    /**
+     * Obtener cursos populares
+     */
+    public static function populares($limite = 6)
+    {
+        return static::activos()
+                    ->withCount('inscripciones')
+                    ->orderBy('inscripciones_count', 'desc')
+                    ->limit($limite)
+                    ->get();
     }
 
     /**
-     * Obtener URL de embed de YouTube
+     * Obtener cursos recientes
      */
-    public function getYoutubeEmbedUrl(): ?string
+    public static function recientes($limite = 6)
     {
-        $videoId = $this->getYoutubeVideoId();
-        if (!$videoId) {
-            return null;
-        }
-
-        return "https://www.youtube.com/embed/{$videoId}";
-    }
-
-    /**
-     * Obtener thumbnail de YouTube
-     */
-    public function getYoutubeThumbnail(): ?string
-    {
-        $videoId = $this->getYoutubeVideoId();
-        if (!$videoId) {
-            return null;
-        }
-
-        return "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
-    }
-
-    /**
-     * Verificar si la URL es de YouTube válida
-     */
-    public function tieneVideoYoutube(): bool
-    {
-        return !is_null($this->getYoutubeVideoId());
-    }
-
-    /**
-     * Obtener información completa del curso (simplificada)
-     */
-    public function getInformacionCompleta(): array
-    {
-        $docente = $this->docente();
-        $categoria = $this->categoria();
-        
-        return [
-            'basica' => $this->getAttributes(),
-            'docente' => $docente ? [
-                'nombre' => $docente->nombre,
-                'apellido' => $docente->apellido,
-                'email' => $docente->email
-            ] : null,
-            'categoria' => $categoria ? [
-                'nombre' => $categoria->nombre,
-                'color' => $categoria->color ?? '#007bff',
-                'icono' => $categoria->icono ?? 'play-circle'
-            ] : null,
-            'video' => [
-                'url' => $this->video_url,
-                'embed_url' => $this->getYoutubeEmbedUrl(),
-                'thumbnail' => $this->getYoutubeThumbnail(),
-                'video_id' => $this->getYoutubeVideoId(),
-                'es_youtube' => $this->tieneVideoYoutube()
-            ]
-        ];
+        return static::activos()
+                    ->orderBy('created_at', 'desc')
+                    ->limit($limite)
+                    ->get();
     }
 }
