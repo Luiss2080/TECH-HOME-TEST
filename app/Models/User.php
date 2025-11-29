@@ -57,8 +57,8 @@ class User extends Authenticatable
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')
-                    ->where('model_type', User::class);
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id')
+                    ->withTimestamps();
     }
 
     // ==========================================
@@ -92,10 +92,15 @@ class User extends Authenticatable
      */
     public function hasRole($role)
     {
-        $roleId = is_numeric($role) ? $role : $this->getRoleIdByName($role);
-        if (!$roleId) return false;
+        if (is_string($role)) {
+            return $this->roles()
+                        ->where('nombre', $role)
+                        ->exists();
+        }
 
-        return ModelHasRoles::modelHasRole('App\\Models\\User', $this->id, $roleId);
+        return $this->roles()
+                    ->where('id', $role)
+                    ->exists();
     }
 
     /**
