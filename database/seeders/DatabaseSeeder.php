@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             PermissionsSeeder::class,
+            RolePermissionSeeder::class,
             ConfiguracionesSeeder::class,
             CategoriesSeeder::class,
             UsersSeeder::class,
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             MaterialesSeeder::class,
             InscripcionesSeeder::class,
             VentasSeeder::class,
+            NotasSeeder::class,
         ]);
     }
 }
