@@ -52,274 +52,102 @@ class Libro extends Model
     // ==========================================
 
     /**
-     * Obtener la categoría del libro
+     * Categoría del libro
      */
-    public function categoria()
+    public function categoria(): BelongsTo
     {
-        try {
-            return Categoria::find($this->categoria_id);
-        } catch (Exception $e) {
-            return null;
-        }
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
+
+    /**
+     * Descargas del libro
+     */
+    public function bookDownloads(): HasMany
+    {
+        return $this->hasMany(BookDownload::class, 'libro_id');
     }
 
     // ==========================================
-    // SCOPES ESTÁTICOS
+    // SCOPES
     // ==========================================
 
     /**
-     * Obtener libros disponibles
+     * Scope para libros disponibles
      */
-    public static function disponibles()
+    public function scopeDisponibles($query)
     {
-        return self::where('estado', '=', 1);
+        return $query->where('estado', 'Disponible');
     }
 
     /**
-     * Obtener libros con stock disponible
+     * Scope para libros gratuitos
      */
-    public static function conStock()
+    public function scopeGratuitos($query)
     {
-        return self::where('estado', '=', 1)->where('stock', '>', 0);
+        return $query->where('es_gratuito', true);
     }
 
     /**
-     * Obtener libros con stock bajo
+     * Scope para libros por categoría
      */
-    public static function stockBajo()
+    public function scopePorCategoria($query, $categoriaId)
     {
-        return self::whereRaw('stock <= stock_minimo')->where('estado', '=', 1);
+        return $query->where('categoria_id', $categoriaId);
     }
 
     /**
-     * Obtener libros gratuitos
+     * Scope para búsqueda
      */
-    public static function gratuitos()
+    public function scopeBuscar($query, $texto)
     {
-        return self::where('es_gratuito', '=', 1)->where('estado', '=', 1);
-    }
-
-    /**
-     * Obtener libros de pago
-     */
-    public static function dePago()
-    {
-        return self::where('es_gratuito', '=', 0)->where('estado', '=', 1);
-    }
-
-    /**
-     * Obtener libros por categoría
-     */
-    public static function porCategoria(int $categoriaId)
-    {
-        return self::where('categoria_id', '=', $categoriaId)->where('estado', '=', 1);
-    }
-
-    /**
-     * Obtener libros por autor
-     */
-    public static function porAutor(string $autor)
-    {
-        return self::where('autor', 'LIKE', "%{$autor}%")->where('estado', '=', 1);
-    }
-
-    /**
-     * Obtener libros por editorial
-     */
-    public static function porEditorial(string $editorial)
-    {
-        return self::where('editorial', 'LIKE', "%{$editorial}%")->where('estado', '=', 1);
-    }
-
-    /**
-     * Buscar libros
-     */
-    public static function buscar(string $termino)
-    {
-        return self::where('estado', '=', 1)
-                   ->whereRaw('(titulo LIKE ? OR autor LIKE ? OR descripcion LIKE ?)', 
-                             ["%{$termino}%", "%{$termino}%", "%{$termino}%"])
-                   ->orderBy('titulo');
-    }
-
-    /**
-     * Contar libros con stock bajo
-     */
-    public static function countStockBajo(): int
-    {
-        return self::whereRaw('stock <= stock_minimo')->where('estado', '=', 1)->count();
+        if (empty($texto)) return $query;
+        
+        $texto = trim($texto);
+        return $query->where(function($q) use ($texto) {
+            $q->where('titulo', 'like', "%{$texto}%")
+              ->orWhere('autor', 'like', "%{$texto}%")
+              ->orWhere('descripcion', 'like', "%{$texto}%")
+              ->orWhere('isbn', 'like', "%{$texto}%");
+        });
     }
 
     // ==========================================
-    // MÉTODOS DE INSTANCIA
+    // MÉTODOS ADICIONALES
     // ==========================================
 
     /**
-     * Verificar si el libro está disponible para descarga
+     * Incrementar contador de descargas
+     */
+    public function incrementarDescargas(): void
+    {
+        $this->increment('descargas');
+    }
+
+    /**
+     * Verificar si está disponible para descarga
      */
     public function estaDisponible(): bool
     {
-        return $this->estado == 1 && ($this->es_gratuito || $this->stock > 0);
+        return $this->estado === 'Disponible' && $this->stock > 0;
     }
 
     /**
-     * Verificar si tiene stock bajo
+     * Obtener tamaño formateado del archivo
      */
-    public function tieneStockBajo(): bool
+    public function getTamañoFormateadoAttribute(): string
     {
-        return !$this->es_gratuito && $this->stock <= $this->stock_minimo;
-    }
-
-    /**
-     * Verificar si está agotado
-     */
-    public function estaAgotado(): bool
-    {
-        return !$this->es_gratuito && $this->stock <= 0;
-    }
-
-    /**
-     * Actualizar stock
-     */
-    public function actualizarStock(int $nuevoStock): bool
-    {
-        try {
-            $this->stock = max(0, $nuevoStock);
-            $this->save();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Incrementar stock
-     */
-    public function incrementarStock(int $cantidad): bool
-    {
-        try {
-            $this->stock += $cantidad;
-            $this->save();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Obtener precio formateado
-     */
-    public function getPrecioFormateado(): string
-    {
-        if ($this->es_gratuito || $this->precio <= 0) {
-            return 'Gratuito';
+        if ($this->tamaño_archivo == 0) {
+            return 'N/A';
         }
         
-        return 'Bs. ' . number_format($this->precio, 2);
-    }
-
-    /**
-     * Obtener estado del stock
-     */
-    public function getEstadoStock(): array
-    {
-        if ($this->es_gratuito) {
-            return [
-                'status' => 'unlimited',
-                'class' => 'success',
-                'text' => 'Ilimitado',
-                'icon' => 'infinity'
-            ];
-        }
-
-        if ($this->stock <= 0) {
-            return [
-                'status' => 'out',
-                'class' => 'danger',
-                'text' => 'Agotado',
-                'icon' => 'x-circle'
-            ];
-        }
-
-        if ($this->stock <= $this->stock_minimo) {
-            return [
-                'status' => 'low',
-                'class' => 'warning',
-                'text' => 'Stock Bajo (' . $this->stock . ')',
-                'icon' => 'alert-triangle'
-            ];
-        }
-
-        return [
-            'status' => 'available',
-            'class' => 'success',
-            'text' => 'Disponible (' . $this->stock . ')',
-            'icon' => 'check-circle'
-        ];
-    }
-
-    /**
-     * Obtener clase CSS según el estado
-     */
-    public function getEstadoClass(): string
-    {
-        return $this->estado == 1 ? 'success' : 'secondary';
-    }
-
-    /**
-     * Obtener URL de la imagen de portada
-     */
-    public function getImagenPortadaUrl(): string
-    {
-        if (!$this->imagen_portada) {
-            return asset('images/libros/default.jpg');
-        }
+        $bytes = $this->tamaño_archivo;
         
-        return asset('images/libros/' . $this->imagen_portada);
-    }
-
-    /**
-     * Verificar si el libro puede ser eliminado
-     */
-    public function puedeSerEliminado(): bool
-    {
-        return $this->getTotalDescargas() === 0;
-    }
-
-    /**
-     * Obtener total de descargas (para compatibilidad)
-     */
-    public function getTotalDescargas(): int
-    {
-        try {
-            $db = DB::getInstance();
-            $result = $db->query("SELECT COUNT(*) as count FROM descargas_libros WHERE libro_id = ?", [$this->id]);
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            return $row['count'] ?? 0;
-        } catch (Exception $e) {
-            return 0;
+        if ($bytes >= 1048576) {
+            return round($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            return round($bytes / 1024, 2) . ' KB';
+        } else {
+            return $bytes . ' bytes';
         }
-    }
-
-    /**
-     * Obtener información completa del libro
-     */
-    public function getInformacionCompleta(): array
-    {
-        $categoria = $this->categoria();
-        
-        return [
-            'basica' => $this->getAttributes(),
-            'categoria' => $categoria ? [
-                'nombre' => $categoria->nombre,
-                'color' => $categoria->color,
-                'icono' => $categoria->icono
-            ] : null,
-            'estado_stock' => $this->getEstadoStock(),
-            'formateado' => [
-                'precio' => $this->getPrecioFormateado(),
-                'disponibilidad' => $this->estaDisponible() ? 'Disponible' : 'No disponible'
-            ]
-        ];
     }
 }

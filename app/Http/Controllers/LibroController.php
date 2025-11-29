@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
-use Core\Controller;
-use Core\Request;
-use Core\Response;
-use Core\Session;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 use App\Models\Libro;
 use App\Models\Categoria;
 use App\Models\User;
-use App\Services\LibroService;
+use App\Models\BookDownload;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Exception;
 
 class LibroController extends Controller
 {
-    private LibroService $libroService;
-
-    public function __construct()
-    {
-        $this->libroService = new LibroService();
-    }
 
     // ==========================================
     // MÉTODOS PÚBLICOS - VISUALIZACIÓN
