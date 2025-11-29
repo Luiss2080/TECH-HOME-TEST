@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
-use Core\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Venta extends Model
 {
-    protected $table = 'ventas';
-    protected $primaryKey = 'id';
+    use HasFactory;
+
+    protected $table = 'sales';
+    
     protected $fillable = [
         'numero_venta',
         'cliente_id',
@@ -21,7 +26,17 @@ class Venta extends Model
         'fecha_venta',
         'notas'
     ];
-    protected $timestamps = true;
+
+    protected $casts = [
+        'fecha_venta' => 'datetime',
+        'subtotal' => 'decimal:2',
+        'impuestos' => 'decimal:2',
+        'descuento' => 'decimal:2',
+        'total' => 'decimal:2'
+    ];
+
+    const CREATED_AT = 'creado_en';
+    const UPDATED_AT = 'actualizado_en';
 
     // Relaciones
     public function cliente()
