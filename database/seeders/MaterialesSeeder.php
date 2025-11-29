@@ -27,8 +27,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 245,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Tutorial: Sensores con Raspberry Pi',
@@ -42,8 +42,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 0,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Código: Proyecto Robot Seguidor',
@@ -57,8 +57,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => false,
                 'descargas' => 89,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Esquemas Electrónicos Básicos',
@@ -72,8 +72,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 156,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Dataset: Lecturas Ultrasonido',
@@ -87,8 +87,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => false,
                 'descargas' => 67,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Apuntes de POO en Java',
@@ -102,8 +102,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 89,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Simulador de Circuitos Online',
@@ -116,8 +116,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 0,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Guía: Configuración Raspberry Pi OS',
@@ -131,8 +131,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 123,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Video: Introducción a IoT',
@@ -146,8 +146,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => true,
                 'descargas' => 0,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Librería: Funciones Matemáticas',
@@ -161,8 +161,8 @@ class MaterialesSeeder extends Seeder
                 'publico' => false,
                 'descargas' => 45,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
         ];
 

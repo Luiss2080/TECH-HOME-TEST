@@ -31,8 +31,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 45.00,
                 'es_gratuito' => false,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Bases de Datos Relacionales',
@@ -51,8 +51,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 65.00,
                 'es_gratuito' => false,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Ciberseguridad Práctica',
@@ -71,8 +71,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 75.00,
                 'es_gratuito' => false,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Machine Learning con Python',
@@ -91,8 +91,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 85.00,
                 'es_gratuito' => false,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Desarrollo de Apps Android',
@@ -111,8 +111,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 70.00,
                 'es_gratuito' => false,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Introducción a la Programación',
@@ -131,8 +131,8 @@ class LibrosSeeder extends Seeder
                 'precio' => 0.00,
                 'es_gratuito' => true,
                 'estado' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
         ];
 

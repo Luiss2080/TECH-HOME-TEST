@@ -33,8 +33,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 10,
                 'proveedor' => 'Arduino Store',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Raspberry Pi 4 Model B',
@@ -54,8 +54,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 5,
                 'proveedor' => 'Raspberry Foundation',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'ESP32 DevKit V1',
@@ -75,8 +75,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 15,
                 'proveedor' => 'Espressif Systems',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Sensor Ultrasónico HC-SR04',
@@ -96,8 +96,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 20,
                 'proveedor' => 'Electronics Pro',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Sensor de Temperatura DHT22',
@@ -117,8 +117,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 15,
                 'proveedor' => 'Sensor Tech',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Servo Motor SG90',
@@ -138,8 +138,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 8,
                 'proveedor' => 'TowerPro',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Kit de LEDs 5mm (100 piezas)',
@@ -159,8 +159,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 10,
                 'proveedor' => 'LED World',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'nombre' => 'Multímetro Digital DT830B',
@@ -181,8 +181,8 @@ class ComponentesSeeder extends Seeder
                 'stock_minimo' => 3,
                 'proveedor' => 'Tool Master',
                 'estado' => 'Disponible',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
         ];
 

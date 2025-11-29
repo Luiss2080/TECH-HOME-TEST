@@ -27,8 +27,8 @@ class CursosSeeder extends Seeder
                 'requisitos' => 'Conocimientos básicos de computación',
                 'objetivos' => 'Dominar los fundamentos del desarrollo web frontend',
                 'estado' => 'Publicado',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Base de Datos MySQL',
@@ -43,8 +43,8 @@ class CursosSeeder extends Seeder
                 'requisitos' => 'Conceptos básicos de programación',
                 'objetivos' => 'Diseñar y gestionar bases de datos eficientemente',
                 'estado' => 'Publicado',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Seguridad en Redes',
@@ -59,8 +59,8 @@ class CursosSeeder extends Seeder
                 'requisitos' => 'Conocimientos de redes de computadoras',
                 'objetivos' => 'Implementar medidas de seguridad en infraestructuras de red',
                 'estado' => 'Publicado',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Introducción a Machine Learning',
@@ -75,8 +75,8 @@ class CursosSeeder extends Seeder
                 'requisitos' => 'Python básico, matemáticas estadísticas',
                 'objetivos' => 'Crear y evaluar modelos de machine learning',
                 'estado' => 'Publicado',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
             [
                 'titulo' => 'Desarrollo Android con Kotlin',
@@ -91,8 +91,8 @@ class CursosSeeder extends Seeder
                 'requisitos' => 'Conocimientos de programación orientada a objetos',
                 'objetivos' => 'Desarrollar aplicaciones móviles completas para Android',
                 'estado' => 'Publicado',
-                'created_at' => now(),
-                'updated_at' => now(),
+                
+                
             ],
         ];
 
