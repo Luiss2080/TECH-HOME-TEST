@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Tech Home Bolivia</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
-    <!-- CSS Personalizados -->
-    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/auth/animations.css') }}">
     
     <!-- Headers anti-cache -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+
+    @vite(['resources/css/modulos/auth/login.css', 'resources/js/modulos/auth/login.js'])
 </head>
+
 <body>
     <!-- Fondo animado -->
     <div class="bg-animation">
@@ -49,7 +48,7 @@
                 Inicia sesión con tu cuenta académica y da el primer paso hacia una experiencia única llena de innovación y creatividad
             </p>
             <div class="copyright-text">
-                © {{ date('Y') }} Tech Home Bolivia – Todos los derechos reservados
+                © 2025 Tech Home Bolivia – Todos los derechos reservados
             </div>
         </div>
 
@@ -61,14 +60,14 @@
             </div>
 
             <!-- Formulario -->
-            <form method="POST" action="{{ route('auth.login.submit') }}">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Correo Electrónico</label>
                     <div class="input-wrapper">
-                        <input type="email" class="form-input @error('email') is-invalid @enderror" 
-                               id="email" name="email" value="{{ old('email') }}"
-                               placeholder="Ingresa tu correo académico..." required>
+                        <input type="email" class="form-input" id="email" name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Ingresa tu correo académico..." required>
                         <i class="fas fa-envelope input-icon"></i>
                         <div class="tooltip">Usa tu email registrado en la plataforma</div>
                         @error('email')
@@ -80,8 +79,8 @@
                 <div class="form-group">
                     <label class="form-label">Contraseña</label>
                     <div class="input-wrapper">
-                        <input type="password" class="form-input @error('password') is-invalid @enderror" 
-                               id="password" name="password" placeholder="Ingresa tu contraseña..." required>
+                        <input type="password" class="form-input" id="password" name="password"
+                            placeholder="Ingresa tu contraseña..." required>
                         <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                         @error('password')
@@ -93,10 +92,12 @@
 
                 <div class="form-options">
                     <label class="remember-me">
-                        <input type="checkbox" class="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <input type="checkbox" class="checkbox" id="remember" name="remember">
                         <span>Recordarme</span>
                     </label>
-                    <a href="{{ route('auth.forgot-password') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    @endif
                 </div>
 
                 <button type="submit" class="login-btn">
@@ -131,32 +132,22 @@
             </div>
 
             <div class="register-link">
-                ¿No tienes cuenta? <a href="{{ route('auth.register') }}">Regístrate aquí</a>
+                ¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a>
             </div>
         </div>
     </div>
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
-    <script src="{{ asset('js/auth/login.js') }}"></script>
-    
+
     <script>
-        // Mostrar mensajes de Laravel
-        @if ($errors->any())
-            @if ($errors->has('blocked'))
-                showBlockedAlert(@json($errors->get('blocked')));
-            @else
-                showErrorAlert(@json($errors->all()));
-            @endif
-        @endif
-
-        @if (session('success'))
-            showSuccessAlert('{{ session('success') }}');
-        @endif
-
-        @if (session('error'))
-            showErrorAlert('{{ session('error') }}');
-        @endif
+        window.loginConfig = {
+            errors: @json($errors->toArray()),
+            error: @json(session('error')),
+            success: @json(session('success')),
+            blocked: @json(session('blocked') ?? [])
+        };
     </script>
 </body>
+
 </html>
