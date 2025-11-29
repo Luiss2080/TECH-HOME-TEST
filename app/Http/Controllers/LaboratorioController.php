@@ -1,649 +1,375 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
-use Core\Controller;
-use Core\Request;
-use Core\Response;
-use Core\Session;
-use App\Services\LaboratorioService;
-use App\Models\Laboratorio;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Curso;
+use App\Models\Componente;
+use App\Models\Material;
 use App\Models\User;
+use App\Models\Categoria;
+use App\Models\Enrollment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class LaboratorioController extends Controller
 {
-    private $laboratorioService;
-
-    public function __construct(?LaboratorioService $laboratorioService = null)
-    {
-        $this->laboratorioService = $laboratorioService ?? new LaboratorioService();
-    }
-
     /**
-     * Mostrar lista de laboratorios
+     * Dashboard de laboratorios (vista general)
      */
     public function index()
     {
         try {
-            $laboratorios = $this->laboratorioService->getAllLaboratorios();
-            $categorias = $this->laboratorioService->getAllCategories();
-            $docentes = $this->laboratorioService->getAllDocentes();
+            $user = Auth::user();
+            
+            // Laboratorios son cursos prácticos con componentes tipo "laboratorio"
+            $query = Curso::with(['categoria', 'docente', 'componentes'])
+                         ->where('estado', 'activo');
 
-            // Obtener estadísticas generales
-            $estadisticas = $this->laboratorioService->getGeneralStats();
+            // Filtrar por rol
+            if ($user->hasRole('docente')) {
+                $query->where('docente_id', $user->id);
+            }
 
-            $data = [
-                'title' => 'Laboratorios',
-                'laboratorios' => $laboratorios,
-                'categorias' => $categorias,
-                'docentes' => $docentes,
-                'estadisticas' => $estadisticas,
-                'success' => session('success'),
-                'error' => session('error'),
-                'info' => session('info'),
-                'warning' => session('warning')
+            // Solo cursos que tienen componentes de laboratorio
+            $laboratorios = $query->whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->orderBy('creado_en', 'desc')
+              ->paginate(12);
+
+            $estadisticas = [
+                'total_laboratorios' => $laboratorios->total(),
+                'laboratorios_activos' => Curso::where('estado', 'activo')
+                                               ->whereHas('componentes', function($q) {
+                                                   $q->where('tipo', 'laboratorio');
+                                               })->count(),
+                'total_estudiantes' => Enrollment::whereHas('curso.componentes', function($q) {
+                    $q->where('tipo', 'laboratorio');
+                })->distinct('usuario_id')->count()
             ];
 
-            return view('admin.laboratorios.index', $data);
+            return view('admin.laboratorios.index', compact('laboratorios', 'estadisticas'));
+            
         } catch (Exception $e) {
-            Session::flash('error', 'Error al cargar los laboratorios: ' . $e->getMessage());
-            return view('admin.laboratorios.index', [
-                'title' => 'Laboratorios',
-                'laboratorios' => [],
-                'categorias' => [],
-                'docentes' => [],
-                'estadisticas' => [],
-                'error' => session('error')
-            ]);
+            return back()->withErrors(['error' => 'Error al cargar laboratorios: ' . $e->getMessage()]);
         }
     }
 
     /**
-     * Mostrar formulario de creación
-     */
-    public function create()
-    {
-        try {
-            $categorias = $this->laboratorioService->getAllCategories();
-            $docentes = $this->laboratorioService->getAllDocentes();
-            $componentes = $this->laboratorioService->getAllComponentes();
-
-            $data = [
-                'title' => 'Crear Laboratorio',
-                'categorias' => $categorias,
-                'docentes' => $docentes,
-                'componentes' => $componentes,
-                'laboratorio' => null // Para el formulario
-            ];
-
-            return view('admin.laboratorios.create', $data);
-        } catch (Exception $e) {
-            Session::flash('error', 'Error al cargar el formulario: ' . $e->getMessage());
-            return redirect('/admin/laboratorios');
-        }
-    }
-
-    /**
-     * Procesar creación de laboratorio
-     */
-    public function store()
-    {
-        try {
-            $data = $this->validateLaboratorioData();
-
-            // Procesar campos especiales
-            $data = $this->processFormData($data);
-
-            $laboratorioId = $this->laboratorioService->createLaboratorio($data);
-
-            Session::flash('success', 'Laboratorio creado exitosamente.');
-            return redirect('/admin/laboratorios/' . $laboratorioId);
-        } catch (Exception $e) {
-            Session::flash('error', 'Error al crear el laboratorio: ' . $e->getMessage());
-            Session::flash('old', $_POST);
-            return redirect('/admin/laboratorios/create');
-        }
-    }
-
-    /**
-     * Mostrar detalle de laboratorio
+     * Mostrar detalles de un laboratorio específico
      */
     public function show($id)
     {
         try {
-            $laboratorio = $this->laboratorioService->getLaboratorioById($id);
-
-            if (!$laboratorio) {
-                Session::flash('error', 'Laboratorio no encontrado.');
-                return redirect('/admin/laboratorios');
-            }
-
-            // Obtener información adicional
-            $docente = $laboratorio->docenteResponsable();
-            $categoria = $laboratorio->categoria();
-            $participantesData = [];
+            $user = Auth::user();
             
-            // Obtener datos de participantes
-            foreach ($laboratorio->getParticipantes() as $participanteId) {
-                $user = User::find($participanteId);
-                if ($user) {
-                    $participantesData[] = $user;
-                }
+            $laboratorio = Curso::with(['categoria', 'docente', 'componentes' => function($query) {
+                $query->where('tipo', 'laboratorio')->orderBy('orden');
+            }, 'materiales'])
+            ->whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
+
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                return back()->withErrors(['error' => 'No tiene permisos para ver este laboratorio.']);
             }
 
-            $data = [
-                'title' => 'Detalle del Laboratorio',
-                'laboratorio' => $laboratorio,
-                'docente' => $docente,
-                'categoria' => $categoria,
-                'participantes' => $participantesData,
-                'estadisticas' => $laboratorio->getEstadisticas(),
-                'success' => session('success'),
-                'error' => session('error'),
-                'info' => session('info'),
-                'warning' => session('warning')
+            // Estadísticas del laboratorio
+            $estadisticas = [
+                'total_componentes' => $laboratorio->componentes->count(),
+                'estudiantes_inscritos' => $laboratorio->enrollments()->count(),
+                'completados' => $laboratorio->enrollments()
+                                            ->where('progreso', 100)
+                                            ->count()
             ];
 
-            return view('admin.laboratorios.show', $data);
+            return view('admin.laboratorios.show', compact('laboratorio', 'estadisticas'));
+            
         } catch (Exception $e) {
-            Session::flash('error', 'Error al cargar el laboratorio: ' . $e->getMessage());
-            return redirect('/admin/laboratorios');
+            return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
         }
     }
 
     /**
-     * Mostrar formulario de edición
+     * Crear nuevo laboratorio (curso con componentes prácticos)
+     */
+    public function create()
+    {
+        try {
+            $categorias = Categoria::orderBy('nombre')->get();
+            $docentes = User::whereHas('roles', function($query) {
+                $query->where('nombre', 'docente');
+            })->orderBy('nombre')->get();
+
+            return view('admin.laboratorios.create', compact('categorias', 'docentes'));
+            
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Error al cargar formulario: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Guardar nuevo laboratorio
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'categoria_id' => 'required|exists:categories,id',
+            'docente_id' => 'required|exists:users,id',
+            'duracion_horas' => 'required|integer|min:1',
+            'nivel' => 'required|in:principiante,intermedio,avanzado',
+            'precio' => 'required|numeric|min:0',
+            'requisitos' => 'nullable|string',
+            'objetivos' => 'nullable|string'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Crear curso base
+            $laboratorio = Curso::create([
+                'titulo' => $request->titulo,
+                'descripcion' => $request->descripcion,
+                'categoria_id' => $request->categoria_id,
+                'docente_id' => $request->docente_id,
+                'duracion_horas' => $request->duracion_horas,
+                'nivel' => $request->nivel,
+                'precio' => $request->precio,
+                'requisitos' => $request->requisitos,
+                'objetivos' => $request->objetivos,
+                'estado' => 'borrador',
+                'slug' => \Illuminate\Support\Str::slug($request->titulo),
+                'creado_en' => now()
+            ]);
+
+            // Crear componente inicial de laboratorio
+            Componente::create([
+                'curso_id' => $laboratorio->id,
+                'titulo' => 'Introducción al Laboratorio',
+                'descripcion' => 'Componente inicial del laboratorio',
+                'tipo' => 'laboratorio',
+                'orden' => 1,
+                'estado' => 'activo',
+                'creado_en' => now()
+            ]);
+
+            DB::commit();
+
+            return redirect('/admin/laboratorios/' . $laboratorio->id)
+                          ->with('success', 'Laboratorio creado exitosamente.');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al crear laboratorio: ' . $e->getMessage()])
+                        ->withInput();
+        }
+    }
+
+    /**
+     * Editar laboratorio
      */
     public function edit($id)
     {
         try {
-            $laboratorio = $this->laboratorioService->getLaboratorioById($id);
+            $user = Auth::user();
+            
+            $laboratorio = Curso::whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
 
-            if (!$laboratorio) {
-                Session::flash('error', 'Laboratorio no encontrado.');
-                return redirect('/admin/laboratorios');
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
             }
 
-            $categorias = $this->laboratorioService->getAllCategories();
-            $docentes = $this->laboratorioService->getAllDocentes();
-            $componentes = $this->laboratorioService->getAllComponentes();
+            $categorias = Categoria::orderBy('nombre')->get();
+            $docentes = User::whereHas('roles', function($query) {
+                $query->where('nombre', 'docente');
+            })->orderBy('nombre')->get();
 
-            $data = [
-                'title' => 'Editar Laboratorio',
-                'laboratorio' => $laboratorio,
-                'categorias' => $categorias,
-                'docentes' => $docentes,
-                'componentes' => $componentes
-            ];
-
-            return view('admin.laboratorios.edit', $data);
+            return view('admin.laboratorios.edit', compact('laboratorio', 'categorias', 'docentes'));
+            
         } catch (Exception $e) {
-            Session::flash('error', 'Error al cargar el laboratorio: ' . $e->getMessage());
-            return redirect('/admin/laboratorios');
+            return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
         }
     }
 
     /**
-     * Procesar actualización de laboratorio
+     * Actualizar laboratorio
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'categoria_id' => 'required|exists:categories,id',
+            'docente_id' => 'required|exists:users,id',
+            'duracion_horas' => 'required|integer|min:1',
+            'nivel' => 'required|in:principiante,intermedio,avanzado',
+            'precio' => 'required|numeric|min:0',
+            'estado' => 'required|in:borrador,activo,inactivo',
+            'requisitos' => 'nullable|string',
+            'objetivos' => 'nullable|string'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         try {
-            $data = $this->validateLaboratorioData(false);
+            $user = Auth::user();
+            
+            $laboratorio = Curso::whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
 
-            // Procesar campos especiales
-            $data = $this->processFormData($data);
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
+            }
 
-            $this->laboratorioService->updateLaboratorio($id, $data);
+            $laboratorio->update([
+                'titulo' => $request->titulo,
+                'descripcion' => $request->descripcion,
+                'categoria_id' => $request->categoria_id,
+                'docente_id' => $request->docente_id,
+                'duracion_horas' => $request->duracion_horas,
+                'nivel' => $request->nivel,
+                'precio' => $request->precio,
+                'estado' => $request->estado,
+                'requisitos' => $request->requisitos,
+                'objetivos' => $request->objetivos,
+                'slug' => \Illuminate\Support\Str::slug($request->titulo),
+                'actualizado_en' => now()
+            ]);
 
-            Session::flash('success', 'Laboratorio actualizado exitosamente.');
-            return redirect('/admin/laboratorios/' . $id);
+            return back()->with('success', 'Laboratorio actualizado exitosamente.');
+
         } catch (Exception $e) {
-            Session::flash('error', 'Error al actualizar el laboratorio: ' . $e->getMessage());
-            Session::flash('old', $_POST);
-            return redirect('/admin/laboratorios/' . $id . '/edit');
+            return back()->withErrors(['error' => 'Error al actualizar laboratorio: ' . $e->getMessage()])
+                        ->withInput();
         }
     }
 
     /**
      * Eliminar laboratorio
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
-            $laboratorio = $this->laboratorioService->getLaboratorioById($id);
-            if (!$laboratorio) {
-                Session::flash('error', 'Laboratorio no encontrado.');
-                return redirect('/admin/laboratorios');
+            $user = Auth::user();
+            
+            $laboratorio = Curso::whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
+
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => false, 'message' => 'No tiene permisos para eliminar este laboratorio.'], 403);
+                }
+                return back()->withErrors(['error' => 'No tiene permisos para eliminar este laboratorio.']);
             }
 
-            $this->laboratorioService->deleteLaboratorio($id);
-            Session::flash('success', 'Laboratorio eliminado exitosamente.');
-        } catch (Exception $e) {
-            Session::flash('error', 'Error al eliminar el laboratorio: ' . $e->getMessage());
-        }
+            // Verificar si tiene estudiantes inscritos
+            if ($laboratorio->enrollments()->count() > 0) {
+                $error = 'No se puede eliminar el laboratorio porque tiene estudiantes inscritos.';
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => false, 'message' => $error], 400);
+                }
+                return back()->withErrors(['error' => $error]);
+            }
 
-        return redirect('/admin/laboratorios');
+            $laboratorio->delete();
+
+            $message = 'Laboratorio eliminado exitosamente.';
+            if ($request->expectsJson()) {
+                return response()->json(['success' => true, 'message' => $message]);
+            }
+
+            return redirect('/admin/laboratorios')
+                          ->with('success', $message);
+
+        } catch (Exception $e) {
+            $error = 'Error al eliminar laboratorio: ' . $e->getMessage();
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => $error], 500);
+            }
+            return back()->withErrors(['error' => $error]);
+        }
     }
 
     /**
-     * Buscar laboratorios (AJAX)
+     * Gestionar componentes de laboratorio
      */
-    public function search()
+    public function components($id)
     {
         try {
-            $filters = [
-                'buscar' => $_GET['buscar'] ?? '',
-                'estado' => $_GET['estado'] ?? 'todos',
-                'nivel' => $_GET['nivel'] ?? 'todos',
-                'categoria' => $_GET['categoria'] ?? 'todas',
-                'docente' => $_GET['docente'] ?? 'todos',
-                'publico' => $_GET['publico'] ?? '',
-                'destacado' => $_GET['destacado'] ?? '',
-                'fecha_desde' => $_GET['fecha_desde'] ?? '',
-                'fecha_hasta' => $_GET['fecha_hasta'] ?? '',
-                'orden' => $_GET['orden'] ?? 'fecha_desc'
+            $user = Auth::user();
+            
+            $laboratorio = Curso::with(['componentes' => function($query) {
+                $query->where('tipo', 'laboratorio')->orderBy('orden');
+            }])->whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
+
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                return back()->withErrors(['error' => 'No tiene permisos para gestionar este laboratorio.']);
+            }
+
+            return view('admin.laboratorios.components', compact('laboratorio'));
+            
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Error al cargar componentes: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Reportes de laboratorio
+     */
+    public function reports($id)
+    {
+        try {
+            $user = Auth::user();
+            
+            $laboratorio = Curso::whereHas('componentes', function($q) {
+                $q->where('tipo', 'laboratorio');
+            })->findOrFail($id);
+
+            // Verificar permisos
+            if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+                return back()->withErrors(['error' => 'No tiene permisos para ver los reportes de este laboratorio.']);
+            }
+
+            // Estadísticas detalladas
+            $inscripciones = $laboratorio->enrollments()
+                                       ->with(['usuario'])
+                                       ->orderBy('progreso', 'desc')
+                                       ->get();
+
+            $estadisticas = [
+                'total_inscritos' => $inscripciones->count(),
+                'completados' => $inscripciones->where('progreso', 100)->count(),
+                'en_progreso' => $inscripciones->where('progreso', '>', 0)->where('progreso', '<', 100)->count(),
+                'sin_iniciar' => $inscripciones->where('progreso', 0)->count(),
+                'progreso_promedio' => $inscripciones->avg('progreso') ?? 0
             ];
 
-            $laboratorios = $this->laboratorioService->searchLaboratorios($filters);
-
-            // Procesar datos para la vista
-            $laboratoriosData = [];
-            foreach ($laboratorios as $laboratorio) {
-                $laboratorioData = $laboratorio->getAttributes();
-                
-                // Agregar información del docente
-                $docente = $laboratorio->docenteResponsable();
-                $laboratorioData['docente_nombre'] = $docente ? 
-                    $docente->nombre . ' ' . $docente->apellido : 'No asignado';
-
-                // Agregar información de la categoría
-                $categoria = $laboratorio->categoria();
-                if ($categoria) {
-                    $laboratorioData['categoria_nombre'] = $categoria->nombre;
-                    $laboratorioData['categoria_color'] = $categoria->color;
-                } else {
-                    $laboratorioData['categoria_nombre'] = 'Sin categoría';
-                    $laboratorioData['categoria_color'] = '#6c757d';
-                }
-
-                // Agregar información procesada
-                $laboratorioData['progreso'] = $laboratorio->getProgreso();
-                $laboratorioData['clase_estado'] = $laboratorio->getClaseEstado();
-                $laboratorioData['total_participantes'] = count($laboratorio->getParticipantes());
-                $laboratorioData['duracion_formateada'] = $laboratorio->getDuracionFormateada();
-
-                $laboratoriosData[] = $laboratorioData;
-            }
-
-            Response::json([
-                'success' => true,
-                'data' => $laboratoriosData,
-                'total' => count($laboratoriosData)
-            ]);
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al buscar laboratorios: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Cambiar estado del laboratorio (AJAX)
-     */
-    public function changeStatus($id)
-    {
-        try {
-            $estado = $_POST['estado'] ?? '';
-
-            if (empty($estado)) {
-                throw new Exception('Estado requerido');
-            }
-
-            $this->laboratorioService->changeStatus($id, $estado);
-
-            Response::json([
-                'success' => true,
-                'message' => 'Estado actualizado correctamente'
-            ]);
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al cambiar el estado: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Cambiar visibilidad pública (AJAX)
-     */
-    public function changePublicStatus($id)
-    {
-        try {
-            $publico = (int)($_POST['publico'] ?? 0);
-
-            $this->laboratorioService->changePublicStatus($id, $publico);
-
-            Response::json([
-                'success' => true,
-                'message' => 'Visibilidad actualizada correctamente'
-            ]);
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al cambiar la visibilidad: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Cambiar estado destacado (AJAX)
-     */
-    public function changeDestacadoStatus($id)
-    {
-        try {
-            $destacado = (int)($_POST['destacado'] ?? 0);
-
-            $this->laboratorioService->changeDestacadoStatus($id, $destacado);
-
-            Response::json([
-                'success' => true,
-                'message' => 'Estado destacado actualizado correctamente'
-            ]);
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al cambiar el estado destacado: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Agregar participante (AJAX)
-     */
-    public function addParticipante($id)
-    {
-        try {
-            $userId = (int)($_POST['user_id'] ?? 0);
-
-            if (!$userId) {
-                throw new Exception('ID de usuario requerido');
-            }
-
-            $result = $this->laboratorioService->addParticipante($id, $userId);
-
-            if ($result) {
-                Response::json([
-                    'success' => true,
-                    'message' => 'Participante agregado exitosamente'
-                ]);
-            } else {
-                Response::json([
-                    'success' => false,
-                    'message' => 'El usuario ya es participante del laboratorio'
-                ], 400);
-            }
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al agregar participante: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Remover participante (AJAX)
-     */
-    public function removeParticipante($id)
-    {
-        try {
-            $userId = (int)($_POST['user_id'] ?? 0);
-
-            if (!$userId) {
-                throw new Exception('ID de usuario requerido');
-            }
-
-            $result = $this->laboratorioService->removeParticipante($id, $userId);
-
-            if ($result) {
-                Response::json([
-                    'success' => true,
-                    'message' => 'Participante removido exitosamente'
-                ]);
-            } else {
-                Response::json([
-                    'success' => false,
-                    'message' => 'El usuario no era participante del laboratorio'
-                ], 400);
-            }
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al remover participante: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Duplicar laboratorio
-     */
-    public function duplicate($id)
-    {
-        try {
-            $docenteId = (int)($_POST['docente_id'] ?? Session::get('user_id'));
-
-            $nuevoLaboratorioId = $this->laboratorioService->duplicateLaboratorio($id, $docenteId);
-
-            Session::flash('success', 'Laboratorio duplicado exitosamente.');
-            return redirect('/admin/laboratorios/' . $nuevoLaboratorioId);
-        } catch (Exception $e) {
-            Session::flash('error', 'Error al duplicar el laboratorio: ' . $e->getMessage());
-            return redirect('/admin/laboratorios/' . $id);
-        }
-    }
-
-    /**
-     * Exportar datos del laboratorio
-     */
-    public function export($id)
-    {
-        try {
-            $data = $this->laboratorioService->exportLaboratorioData($id);
-
-            header('Content-Type: application/json');
-            header('Content-Disposition: attachment; filename="laboratorio_' . $id . '_' . date('Y-m-d') . '.json"');
+            return view('admin.laboratorios.reports', compact('laboratorio', 'inscripciones', 'estadisticas'));
             
-            echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            exit;
         } catch (Exception $e) {
-            Session::flash('error', 'Error al exportar el laboratorio: ' . $e->getMessage());
-            return redirect('/admin/laboratorios/' . $id);
+            return back()->withErrors(['error' => 'Error al cargar reportes: ' . $e->getMessage()]);
         }
-    }
-
-    /**
-     * Actualizar fechas del laboratorio (AJAX)
-     */
-    public function updateFechas($id)
-    {
-        try {
-            $fechaInicio = $_POST['fecha_inicio'] ?? null;
-            $fechaFin = $_POST['fecha_fin'] ?? null;
-
-            $this->laboratorioService->updateFechas($id, $fechaInicio, $fechaFin);
-
-            Response::json([
-                'success' => true,
-                'message' => 'Fechas actualizadas correctamente'
-            ]);
-        } catch (Exception $e) {
-            Response::json([
-                'success' => false,
-                'message' => 'Error al actualizar las fechas: ' . $e->getMessage()
-            ], 400);
-        }
-    }
-
-    /**
-     * Dashboard de laboratorios para docentes
-     */
-    public function dashboard()
-    {
-        try {
-            $docenteId = Session::get('user_id');
-            $dashboardData = $this->laboratorioService->getDashboardDataForDocente($docenteId);
-
-            $data = [
-                'title' => 'Dashboard de Laboratorios',
-                'estadisticas' => $dashboardData['estadisticas'],
-                'laboratorios_activos' => $dashboardData['laboratorios_activos'],
-                'proximos_a_vencer' => $dashboardData['proximos_a_vencer'],
-                'recientes' => $dashboardData['recientes']
-            ];
-
-            return view('docente.laboratorios.dashboard', $data);
-        } catch (Exception $e) {
-            Session::flash('error', 'Error al cargar el dashboard: ' . $e->getMessage());
-            return redirect('/');
-        }
-    }
-
-    /**
-     * Página principal de laboratorios (método original)
-     */
-    public function laboratorios()
-    {
-        return view('admin.laboratorios.index', [
-            'title' => 'Laboratorios Virtuales',
-            'ruta' => '/laboratorios'
-        ]);
-    }
-
-    /**
-     * Validar datos del laboratorio
-     */
-    private function validateLaboratorioData($isCreate = true): array
-    {
-        $rules = [
-            'nombre' => 'required|max:255',
-            'descripcion' => 'required',
-            'categoria_id' => 'required|numeric',
-            'docente_responsable_id' => 'required|numeric',
-            'nivel_dificultad' => 'required|in:Básico,Intermedio,Avanzado',
-            'estado' => 'required|in:Planificado,En Progreso,Completado,Suspendido,Cancelado'
-        ];
-
-        $data = [];
-        $errors = [];
-
-        foreach ($rules as $field => $rule) {
-            $value = $_POST[$field] ?? null;
-            
-            if (strpos($rule, 'required') !== false && empty($value)) {
-                $errors[] = "El campo {$field} es requerido";
-                continue;
-            }
-
-            if (!empty($value)) {
-                if (strpos($rule, 'max:') !== false) {
-                    preg_match('/max:(\d+)/', $rule, $matches);
-                    $max = (int)$matches[1];
-                    if (strlen($value) > $max) {
-                        $errors[] = "El campo {$field} no puede tener más de {$max} caracteres";
-                        continue;
-                    }
-                }
-
-                if (strpos($rule, 'numeric') !== false && !is_numeric($value)) {
-                    $errors[] = "El campo {$field} debe ser numérico";
-                    continue;
-                }
-
-                if (strpos($rule, 'in:') !== false) {
-                    preg_match('/in:([^|]+)/', $rule, $matches);
-                    $options = explode(',', $matches[1]);
-                    if (!in_array($value, $options)) {
-                        $errors[] = "El campo {$field} debe ser uno de: " . implode(', ', $options);
-                        continue;
-                    }
-                }
-            }
-
-            $data[$field] = $value;
-        }
-
-        // Campos opcionales
-        $optionalFields = [
-            'objetivos', 'participantes', 'componentes_utilizados', 
-            'tecnologias', 'resultado', 'conclusiones', 'duracion_dias',
-            'fecha_inicio', 'fecha_fin', 'publico', 'destacado'
-        ];
-
-        foreach ($optionalFields as $field) {
-            if (isset($_POST[$field])) {
-                $data[$field] = $_POST[$field];
-            }
-        }
-
-        if (!empty($errors)) {
-            throw new Exception(implode(', ', $errors));
-        }
-
-        return $data;
-    }
-
-    /**
-     * Procesar datos del formulario
-     */
-    private function processFormData(array $data): array
-    {
-        // Procesar participantes
-        if (isset($data['participantes']) && !empty($data['participantes'])) {
-            if (is_string($data['participantes'])) {
-                $data['participantes'] = array_filter(explode(',', $data['participantes']), 'strlen');
-                $data['participantes'] = array_map('intval', $data['participantes']);
-            }
-        } else {
-            $data['participantes'] = [];
-        }
-
-        // Procesar componentes utilizados
-        if (isset($data['componentes_utilizados']) && !empty($data['componentes_utilizados'])) {
-            if (is_string($data['componentes_utilizados'])) {
-                $data['componentes_utilizados'] = array_filter(explode(',', $data['componentes_utilizados']), 'strlen');
-            }
-        } else {
-            $data['componentes_utilizados'] = [];
-        }
-
-        // Procesar tecnologías
-        if (isset($data['tecnologias']) && !empty($data['tecnologias'])) {
-            if (is_string($data['tecnologias'])) {
-                $data['tecnologias'] = array_filter(explode(',', $data['tecnologias']), 'strlen');
-            }
-        } else {
-            $data['tecnologias'] = [];
-        }
-
-        // Valores por defecto para checkboxes
-        $data['publico'] = isset($data['publico']) ? (int)$data['publico'] : 0;
-        $data['destacado'] = isset($data['destacado']) ? (int)$data['destacado'] : 0;
-
-        // Conversión de tipos
-        if (isset($data['categoria_id'])) {
-            $data['categoria_id'] = (int)$data['categoria_id'];
-        }
-
-        if (isset($data['docente_responsable_id'])) {
-            $data['docente_responsable_id'] = (int)$data['docente_responsable_id'];
-        }
-
-        if (isset($data['duracion_dias']) && !empty($data['duracion_dias'])) {
-            $data['duracion_dias'] = (int)$data['duracion_dias'];
-        }
-
-        return $data;
     }
 }
