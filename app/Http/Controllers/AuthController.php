@@ -24,7 +24,7 @@ class AuthController extends Controller
     /**
      * Mostrar formulario de login
      */
-    public function showLogin(): View
+    public function showLogin()
     {
         return view('auth.login');
     }
@@ -32,7 +32,7 @@ class AuthController extends Controller
     /**
      * Procesar login
      */
-    public function login(Request $request): RedirectResponse|JsonResponse
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -64,7 +64,8 @@ class AuthController extends Controller
                 if ($request->expectsJson()) {
                     return response()->json(['success' => false, 'message' => $error], 401);
                 }
-                return back()->withErrors(['email' => $error])->withInput($request->only('email'));
+                $request->session()->flash('error', $error);
+                return \Core\Response::back();
             }
 
             // Verificar si el usuario está activo
@@ -73,7 +74,8 @@ class AuthController extends Controller
                 if ($request->expectsJson()) {
                     return response()->json(['success' => false, 'message' => $error], 401);
                 }
-                return back()->withErrors(['email' => $error])->withInput($request->only('email'));
+                $request->session()->flash('error', $error);
+                return \Core\Response::back();
             }
 
             // Intentar autenticar
@@ -97,28 +99,30 @@ class AuthController extends Controller
                     ]);
                 }
 
-                return redirect($this->getRedirectUrl($user));
+                return \Core\Response::redirect($this->getRedirectUrl($user));
             }
 
             $error = 'Credenciales incorrectas.';
             if ($request->expectsJson()) {
                 return response()->json(['success' => false, 'message' => $error], 401);
             }
-            return back()->withErrors(['email' => $error])->withInput($request->only('email'));
+            $request->session()->flash('error', $error);
+            return \Core\Response::back();
 
         } catch (Exception $e) {
             $error = 'Error en el servidor. Intente nuevamente.';
             if ($request->expectsJson()) {
                 return response()->json(['success' => false, 'message' => $error], 500);
             }
-            return back()->withErrors(['error' => $error])->withInput($request->only('email'));
+            $request->session()->flash('error', $error);
+            return \Core\Response::back();
         }
     }
 
     /**
      * Mostrar formulario de registro
      */
-    public function showRegister(): View
+    public function showRegister()
     {
         return view('auth.register');
     }
@@ -126,7 +130,7 @@ class AuthController extends Controller
     /**
      * Procesar registro
      */
-    public function register(Request $request): RedirectResponse|JsonResponse
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
@@ -211,7 +215,7 @@ class AuthController extends Controller
     /**
      * Activar cuenta
      */
-    public function activateAccount(Request $request, string $token): RedirectResponse
+    public function activateAccount(Request $request, string $token)
     {
         try {
             $activationToken = ActivationToken::validateToken($token);
@@ -254,7 +258,7 @@ class AuthController extends Controller
     /**
      * Cerrar sesión
      */
-    public function logout(Request $request): RedirectResponse|JsonResponse
+    public function logout(Request $request)
     {
         Auth::logout();
         
@@ -274,7 +278,7 @@ class AuthController extends Controller
     /**
      * Mostrar formulario de recuperación de contraseña
      */
-    public function showForgotPassword(): View
+    public function showForgotPassword()
     {
         return view('auth.forgot-password');
     }
@@ -282,7 +286,7 @@ class AuthController extends Controller
     /**
      * Enviar código OTP para recuperación
      */
-    public function sendPasswordReset(Request $request): RedirectResponse|JsonResponse
+    public function sendPasswordReset(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email'
@@ -333,7 +337,7 @@ class AuthController extends Controller
     /**
      * Mostrar formulario de reseteo con código OTP
      */
-    public function showResetPassword(int $userId): View|RedirectResponse
+    public function showResetPassword(int $userId)
     {
         $user = User::findOrFail($userId);
         return view('auth.reset-password', compact('user'));
@@ -342,7 +346,7 @@ class AuthController extends Controller
     /**
      * Resetear contraseña con código OTP
      */
-    public function resetPassword(Request $request, int $userId): RedirectResponse|JsonResponse
+    public function resetPassword(Request $request, int $userId)
     {
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|string|size:6',
