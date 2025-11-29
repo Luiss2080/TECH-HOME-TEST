@@ -19,10 +19,15 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class,
             PermissionsSeeder::class,
+            ConfiguracionesSeeder::class,
             CategoriesSeeder::class,
             UsersSeeder::class,
             CursosSeeder::class,
             LibrosSeeder::class,
+            ComponentesSeeder::class,
+            MaterialesSeeder::class,
+            InscripcionesSeeder::class,
+            VentasSeeder::class,
         ]);
     }
 }
