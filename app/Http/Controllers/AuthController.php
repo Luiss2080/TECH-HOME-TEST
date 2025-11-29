@@ -21,7 +21,7 @@ class AuthController extends Controller
 {
     public function login(): View
     {
-        return view('auth.login', ['title' => 'Bienvenido']);
+        return view('auth.login', ['title' => 'Iniciar Sesión']);
     }
 
     /**
@@ -37,12 +37,11 @@ class AuthController extends Controller
      */
     public function registerForm(Request $request): RedirectResponse
     {
-        // Validar datos del formulario
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|min:2|max:50',
             'apellido' => 'required|string|min:2|max:50',
             'email' => 'required|email|max:150|unique:usuarios',
-            'password' => 'required|min:8|max:50|confirmed',
+            'password' => 'required|min:8|confirmed',
             'telefono' => 'nullable|string|max:20',
             'fecha_nacimiento' => 'nullable|date'
         ]);
@@ -50,27 +49,18 @@ class AuthController extends Controller
         try {
             DB::beginTransaction();
             
-            // Crear el usuario
-            $user = User::create([
-                'nombre' => $request->nombre,
-                'apellido' => $request->apellido,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'telefono' => $request->telefono,
-                'fecha_nacimiento' => $request->fecha_nacimiento,
-                'estado' => 0, // Usuario inactivo hasta que valide el token
-                'fecha_creacion' => now(),
-                'fecha_actualizacion' => now()
+            // Crear usuario con datos validados
+            $user = User::create(array_merge($validated, [
+                'password' => Hash::make($validated['password']),
+                'estado' => 0 // Inactivo hasta activación
+            ]));
+
+            // Asignar rol por defecto
+            $guestRole = Role::firstOrCreate(['nombre' => 'Invitado'], [
+                'descripcion' => 'Usuario invitado con acceso limitado',
+                'guard_name' => 'web'
             ]);
-
-            // Asegurar que existe el rol "Invitado"
-            $this->ensureGuestRoleExists();
-
-            // Asignar rol de Invitado por defecto
-            $guestRole = Role::where('nombre', 'Invitado')->first();
-            if ($guestRole) {
-                $user->assignRole($guestRole->id);
-            }
+            $user->assignRole($guestRole->id);
             
             DB::commit();
 
@@ -234,7 +224,7 @@ class AuthController extends Controller
             $this->log2FAEvent($user->id, $email, '2FA_INITIATED', [
                 'codigo_enviado' => true,
                 'expira_en' => $otpResult['expira_en'],
-                'ip' => request()->ip()
+                'ip' => $request->ip()
             ]);
 
             return redirect()->route('auth.otp.verify');
