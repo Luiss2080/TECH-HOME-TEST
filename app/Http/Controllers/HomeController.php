@@ -335,4 +335,48 @@ class HomeController extends Controller
         
         return view('docentes.index', compact('docentes'));
     }
+
+    /**
+     * Lista de estudiantes
+     */
+    public function estudiantes()
+    {
+        $estudiantes = collect([
+            (object)['id' => 1, 'name' => 'María González', 'curso' => 'Robótica Básica'],
+            (object)['id' => 2, 'name' => 'Pedro Martínez', 'curso' => 'IA Avanzada'],
+            (object)['id' => 3, 'name' => 'Ana Silva', 'curso' => 'IoT Fundamentals']
+        ]);
+        
+        return view('estudiantes.index', compact('estudiantes'));
+    }
+
+    /**
+     * Ver estudiante específico
+     */
+    public function estudianteShow($id)
+    {
+        return view('estudiantes.show', ['estudiante' => (object)['id' => $id, 'name' => 'Estudiante #' . $id]]);
+    }
+
+    /**
+     * Lista de laboratorios
+     */
+    public function laboratorios()
+    {
+        $laboratorios = collect([
+            (object)['id' => 1, 'nombre' => 'Lab Arduino', 'disponible' => true],
+            (object)['id' => 2, 'nombre' => 'Lab Raspberry Pi', 'disponible' => false],
+            (object)['id' => 3, 'nombre' => 'Lab IoT', 'disponible' => true]
+        ]);
+        
+        return view('laboratorios.index', compact('laboratorios'));
+    }
+
+    /**
+     * Ver laboratorio específico
+     */
+    public function laboratorioShow($id)
+    {
+        return view('laboratorios.show', ['laboratorio' => (object)['id' => $id, 'nombre' => 'Laboratorio #' . $id]]);
+    }
 }

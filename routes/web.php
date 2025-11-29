@@ -162,9 +162,13 @@ Route::middleware(['auth'])->group(function () {
     // Categorías
     Route::get('/categoria/{id}', [HomeController::class, 'categoria'])->name('categoria');
     
+    // Estudiantes (visualización general)
+    Route::get('/estudiantes', [HomeController::class, 'estudiantes'])->name('estudiantes');
+    Route::get('/estudiantes/{id}', [HomeController::class, 'estudianteShow'])->name('estudiantes.show');
+    
     // Laboratorios virtuales
-    Route::get('/laboratorios', [LaboratorioController::class, 'index'])->name('laboratorios');
-    Route::get('/laboratorio/{id}', [LaboratorioController::class, 'show'])->name('laboratorio.show');
+    Route::get('/laboratorios', [HomeController::class, 'laboratorios'])->name('laboratorios');
+    Route::get('/laboratorio/{id}', [HomeController::class, 'laboratorioShow'])->name('laboratorio.show');
     
     // Materiales (visualización)
     Route::get('/materiales', [HomeController::class, 'materiales'])->name('materiales');
