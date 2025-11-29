@@ -65,7 +65,7 @@ class AuthController extends Controller
                     return response()->json(['success' => false, 'message' => $error], 401);
                 }
                 $request->session()->flash('error', $error);
-                return \Core\Response::back();
+                return redirect(back());
             }
 
             // Verificar si el usuario está activo
