@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
-use App\Services\CursoService;
-use Core\Controller;
-use Core\Request;
-use Core\Response;
-use Core\Session;
-use Core\Validation;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use App\Models\Curso;
+use App\Models\Categoria;
+use App\Models\User;
+use App\Models\Enrollment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Exception;
-
-class CursoController extends Controller
-{
-    private $cursoService;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->cursoService = new CursoService();
-    }
 
     // ==========================================
     // MÉTODOS PRINCIPALES DE GESTIÓN
