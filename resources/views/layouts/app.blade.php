@@ -25,21 +25,16 @@
     <!-- SEO Meta tags -->
     <meta name="description" content="Tech Home Bolivia: Una plataforma educativa que simula un entorno de estudio, venta de libros y herramientas, además de ofrecer cursos especializados.">
     <meta property="og:title" content="Tech Home Bolivia">
-    
-    <!-- Header Component -->
-    @include('components.header')
-    
-    <div style="height: 180px;"></div>
-    
-    <!-- Main Content Area -->
-    <div class="main-content-area">
-        @yield('content')
-    </div>
-    
-    <!-- Footer Component -->
-    @include('components.footer')
-    
-    <!-- Scripts -->
+
+    <!-- Vite Assets -->
+    @vite([
+        'resources/css/app.css', 
+        'resources/js/app.js',
+        'resources/css/layout/header.css',
+        'resources/css/layout/sidebar.css',
+        'resources/css/layout/footer.css'
+    ])
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/layout/sidebar.js') }}"></script>
     <script src="{{ asset('js/layout/header.js') }}"></script>

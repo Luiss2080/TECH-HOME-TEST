@@ -1,13 +1,3 @@
-<!-- ============================================================================
-     FOOTER TECH HOME - Instituto de Robótica
-             FOOTER INFERIOR
-             ============================================================================ -->
-        <div class="footer-bottom">
-            <!-- Sección izquierda: Marca y logo -->
-            <div class="footer-bottom-left">
-                <div class="footer-brand-section">
-                    <!-- Icono de la marca -->
-                    <div class="footer-logo-icon">
                         <i class="fas fa-robot"></i>
                     </div>
                     <!-- Texto de la marca -->
