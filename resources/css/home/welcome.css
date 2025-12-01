@@ -2056,17 +2056,18 @@ body.dark-theme .crud-invalid-feedback {
     background: var(--gradient-primary);
     box-shadow: var(--shadow-light);
 }
-}
 
 /* ============================================
    ESTILOS ESPECÍFICOS DE WELCOME.BLADE.PHP
    ============================================ */
 /* Estilos específicos para la vista Home de TECH HOME */
 .tech-home-hero {
-    background: linear-gradient(135deg, 
-        rgba(220, 38, 38, 0.1) 0%, 
-        rgba(14, 184, 166, 0.1) 50%, 
-        rgba(139, 92, 246, 0.1) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(220, 38, 38, 0.1) 0%,
+        rgba(14, 184, 166, 0.1) 50%,
+        rgba(139, 92, 246, 0.1) 100%
+    );
     position: relative;
     overflow: hidden;
     min-height: 200px;
@@ -2078,7 +2079,11 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 .tech-home-title {
-    background: linear-gradient(135deg, var(--text-primary), var(--primary-red));
+    background: linear-gradient(
+        135deg,
+        var(--text-primary),
+        var(--primary-red)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2191,7 +2196,12 @@ body.dark-theme .crud-invalid-feedback {
 
 .circuit-line {
     position: absolute;
-    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.2), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(220, 38, 38, 0.2),
+        transparent
+    );
     height: 2px;
     animation: circuit 8s linear infinite;
 }
@@ -2225,7 +2235,11 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 .quick-action-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(255, 255, 255, 0.8)
+    );
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     padding: 1.5rem;
@@ -2239,7 +2253,7 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 .quick-action-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -2326,7 +2340,11 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 .stat-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.7)
+    );
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     padding: 1.5rem;
@@ -2631,7 +2649,8 @@ body.dark-theme .crud-invalid-feedback {
 
 /* Animaciones específicas */
 @keyframes robotPulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
         box-shadow: var(--shadow-medium);
     }
@@ -2642,7 +2661,8 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
         transform: translateY(0px);
     }
     50% {
@@ -2660,7 +2680,8 @@ body.dark-theme .crud-invalid-feedback {
 }
 
 @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 1;
     }
     50% {
@@ -2673,27 +2694,27 @@ body.dark-theme .crud-invalid-feedback {
     .tech-home-quick-actions {
         grid-template-columns: 1fr;
     }
-    
+
     .tech-home-stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .quick-action-card {
         flex-direction: column;
         text-align: center;
         padding: 2rem 1rem;
     }
-    
+
     .crud-section-header {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
     }
-    
+
     .tech-home-status {
         align-items: center;
     }
-    
+
     .floating-robot {
         display: none;
     }
@@ -2702,17 +2723,23 @@ body.dark-theme .crud-invalid-feedback {
 /* Modo oscuro - Corrección de fondos */
 body.ithr-dark-mode .tech-home-hero,
 body.dark-theme .tech-home-hero {
-    background: linear-gradient(135deg, 
-        rgba(220, 38, 38, 0.15) 0%, 
-        rgba(14, 184, 166, 0.15) 50%, 
-        rgba(139, 92, 246, 0.15) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(220, 38, 38, 0.15) 0%,
+        rgba(14, 184, 166, 0.15) 50%,
+        rgba(139, 92, 246, 0.15) 100%
+    );
 }
 
 body.ithr-dark-mode .quick-action-card,
 body.dark-theme .quick-action-card,
 body.ithr-dark-mode .stat-card,
 body.dark-theme .stat-card {
-    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
+    background: linear-gradient(
+        145deg,
+        rgba(30, 41, 59, 0.9),
+        rgba(30, 41, 59, 0.7)
+    );
     border-color: rgba(71, 85, 105, 0.3);
 }
 
@@ -2866,7 +2893,7 @@ body.dark-theme .crud-form-header {
 }
 
 .course-duration::before {
-    content: '⏱';
+    content: "⏱";
     font-size: 0.8rem;
 }
 
@@ -2899,7 +2926,7 @@ body.dark-theme .crud-form-header {
         justify-self: center;
         margin-top: 0.5rem;
     }
-    
+
     .tech-lib-card,
     .tech-comp-card,
     .tech-course-card {
@@ -2911,6 +2938,10 @@ body.dark-theme .crud-form-header {
 
 body.ithr-dark-mode .crud-action-card:hover,
 body.dark-theme .crud-action-card:hover {
-    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0.85));
+    background: linear-gradient(
+        145deg,
+        rgba(30, 41, 59, 0.95),
+        rgba(30, 41, 59, 0.85)
+    );
     border-color: var(--primary-red);
 }
