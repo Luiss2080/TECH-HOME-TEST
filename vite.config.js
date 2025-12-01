@@ -21,6 +21,10 @@ export default defineConfig({
                 "resources/js/modulos/auth/otp-verification.js",
                 // Home Module
                 "resources/css/modulos/home/welcome.css",
+                // Layout Styles
+                "resources/css/layout/header.css",
+                "resources/css/layout/sidebar.css",
+                "resources/css/layout/footer.css",
             ],
             refresh: true,
         }),

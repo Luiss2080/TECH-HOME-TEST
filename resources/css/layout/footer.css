@@ -1,6 +1,6 @@
 /* ============================================
-           FOOTER TECH HOME - Instituto de Robótica CORREGIDO
-           ============================================ */
+   FOOTER TECH HOME - Instituto de Robótica CORREGIDO
+   ============================================ */
 
 /* Contenedor del footer - MISMA ALINEACIÓN QUE HEADER-CONTAINER */
 .footer-container-wrapper {
@@ -31,8 +31,8 @@
 }
 
 /* ============================================
-           TEMA OSCURO PARA EL FOOTER
-           ============================================ */
+   TEMA OSCURO PARA EL FOOTER
+   ============================================ */
 body.ithr-dark-mode .tech-home-footer,
 body.dark-theme .tech-home-footer {
     background: rgba(17, 24, 39, 0.95);
@@ -126,10 +126,11 @@ body.dark-theme .tech-home-footer {
     align-items: center;
 }
 
-/* Contenido principal con grid adaptativo - DISTRIBUCIÓN COMPLETA */
+/* Contenido principal con grid de 2 columnas */
 .footer-main-content {
     display: grid;
-    gap: 2rem;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
     align-items: start;
     margin-bottom: 2.5rem;
     width: 100%;
@@ -139,19 +140,17 @@ body.dark-theme .tech-home-footer {
     box-sizing: border-box;
 }
 
-/* Grid cuando usuario está autenticado (3 columnas + divisores) - DISTRIBUCIÓN COMPLETA */
-.footer-main-content.authenticated {
-    grid-template-columns: 1fr auto 1fr auto 1fr;
-    justify-content: stretch;
-    width: 100%;
+/* Subgrid para la columna izquierda (Contacto y Sistema) */
+.footer-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 }
 
-/* Grid cuando usuario NO está autenticado (2 columnas + divisor) - DISTRIBUCIÓN COMPLETA */
-.footer-main-content.non-authenticated {
-    grid-template-columns: 1fr auto 1fr;
-    justify-content: stretch;
-    width: 100%;
-    margin-bottom: 2.5rem;
+/* Columna derecha (Tech Home) */
+.right-column {
+    padding-left: 2rem;
+    border-left: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 /* Columnas individuales - DISTRIBUCIÓN COMPLETA */
@@ -162,22 +161,6 @@ body.dark-theme .tech-home-footer {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-}
-
-/* Optimización del espacio para columnas */
-.footer-main-content.authenticated .footer-column:first-child,
-.footer-main-content.non-authenticated .footer-column:first-child {
-    padding-right: 1rem;
-}
-
-.footer-main-content.authenticated .footer-column:last-child,
-.footer-main-content.non-authenticated .footer-column:last-child {
-    padding-left: 1rem;
-}
-
-/* Columna del medio (cuando hay 3 columnas) */
-.footer-main-content.authenticated .footer-column:nth-child(3) {
-    padding: 0 1rem;
 }
 
 /* Título de columna */
@@ -444,8 +427,8 @@ body.dark-theme .build-info {
 }
 
 /* ============================================
-           FOOTER DIVIDER & BOTTOM
-           ============================================ */
+   FOOTER DIVIDER & BOTTOM
+   ============================================ */
 
 /* Separador principal con efecto de gradiente */
 .footer-main-divider {
@@ -715,21 +698,25 @@ body.dark-theme .legal-separator {
 }
 
 /* ============================================
-           MEDIA QUERIES - Responsive
-           ============================================ */
+   MEDIA QUERIES - Responsive
+   ============================================ */
 
 /* Para pantallas hasta 1200px */
 @media (max-width: 1200px) {
     .footer-main-content {
-        grid-template-columns: 1fr auto 1fr auto 1fr;
-        gap: 1.5rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
-    .footer-column:last-child {
-        grid-column: 1 / -1;
-        margin-top: 1rem;
-        padding-top: 1rem;
+    .footer-subgrid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .right-column {
+        padding-left: 0;
+        border-left: none;
         border-top: 1px solid rgba(220, 38, 38, 0.2);
+        padding-top: 2rem;
     }
 }
 
@@ -739,7 +726,7 @@ body.dark-theme .legal-separator {
         padding: 2rem 1rem 0;
     }
 
-    .footer-main-content {
+    .footer-subgrid {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
@@ -791,8 +778,8 @@ body.dark-theme .legal-separator {
 }
 
 /* ============================================
-           MEJORAS ADICIONALES PARA DISTRIBUCIÓN DEL ESPACIO
-           ============================================ */
+   MEJORAS ADICIONALES PARA DISTRIBUCIÓN DEL ESPACIO
+   ============================================ */
 
 /* CENTRADO ABSOLUTO FINAL - MÁXIMA PRIORIDAD */
 .tech-home-footer {
@@ -862,18 +849,18 @@ body.dark-theme .legal-separator {
     }
 }
 
-        /* Mejor uso del espacio vertical */
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            height: 100%;
-        }
+/* Mejor uso del espacio vertical */
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
 
-        /* Distribuci�n equilibrada del contenido */
-        .footer-about {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+/* Distribución equilibrada del contenido */
+.footer-about {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

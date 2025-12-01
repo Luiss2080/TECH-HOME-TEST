@@ -25,21 +25,6 @@
     <!-- SEO Meta tags -->
     <meta name="description" content="Tech Home Bolivia: Una plataforma educativa que simula un entorno de estudio, venta de libros y herramientas, además de ofrecer cursos especializados.">
     <meta property="og:title" content="Tech Home Bolivia">
-    <meta property="og:description" content="Explora nuestra plataforma educativa para estudiar, comprar libros y herramientas, y realizar cursos especializados.">
-    <meta property="og:image" content="{{ asset('faviconTH.png') }}">
-    <meta property="og:url" content="{{ config('app.url') }}">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <!-- CSS Personalizados -->
-    <link rel="stylesheet" href="{{ asset('css/layout/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/layout/header.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/layout/footer.css') }}">
-    
-    @stack('styles')
-</head>
-<body>
-    <!-- Sidebar Component -->
-    @include('components.sidebar')
     
     <!-- Header Component -->
     @include('components.header')
