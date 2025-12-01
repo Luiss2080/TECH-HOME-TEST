@@ -4,12 +4,10 @@
 }
 
 .error-404-hero {
-    background: linear-gradient(
-        135deg,
-        rgba(239, 68, 68, 0.1) 0%,
-        rgba(220, 38, 38, 0.1) 50%,
-        rgba(185, 28, 28, 0.1) 100%
-    );
+    background: linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.1) 0%, 
+        rgba(220, 38, 38, 0.1) 50%, 
+        rgba(185, 28, 28, 0.1) 100%);
     position: relative;
     overflow: hidden;
     min-height: 300px;
@@ -30,11 +28,7 @@
 .error-404-number {
     font-size: 4rem;
     font-weight: 900;
-    background: linear-gradient(
-        135deg,
-        var(--danger-color),
-        var(--primary-red)
-    );
+    background: linear-gradient(135deg, var(--danger-color), var(--primary-red));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -181,12 +175,7 @@
 
 .glitch-line {
     position: absolute;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(239, 68, 68, 0.4),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.4), transparent);
     height: 2px;
     animation: glitchMove 3s linear infinite;
 }
@@ -214,11 +203,7 @@
 }
 
 .nav-card {
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.95),
-        rgba(255, 255, 255, 0.8)
-    );
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     padding: 1.5rem;
@@ -232,7 +217,7 @@
 }
 
 .nav-card::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -334,11 +319,7 @@
 }
 
 .search-button:hover {
-    background: linear-gradient(
-        135deg,
-        var(--primary-red-dark),
-        var(--primary-red)
-    );
+    background: linear-gradient(135deg, var(--primary-red-dark), var(--primary-red));
     transform: translateY(-2px);
     box-shadow: var(--shadow-medium);
 }
@@ -386,11 +367,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     transition: var(--transition-base);
@@ -464,8 +441,7 @@
 
 /* Animaciones específicas del error 404 */
 @keyframes errorPulse {
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
         box-shadow: var(--shadow-medium);
     }
@@ -476,9 +452,7 @@
 }
 
 @keyframes glitchText {
-    0%,
-    90%,
-    100% {
+    0%, 90%, 100% {
         transform: translateX(0);
     }
     20% {
@@ -513,8 +487,7 @@
 }
 
 @keyframes float {
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0px);
     }
     50% {
@@ -523,8 +496,7 @@
 }
 
 @keyframes shadowPulse {
-    0%,
-    100% {
+    0%, 100% {
         transform: scaleX(1);
         opacity: 0.2;
     }
@@ -535,9 +507,7 @@
 }
 
 @keyframes blink {
-    0%,
-    90%,
-    100% {
+    0%, 90%, 100% {
         transform: scaleY(1);
     }
     95% {
@@ -546,8 +516,7 @@
 }
 
 @keyframes glitch {
-    0%,
-    100% {
+    0%, 100% {
         transform: translateX(0);
     }
     20% {
@@ -569,11 +538,11 @@
     .error-404-number {
         font-size: 3rem;
     }
-
+    
     .error-404-text {
         font-size: 1.2rem;
     }
-
+    
     .error-404-robot {
         position: relative;
         right: auto;
@@ -581,33 +550,33 @@
         transform: none;
         margin: 2rem auto;
     }
-
+    
     .error-404-navigation {
         grid-template-columns: 1fr;
     }
-
+    
     .error-404-diagnostics {
         grid-template-columns: 1fr;
     }
-
+    
     .nav-card {
         padding: 1.2rem;
     }
-
+    
     .search-input-group {
         flex-direction: column;
     }
-
+    
     .search-input {
         border-radius: var(--border-radius-sm);
         border-right: 2px solid #e2e8f0;
     }
-
+    
     .search-button {
         border-radius: var(--border-radius-sm);
         justify-content: center;
     }
-
+    
     .search-suggestions {
         justify-content: center;
         text-align: center;
@@ -617,45 +586,33 @@
 /* Modo oscuro para error 404 */
 body.ithr-dark-mode .error-404-hero,
 body.dark-theme .error-404-hero {
-    background: linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.95) 0%,
-            rgba(20, 20, 20, 0.9) 50%,
-            rgba(40, 40, 40, 0.85) 100%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(239, 68, 68, 0.1) 0%,
-            rgba(220, 38, 38, 0.1) 50%,
-            rgba(185, 28, 28, 0.1) 100%
-        );
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.95) 0%, 
+        rgba(20, 20, 20, 0.9) 50%, 
+        rgba(40, 40, 40, 0.85) 100%),
+        linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.1) 0%, 
+        rgba(220, 38, 38, 0.1) 50%, 
+        rgba(185, 28, 28, 0.1) 100%);
 }
 
 /* Modo claro para error 404 */
 body:not(.ithr-dark-mode):not(.dark-theme) .error-404-hero {
-    background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(248, 250, 252, 0.9) 50%,
-            rgba(241, 245, 249, 0.85) 100%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(239, 68, 68, 0.08) 0%,
-            rgba(220, 38, 38, 0.08) 50%,
-            rgba(185, 28, 28, 0.08) 100%
-        );
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(248, 250, 252, 0.9) 50%, 
+        rgba(241, 245, 249, 0.85) 100%),
+        linear-gradient(135deg, 
+        rgba(239, 68, 68, 0.08) 0%, 
+        rgba(220, 38, 38, 0.08) 50%, 
+        rgba(185, 28, 28, 0.08) 100%);
 }
 
 body.ithr-dark-mode .nav-card,
 body.dark-theme .nav-card,
 body.ithr-dark-mode .diagnostic-item,
 body.dark-theme .diagnostic-item {
-    background: linear-gradient(
-        145deg,
-        rgba(30, 41, 59, 0.9),
-        rgba(30, 41, 59, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
     border-color: rgba(71, 85, 105, 0.3);
 }
 
@@ -663,11 +620,7 @@ body.ithr-dark-mode .robot-head,
 body.dark-theme .robot-head,
 body.ithr-dark-mode .arm,
 body.dark-theme .arm {
-    background: linear-gradient(
-        145deg,
-        rgba(71, 85, 105, 0.8),
-        rgba(51, 65, 85, 0.8)
-    );
+    background: linear-gradient(145deg, rgba(71, 85, 105, 0.8), rgba(51, 65, 85, 0.8));
 }
 
 body.ithr-dark-mode .search-input,
@@ -677,37 +630,54 @@ body.dark-theme .search-input {
     color: var(--text-primary);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================
    CSS ESPECÍFICO PARA ERROR 403
    ============================================ */
 
 /* Header específico del 403 */
 .error-403-hero {
-    background: linear-gradient(
-        135deg,
-        rgba(245, 158, 11, 0.1) 0%,
-        rgba(220, 38, 38, 0.1) 50%,
-        rgba(185, 28, 28, 0.1) 100%
-    );
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.1) 0%, 
+        rgba(220, 38, 38, 0.1) 50%, 
+        rgba(185, 28, 28, 0.1) 100%);
 }
 
 .error-403-icon {
-    background: linear-gradient(
-        135deg,
-        var(--warning-color),
-        var(--danger-color)
-    );
+    background: linear-gradient(135deg, var(--warning-color), var(--danger-color));
     animation: securityPulse 3s ease-in-out infinite;
 }
 
 .error-403-number {
     font-size: 4rem;
     font-weight: 900;
-    background: linear-gradient(
-        135deg,
-        var(--warning-color),
-        var(--danger-color)
-    );
+    background: linear-gradient(135deg, var(--warning-color), var(--danger-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -891,11 +861,7 @@ body.dark-theme .search-input {
     align-items: center;
     gap: 2rem;
     padding: 2rem;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
     border: 2px solid rgba(245, 158, 11, 0.2);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-medium);
@@ -1204,11 +1170,7 @@ body.dark-theme .search-input {
     align-items: center;
     gap: 1rem;
     padding: 1.2rem;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     cursor: pointer;
@@ -1254,11 +1216,7 @@ body.dark-theme .search-input {
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--border-radius-md);
     transition: var(--transition-bounce);
@@ -1268,7 +1226,7 @@ body.dark-theme .search-input {
 }
 
 .access-card::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -1370,8 +1328,7 @@ body.dark-theme .search-input {
 
 /* Animaciones específicas del 403 */
 @keyframes securityPulse {
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
         box-shadow: var(--shadow-medium);
     }
@@ -1382,9 +1339,7 @@ body.dark-theme .search-input {
 }
 
 @keyframes securityGlitch {
-    0%,
-    90%,
-    100% {
+    0%, 90%, 100% {
         transform: translateX(0);
     }
     20% {
@@ -1413,8 +1368,7 @@ body.dark-theme .search-input {
 }
 
 @keyframes lockPulse {
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
     }
     50% {
@@ -1424,19 +1378,16 @@ body.dark-theme .search-input {
 }
 
 @keyframes textBlink {
-    0%,
-    50% {
+    0%, 50% {
         opacity: 1;
     }
-    51%,
-    100% {
+    51%, 100% {
         opacity: 0.3;
     }
 }
 
 @keyframes securityFloat {
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0px) rotate(0deg);
     }
     50% {
@@ -1445,8 +1396,7 @@ body.dark-theme .search-input {
 }
 
 @keyframes gridPulse {
-    0%,
-    100% {
+    0%, 100% {
         opacity: 0.1;
     }
     50% {
@@ -1459,7 +1409,7 @@ body.dark-theme .search-input {
     .error-403-number {
         font-size: 3rem;
     }
-
+    
     .error-403-shield {
         position: relative;
         right: auto;
@@ -1467,34 +1417,34 @@ body.dark-theme .search-input {
         transform: none;
         margin: 2rem auto;
     }
-
+    
     .shield-body {
         width: 80px;
         height: 100px;
     }
-
+    
     .shield-lock {
         font-size: 1.5rem;
     }
-
+    
     .user-profile-card {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
     }
-
+    
     .profile-permissions {
         align-items: center;
     }
-
+    
     .alternative-access-grid {
         grid-template-columns: 1fr;
     }
-
+    
     .escalation-actions {
         grid-template-columns: 1fr;
     }
-
+    
     .student-permissions,
     .teacher-permissions {
         grid-template-columns: 1fr;
@@ -1504,34 +1454,26 @@ body.dark-theme .search-input {
 /* Modo oscuro específico para 403 */
 body.ithr-dark-mode .error-403-hero,
 body.dark-theme .error-403-hero {
-    background: linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.95) 0%,
-            rgba(20, 20, 20, 0.9) 50%,
-            rgba(40, 40, 40, 0.85) 100%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(245, 158, 11, 0.1) 0%,
-            rgba(220, 38, 38, 0.1) 50%,
-            rgba(185, 28, 28, 0.1) 100%
-        );
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.95) 0%, 
+        rgba(20, 20, 20, 0.9) 50%, 
+        rgba(40, 40, 40, 0.85) 100%),
+        linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.1) 0%, 
+        rgba(220, 38, 38, 0.1) 50%, 
+        rgba(185, 28, 28, 0.1) 100%);
 }
 
 /* Modo claro específico para 403 */
 body:not(.ithr-dark-mode):not(.dark-theme) .error-403-hero {
-    background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(248, 250, 252, 0.9) 50%,
-            rgba(241, 245, 249, 0.85) 100%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(245, 158, 11, 0.08) 0%,
-            rgba(220, 38, 38, 0.08) 50%,
-            rgba(185, 28, 28, 0.08) 100%
-        );
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(248, 250, 252, 0.9) 50%, 
+        rgba(241, 245, 249, 0.85) 100%),
+        linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.08) 0%, 
+        rgba(220, 38, 38, 0.08) 50%, 
+        rgba(185, 28, 28, 0.08) 100%);
 }
 
 body.ithr-dark-mode .user-profile-card,
@@ -1542,15 +1484,11 @@ body.ithr-dark-mode .access-card,
 body.dark-theme .access-card,
 body.ithr-dark-mode .escalation-btn,
 body.dark-theme .escalation-btn {
-    background: linear-gradient(
-        145deg,
-        rgba(30, 41, 59, 0.9),
-        rgba(30, 41, 59, 0.7)
-    );
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
     border-color: rgba(71, 85, 105, 0.3);
 }
 
 body.ithr-dark-mode .shield-body,
 body.dark-theme .shield-body {
-    background: linear-gradient(145deg, #d97706,  #b45309);
+    background: linear-gradient(145deg, #d97706, #b45309);
 }

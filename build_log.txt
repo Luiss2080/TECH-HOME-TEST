@@ -1,0 +1,9 @@
+[36mvite v7.2.4 [32mbuilding client environment for production...[36m[39m
+[32m✓[39m 0 modules transformed.
+[31m✗[39m Build failed in 80ms
+[31merror during build:
+[31mCould not resolve entry module "resources/js/app.js".[31m
+    at getRollupError (file:///C:/laragon/www/TECH-HOME/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///C:/laragon/www/TECH-HOME/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at ModuleLoader.loadEntryModule (file:///C:/laragon/www/TECH-HOME/node_modules/rollup/dist/es/shared/node-entry.js:21611:20)
+    at async Promise.all (index 1)[39m
