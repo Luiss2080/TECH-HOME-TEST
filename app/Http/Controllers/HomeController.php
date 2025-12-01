@@ -50,10 +50,10 @@ class HomeController extends Controller
                 'Sistema de backup completado'
             ];
 
-            return view('welcome', compact('estadisticas', 'actividades_recientes'));
+            return view('home.welcome', compact('estadisticas', 'actividades_recientes'));
             
         } catch (Exception $e) {
-            return view('welcome', [
+            return view('home.welcome', [
                 'estadisticas' => [
                     'libros' => 2847,
                     'cursos' => 45,
