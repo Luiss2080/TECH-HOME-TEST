@@ -1,3 +1,80 @@
+@extends('layouts.app')
+
+@section('title', 'Bienvenido - Tech Home')
+
+@push('styles')
+    @vite(['resources/css/modulos/home/welcome.css'])
+@endpush
+
+@section('content')
+    <!-- Hero Section -->
+    <section class="tech-hero">
+        <div class="hero-background">
+            <div class="circuit-pattern"></div>
+            <div class="floating-particles"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-main">
+                <div class="hero-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h1 class="hero-title">
+                    TECH HOME
+                    <span class="hero-brand">Instituto de Robótica</span>
+                </h1>
+                <p class="hero-subtitle">
+                    @auth
+                        Hola {{ Auth::user()->name }}, bienvenido al ecosistema tecnológico más avanzado.
+                    @else
+                        Descubre el futuro de la robótica y la inteligencia artificial en un solo lugar.
+                    @endauth
+                </p>
+                <div class="hero-actions">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="hero-btn primary">
+                            <i class="fas fa-tachometer-alt"></i> Ir al Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('auth.login') }}" class="hero-btn primary">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                        <a href="{{ route('auth.register') }}" class="hero-btn secondary">
+                            <i class="fas fa-user-plus"></i> Registrarse
+                        </a>
+                    @endauth
+                </div>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">2.8k</div>
+                    <div class="stat-label">Libros Digitales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1.5k</div>
+                    <div class="stat-label">Componentes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Cursos Activos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Proyectos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clock Section (Hidden or visible depending on design, keeping for JS compatibility) -->
+    <div id="techHomeTime" style="display: none;"></div>
+
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
     // Función para cambiar tabs de información
     document.querySelectorAll('.crud-info-tab').forEach(tab => {
         tab.addEventListener('click', function() {
