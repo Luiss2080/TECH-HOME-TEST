@@ -30,9 +30,9 @@
     @vite([
         'resources/css/app.css', 
         'resources/js/app.js',
-        'resources/css/layout/header.css',
-        'resources/css/layout/sidebar.css',
-        'resources/css/layout/footer.css'
+        'resources/css/header.css',
+        'resources/css/sidebar.css',
+        'resources/css/footer.css'
     ])
 
     @stack('styles')
