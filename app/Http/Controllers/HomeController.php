@@ -45,12 +45,51 @@ class HomeController extends Controller
             ];
 
             $actividades_recientes = [
-                'Nuevo curso de IA agregado',
-                'Actualización de componentes Arduino',
-                'Sistema de backup completado'
+                [
+                    'tipo' => 'sistema',
+                    'titulo' => 'Nuevo curso de IA agregado',
+                    'descripcion' => 'Se ha añadido un nuevo curso de Inteligencia Artificial al catálogo',
+                    'tiempo' => 'Hace 2 horas'
+                ],
+                [
+                    'tipo' => 'sistema',
+                    'titulo' => 'Actualización de componentes Arduino',
+                    'descripcion' => 'Inventario de sensores y microcontroladores actualizado',
+                    'tiempo' => 'Hace 4 horas'
+                ],
+                [
+                    'tipo' => 'sistema',
+                    'titulo' => 'Sistema de backup completado',
+                    'descripcion' => 'Respaldo automático de la base de datos realizado exitosamente',
+                    'tiempo' => 'Hace 6 horas'
+                ]
             ];
 
-            return view('home.welcome', compact('estadisticas', 'actividades_recientes'));
+            $notificaciones = [
+                [
+                    'tipo' => 'success',
+                    'icono' => 'check-circle',
+                    'titulo' => 'Sistema Operativo',
+                    'mensaje' => 'Todos los módulos robóticos funcionan correctamente',
+                    'tiempo' => 'Verificado hace 5 minutos'
+                ],
+                [
+                    'tipo' => 'info',
+                    'icono' => 'robot',
+                    'titulo' => 'Bienvenido a TECH HOME',
+                    'mensaje' => 'Explora todas las funcionalidades disponibles en el sistema',
+                    'tiempo' => 'Mensaje de bienvenida'
+                ],
+                [
+                    'tipo' => 'warning',
+                    'icono' => 'exclamation-triangle',
+                    'titulo' => 'Mantenimiento Programado',
+                    'mensaje' => 'El módulo de IA estará en mantenimiento el domingo de 2:00 AM a 6:00 AM',
+                    'tiempo' => 'Programado para este domingo'
+                ]
+            ];
+
+            return view('home.welcome', compact('estadisticas', 'actividades_recientes', 'notificaciones'));
             
         } catch (Exception $e) {
             return view('home.welcome', [
@@ -61,7 +100,23 @@ class HomeController extends Controller
                     'usuarios' => 892,
                     'proyectos' => 128
                 ],
-                'actividades_recientes' => []
+                'actividades_recientes' => [
+                    [
+                        'tipo' => 'sistema',
+                        'titulo' => 'Sistema iniciado',
+                        'descripcion' => 'TECH HOME se ha iniciado correctamente',
+                        'tiempo' => 'Ahora'
+                    ]
+                ],
+                'notificaciones' => [
+                    [
+                        'tipo' => 'info',
+                        'icono' => 'info-circle',
+                        'titulo' => 'Modo de emergencia',
+                        'mensaje' => 'Sistema funcionando con datos predeterminados',
+                        'tiempo' => 'Ahora'
+                    ]
+                ]
             ]);
         }
     }
