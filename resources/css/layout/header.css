@@ -1,6 +1,6 @@
 /* ============================================
-   ESTILOS DEL COMPONENTE HEADER CORREGIDO
-   ============================================ */
+           ESTILOS DEL COMPONENTE HEADER CORREGIDO
+           ============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +8,8 @@
 }
 
 /* ============================================
-   CONTENEDOR PRINCIPAL DEL HEADER
-   ============================================ */
+           CONTENEDOR PRINCIPAL DEL HEADER
+           ============================================ */
 .tech-header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
@@ -79,8 +79,8 @@
 }
 
 /* ============================================
-   TEMA OSCURO PARA EL HEADER
-   ============================================ */
+           TEMA OSCURO PARA EL HEADER
+           ============================================ */
 body.ithr-dark-mode .tech-header,
 body.dark-theme .tech-header {
     background: rgba(17, 24, 39, 0.95);
@@ -98,8 +98,8 @@ body.dark-theme .tech-header::before {
 }
 
 /* ============================================
-   CONTENIDO DEL HEADER
-   ============================================ */
+           CONTENIDO DEL HEADER
+           ============================================ */
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -327,8 +327,8 @@ body.dark-theme .tech-header::before {
 }
 
 /* ============================================
-   SECCIÓN IZQUIERDA - LOGO Y BRANDING
-   ============================================ */
+           SECCIÓN IZQUIERDA - LOGO Y BRANDING
+           ============================================ */
 
 /* Tema oscuro para el título */
 body.ithr-dark-mode .welcome-text h1,
@@ -360,8 +360,8 @@ body.dark-theme .welcome-text p {
 }
 
 /* ============================================
-   SECCIÓN DERECHA - CONTROLES Y USUARIO
-   ============================================ */
+           SECCIÓN DERECHA - CONTROLES Y USUARIO
+           ============================================ */
 .user-controls {
     display: flex;
     align-items: center;
@@ -369,8 +369,8 @@ body.dark-theme .welcome-text p {
 }
 
 /* ============================================
-   BOTÓN DE NOTIFICACIONES
-   ============================================ */
+           BOTÓN DE NOTIFICACIONES
+           ============================================ */
 .notifications-btn {
     width: 50px;
     height: 50px;
@@ -433,8 +433,8 @@ body.dark-theme .notifications-btn {
 }
 
 /* ============================================
-   TARJETA DE USUARIO Y CONTROLES
-   ============================================ */
+           TARJETA DE USUARIO Y CONTROLES
+           ============================================ */
 .user-info {
     display: flex;
     align-items: center;
@@ -455,8 +455,8 @@ body.dark-theme .user-info {
 }
 
 /* ============================================
-   AVATAR DEL USUARIO
-   ============================================ */
+           AVATAR DEL USUARIO
+           ============================================ */
 .user-avatar {
     width: 50px;
     height: 50px;
@@ -491,8 +491,8 @@ body.dark-theme .user-info {
 }
 
 /* ============================================
-   DETALLES DEL USUARIO
-   ============================================ */
+           DETALLES DEL USUARIO
+           ============================================ */
 .user-details {
     color: #1f2937;
     display: flex;
@@ -538,8 +538,8 @@ body.dark-theme .user-details .user-email {
 }
 
 /* ============================================
-   INFORMACIÓN DE FECHA Y HORA
-   ============================================ */
+           INFORMACIÓN DE FECHA Y HORA
+           ============================================ */
 .datetime-info {
     text-align: right;
     color: #6b7280;
@@ -577,8 +577,8 @@ body.dark-theme .datetime-item i {
 }
 
 /* ============================================
-   BOTÓN DE LOGOUT
-   ============================================ */
+           BOTÓN DE LOGOUT
+           ============================================ */
 .logout-btn {
     background: rgba(220, 38, 38, 0.2);
     border: 1px solid rgba(220, 38, 38, 0.3);
@@ -613,8 +613,8 @@ body.dark-theme .logout-btn {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
+           RESPONSIVE DESIGN
+           ============================================ */
 @media (max-width: 1024px) {
     .header-content {
         flex-direction: column;
@@ -694,8 +694,8 @@ body.dark-theme .logout-btn {
 }
 
 /* ============================================
-   EFECTOS ADICIONALES
-   ============================================ */
+           EFECTOS ADICIONALES
+           ============================================ */
 .tech-circuit {
     position: absolute;
     top: 0;
