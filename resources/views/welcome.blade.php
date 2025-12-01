@@ -7,7 +7,7 @@ $notificaciones = $notificaciones ?? [];
 ?>
 
 <!-- Estilos específicos para el módulo CRUD - Vista Home -->
-<link rel="stylesheet" href="<?= asset('css/vistas.css'); ?>">
+@vite(['resources/css/home/welcome.css'])
 
 <!-- Contenedor principal de la vista Home -->
 <div class="crud-edit-container">
