@@ -713,23 +713,23 @@
             
             <div class="crud-form-body">
                 <div class="notifications-container">
-                    <?php if (!empty($notificaciones)): ?>
-                        <?php foreach ($notificaciones as $notificacion): ?>
-                            <div class="notification-item <?= $notificacion['tipo'] ?? 'info' ?>">
+                    @if(!empty($notificaciones))
+                        @foreach($notificaciones as $notificacion)
+                            <div class="notification-item {{ $notificacion['tipo'] ?? 'info' }}">
                                 <div class="notification-icon">
-                                    <i class="fas fa-<?= $notificacion['icono'] ?? 'info-circle' ?>"></i>
+                                    <i class="fas fa-{{ $notificacion['icono'] ?? 'info-circle' }}"></i>
                                 </div>
                                 <div class="notification-content">
-                                    <div class="notification-title"><?= htmlspecialchars($notificacion['titulo'] ?? 'Notificación') ?></div>
-                                    <div class="notification-message"><?= htmlspecialchars($notificacion['mensaje'] ?? 'Sin mensaje') ?></div>
-                                    <div class="notification-time"><?= $notificacion['tiempo'] ?? 'Ahora' ?></div>
+                                    <div class="notification-title">{{ $notificacion['titulo'] ?? 'Notificación' }}</div>
+                                    <div class="notification-message">{{ $notificacion['mensaje'] ?? 'Sin mensaje' }}</div>
+                                    <div class="notification-time">{{ $notificacion['tiempo'] ?? 'Ahora' }}</div>
                                 </div>
                                 <button class="notification-close" onclick="dismissNotification(this)">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+                        @endforeach
+                    @else
                         <div class="notification-item success">
                             <div class="notification-icon">
                                 <i class="fas fa-check-circle"></i>
@@ -762,7 +762,7 @@
                                 <div class="notification-time">Programado para este domingo</div>
                             </div>
                         </div>
-                    <?php endif; ?>
+                    @endif
                 </div>
             </div>
         </div>
@@ -1123,7 +1123,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<style>
+</body>
+</html>
 /* Estilos específicos para la vista Home de TECH HOME */
 .tech-home-hero {
     background: linear-gradient(135deg, 
