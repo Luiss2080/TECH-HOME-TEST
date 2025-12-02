@@ -72,10 +72,11 @@ Route::middleware(['auth'])->group(function () {
     
     // Dashboard principal (redirige según el rol)
     Route::get('/dashboard', function() {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
-        // Obtener el primer rol del usuario
-        $role = $user->roles()->first();
+        // Por ahora redirigir al home hasta que se implementen roles
+        return redirect()->route('home');
         
         if ($role) {
             switch ($role->nombre) {
@@ -196,6 +197,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Perfil general (para todos los usuarios)
     Route::get('/perfil', function() {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         return view('perfil.index', compact('user'));
     })->name('perfil');
