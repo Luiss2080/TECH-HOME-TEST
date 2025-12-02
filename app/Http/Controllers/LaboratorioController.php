@@ -102,14 +102,14 @@ class LaboratorioController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'categoria_id' => 'required|exists:categories,id',
-            'responsable_id' => 'required|exists:users,id',
+            'descripcion' => 'nullable|string',
+            'ubicacion' => 'nullable|string|max:255',
             'capacidad' => 'required|integer|min:1',
-            'ubicacion' => 'required|string|max:255',
             'equipamiento' => 'nullable|array',
-            'horario_disponible' => 'nullable|string',
-            'activo' => 'boolean'
+            'estado' => 'nullable|in:activo,inactivo,mantenimiento',
+            'disponibilidad' => 'nullable|in:disponible,ocupado,reservado',
+            'responsable' => 'nullable|string|max:255',
+            'horarios' => 'nullable|string'
         ]);
 
         if ($validator->fails()) {
@@ -123,13 +123,13 @@ class LaboratorioController extends Controller
             $laboratorio = Laboratorio::create([
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
-                'categoria_id' => $request->categoria_id,
-                'responsable_id' => $request->responsable_id,
-                'capacidad' => $request->capacidad,
                 'ubicacion' => $request->ubicacion,
+                'capacidad' => $request->capacidad,
                 'equipamiento' => $request->equipamiento ?? [],
-                'horario_disponible' => $request->horario_disponible,
-                'activo' => $request->activo ?? true
+                'estado' => $request->estado ?? 'activo',
+                'disponibilidad' => $request->disponibilidad ?? 'disponible',
+                'responsable' => $request->responsable,
+                'horarios' => $request->horarios
             ]);
 
             DB::commit();
@@ -155,14 +155,11 @@ class LaboratorioController extends Controller
             $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
+            // if ($user->hasRole('admin') && $laboratorio->responsable !== $user->nombre) {
                 // return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
             // }
 
-            $categorias = Categoria::orderBy('nombre')->get();
-            $responsables = User::orderBy('nombre')->get();
-
-            return view('admin.laboratorios.edit', compact('laboratorio', 'categorias', 'responsables'));
+            return view('admin.laboratorios.edit', compact('laboratorio'));
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
@@ -176,14 +173,14 @@ class LaboratorioController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'categoria_id' => 'required|exists:categories,id',
-            'responsable_id' => 'required|exists:users,id',
+            'descripcion' => 'nullable|string',
+            'ubicacion' => 'nullable|string|max:255',
             'capacidad' => 'required|integer|min:1',
-            'ubicacion' => 'required|string|max:255',
             'equipamiento' => 'nullable|array',
-            'horario_disponible' => 'nullable|string',
-            'activo' => 'boolean'
+            'estado' => 'nullable|in:activo,inactivo,mantenimiento',
+            'disponibilidad' => 'nullable|in:disponible,ocupado,reservado',
+            'responsable' => 'nullable|string|max:255',
+            'horarios' => 'nullable|string'
         ]);
 
         if ($validator->fails()) {
@@ -196,20 +193,20 @@ class LaboratorioController extends Controller
             $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
+            // if ($user->hasRole('admin') && $laboratorio->responsable !== $user->nombre) {
                 // return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
             // }
 
             $laboratorio->update([
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
-                'categoria_id' => $request->categoria_id,
-                'responsable_id' => $request->responsable_id,
-                'capacidad' => $request->capacidad,
                 'ubicacion' => $request->ubicacion,
+                'capacidad' => $request->capacidad,
                 'equipamiento' => $request->equipamiento ?? [],
-                'horario_disponible' => $request->horario_disponible,
-                'activo' => $request->activo ?? true
+                'estado' => $request->estado ?? 'activo',
+                'disponibilidad' => $request->disponibilidad ?? 'disponible',
+                'responsable' => $request->responsable,
+                'horarios' => $request->horarios
             ]);
 
             return back()->with('success', 'Laboratorio actualizado exitosamente.');
@@ -231,10 +228,10 @@ class LaboratorioController extends Controller
             $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
-                if ($request->expectsJson()) {
-                    return response()->json(['success' => false, 'message' => 'No tiene permisos para eliminar este laboratorio.'], 403);
-                }
+            // if ($user->hasRole('admin') && $laboratorio->responsable !== $user->nombre) {
+                // if ($request->expectsJson()) {
+                    // return response()->json(['success' => false, 'message' => 'No tiene permisos para eliminar este laboratorio.'], 403);
+                // }
                 // return back()->withErrors(['error' => 'No tiene permisos para eliminar este laboratorio.']);
             // }
 
@@ -290,7 +287,7 @@ class LaboratorioController extends Controller
             $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('admin') && $laboratorio->responsable_id !== $user->id) {
+            // if ($user->hasRole('admin') && $laboratorio->responsable !== $user->nombre) {
                 // return back()->withErrors(['error' => 'No tiene permisos para ver los reportes de este laboratorio.']);
             // }
 
@@ -299,9 +296,9 @@ class LaboratorioController extends Controller
                 'capacidad' => $laboratorio->capacidad,
                 'ubicacion' => $laboratorio->ubicacion,
                 'equipamiento_count' => count($laboratorio->equipamiento ?? []),
-                'responsable' => $laboratorio->responsable->nombre ?? 'No asignado',
-                'categoria' => $laboratorio->categoria->nombre ?? 'Sin categoría',
-                'activo' => $laboratorio->activo
+                'responsable' => $laboratorio->responsable ?? 'No asignado',
+                'estado' => $laboratorio->estado,
+                'disponibilidad' => $laboratorio->disponibilidad
             ];
 
             return view('admin.laboratorios.reports', compact('laboratorio', 'estadisticas'));

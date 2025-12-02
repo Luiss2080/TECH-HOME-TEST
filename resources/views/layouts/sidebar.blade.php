@@ -1,7 +1,6 @@
 @php
     $user = auth()->user();
     $roles = $user ? $user->roles : [];
-    $isAuth = $user ? true : false;
     $isAdmin = $roles ? in_array('administrador', array_column($roles->toArray(), 'nombre')) : false;
     $isDocente = $roles ? in_array('docente', array_column($roles->toArray(), 'nombre')) : false;
     $isEstudiante = $roles ? in_array('estudiante', array_column($roles->toArray(), 'nombre')) : false;
@@ -37,7 +36,7 @@
      NAVEGACIÓN PRINCIPAL
      ============================================================================ -->
     <nav class="ithr-main-navigation">
-        @if ($isAuth)
+        @auth
             <div class="ithr-nav-group">
                 <h6 class="ithr-nav-group-title">Panel Principal</h6>
                 <ul class="ithr-nav-list">
@@ -62,7 +61,7 @@
                     </li>
                 </ul>
             </div>
-        @endif
+        @endauth
         <div class="ithr-nav-group">
             <h6 class="ithr-nav-group-title">Gestión Académica</h6>
             <ul class="ithr-nav-list">

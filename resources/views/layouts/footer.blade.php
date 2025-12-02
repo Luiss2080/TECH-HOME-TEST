@@ -6,7 +6,7 @@
         <!-- ============================================================================
          CONTENIDO PRINCIPAL DEL FOOTER
          ============================================================================ -->
-        <div class="footer-main-content {{ $isAuth ? 'authenticated' : 'non-authenticated' }}">
+        <div class="footer-main-content {{ auth()->check() ? 'authenticated' : 'non-authenticated' }}">
             <!-- Columna 1: Información de Contacto -->
             <div class="footer-column footer-contact-column">
                 <h6 class="footer-column-title">Contacto</h6>
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            @if ($isAuth)
+            @auth
                 <!-- Columna 2: Enlaces de Navegación del Sistema -->
                 <div class="footer-column footer-nav-column">
                     <h6 class="footer-column-title">Sistema</h6>
@@ -71,7 +71,7 @@
                         </a>
                     </div>
                 </div>
-            @endif
+            @endauth
 
             <!-- Columna 3: Información Acerca del Instituto -->
             <div class="footer-column footer-about-column">

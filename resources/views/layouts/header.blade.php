@@ -28,17 +28,17 @@
             <!-- ============================================
          BOTÓN DE NOTIFICACIONES
          ============================================ -->
-            @if ($isAuth)
+            @auth
                 <a href="#" class="notifications-btn" title="Notificaciones">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge" id="notification-count" style="display: none;">0</span>
                 </a>
-            @endif
+            @endauth
             <!-- ============================================
          TARJETA DE USUARIO Y CONTROLES
          ============================================ -->
             <div class="user-info">
-                @if ($isAuth)
+                @auth
 
                     <!-- ============================================
              AVATAR DEL USUARIO
@@ -82,7 +82,7 @@
                             {{ $user ? htmlspecialchars($user->email) : '' }}
                         </span>
                     </div>
-                @endif
+                @endauth
                 <!-- ============================================
              INFORMACIÓN DE FECHA Y HORA
              ============================================ -->
@@ -100,21 +100,22 @@
                 <!-- ============================================
              BOTÓN CERRAR SESIÓN MEJORADO
              ============================================ -->
-                @if ($isAuth)
+                @auth
                     <form action="{{ route('logout') }}" method="POST" class="logout-btn" title="Cerrar Sesión">
                         <button type="submit" class="btn btn-danger">
                             <i class="fas fa-sign-out-alt"></i>
                             Cerrar Sesión
                         </button>
                     </form>
-                @else
+                @guest
                     <form action="{{ route('login') }}" method="GET" class="login-btn" title="Iniciar Sesión">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-sign-in-alt"></i>
                             Iniciar Sesión
                         </button>
                     </form>
-                @endif
+                @endguest
+                @endauth
 
             </div>
         </div>
