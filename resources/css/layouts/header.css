@@ -8,37 +8,35 @@
         }
 
         /* ============================================
-           CONTENEDOR WRAPPER DEL HEADER (como crud-edit-container)
+           CONTENEDOR WRAPPER DEL HEADER (idéntico al contenedor de bienvenida)
            ============================================ */
         .tech-header-wrapper {
             position: fixed;
             top: 10px;
-            left: 270px;
-            right: 20px;
+            left: 270px; /* Mantener la posición original */
+            right: 20px; /* Restaurar right para mantener posición */
             z-index: 999;
-            /* Usar la misma estructura que main-content-area */
-            width: calc(100% - 290px);
-            max-width: calc(1600px - 290px);
-            margin: 0 auto;
-            padding: 0 10px;
+            /* Sin cambiar width, usar right para el ancho automático */
+            padding: 0 10px; /* Mismo padding que crud-edit-container */
         }
         
         /* ============================================
            CONTENEDOR PRINCIPAL DEL HEADER
            ============================================ */
         .tech-header {
-            /* Usar exactamente las mismas propiedades que crud-section-card */
+            /* Exactamente las mismas propiedades que crud-section-card */
             background: var(--background-card, rgba(255, 255, 255, 0.95));
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: var(--border-radius-lg, 15px);
-            padding: 1.2rem; /* Mismo padding que las tarjetas */
+            padding: 1.2rem; /* Exactamente el mismo padding que las tarjetas */
             position: relative; /* Como las tarjetas, el wrapper maneja fixed */
             overflow: visible;
             box-shadow: var(--shadow-strong, 0 10px 30px rgba(0, 0, 0, 0.2));
             animation: headerEntry 1s ease-out;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            width: 100%; /* Ancho completo como las tarjetas */
+            width: 100%; /* Exactamente el mismo ancho que las tarjetas */
+            box-sizing: border-box; /* Mismo box-sizing que las tarjetas */
             transition: var(--transition-base, all 0.3s ease);
         }
 
@@ -566,10 +564,10 @@
            ============================================ */
         @media (max-width: 1024px) {
             .tech-header-wrapper {
-                left: 20px; /* Reducir separación en tablet */
-                right: 20px;
+                left: 20px; /* Misma separación que main-content-area en tablet */
                 width: calc(100% - 40px);
                 max-width: calc(1600px - 40px);
+                padding: 0 10px; /* Mantener el mismo padding interno */
             }
             
             .header-content {
@@ -607,11 +605,9 @@
                 position: relative; /* Cambiar a relative en móvil */
                 top: auto;
                 left: auto;
-                right: auto;
                 width: 100%;
                 max-width: 100%;
-                margin: 0;
-                padding: 10px; /* Mismo padding que main-content-area */
+                padding: 10px; /* Exactamente el mismo padding que main-content-area */
             }
             
             .welcome-text h1 {
