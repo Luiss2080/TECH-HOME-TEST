@@ -1,10 +1,12 @@
 ﻿@extends('layouts.app')
 
-@section('title', $title ?? 'Bienvenido a TECH HOME')
+@section('title', 'Bienvenido a TECH HOME')
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/vistas.css') }}">
+@endpush
 
 @section('content')
-<!-- Estilos específicos para el módulo CRUD - Vista Home -->
-<link rel="stylesheet" href="{{ asset('css/vistas.css') }}">
 
 <!-- Contenedor principal de la vista Home -->
 <div class="crud-edit-container">
@@ -31,11 +33,11 @@
                             <span class="tech-home-brand">TECH HOME</span>
                         </h1>
                         <p class="crud-section-subtitle tech-home-subtitle">
-                            @if($usuario ?? null)
-                                Hola {{ $usuario->nombre ?? 'Usuario' }}, estás conectado al futuro de la robótica y la tecnología
+                            @auth
+                                Hola {{ auth()->user()->nombre ?? 'Usuario' }}, estás conectado al futuro de la robótica y la tecnología
                             @else
                                 Portal de acceso al ecosistema tecnológico más avanzado
-                            @endif
+                            @endauth
                         </p>
                     </div>
                 </div>
@@ -188,11 +190,11 @@
                                     <i class="fas fa-book"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <div class="stat-number"><?= $estadisticas['libros_total'] ?? '2,847' ?></div>
+                                    <div class="stat-number">{{ $estadisticas['libros_total'] ?? '2,847' }}</div>
                                     <div class="stat-label">Libros Especializados</div>
                                     <div class="stat-change positive">
                                         <i class="fas fa-plus"></i>
-                                        +<?= $estadisticas['libros_nuevos'] ?? '15' ?> este mes
+                                        +{{ $estadisticas['libros_nuevos'] ?? '15' }} este mes
                                     </div>
                                 </div>
                             </div>
@@ -202,11 +204,11 @@
                                     <i class="fas fa-microchip"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <div class="stat-number"><?= $estadisticas['componentes'] ?? '1,523' ?></div>
+                                    <div class="stat-number">{{ $estadisticas['componentes'] ?? '1,523' }}</div>
                                     <div class="stat-label">Componentes Disponibles</div>
                                     <div class="stat-change warning">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        <?= $estadisticas['stock_bajo'] ?? '12' ?> stock bajo
+                                        {{ $estadisticas['stock_bajo'] ?? '12' }} stock bajo
                                     </div>
                                 </div>
                             </div>
@@ -216,11 +218,11 @@
                                     <i class="fas fa-graduation-cap"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <div class="stat-number"><?= $estadisticas['cursos'] ?? '45' ?></div>
+                                    <div class="stat-number">{{ $estadisticas['cursos'] ?? '45' }}</div>
                                     <div class="stat-label">Cursos Activos</div>
                                     <div class="stat-change positive">
                                         <i class="fas fa-users"></i>
-                                        <?= $estadisticas['estudiantes_inscritos'] ?? '342' ?> inscritos
+                                        {{ $estadisticas['estudiantes_inscritos'] ?? '342' }} inscritos
                                     </div>
                                 </div>
                             </div>
@@ -265,20 +267,20 @@
                     
                     <div class="crud-info-pane" id="actividad">
                         <div class="activity-feed">
-                            <?php if (!empty($actividades_recientes)): ?>
-                                <?php foreach (array_slice($actividades_recientes, 0, 5) as $actividad): ?>
+                            @if(!empty($actividades_recientes))
+                                @foreach(array_slice($actividades_recientes, 0, 5) as $actividad)
                                     <div class="activity-item">
                                         <div class="activity-icon">
-                                            <i class="fas fa-<?= $actividad['tipo'] === 'usuario' ? 'user' : ($actividad['tipo'] === 'sistema' ? 'cog' : 'info-circle') ?>"></i>
+                                            <i class="fas fa-{{ $actividad['tipo'] === 'usuario' ? 'user' : ($actividad['tipo'] === 'sistema' ? 'cog' : 'info-circle') }}"></i>
                                         </div>
                                         <div class="activity-content">
-                                            <div class="activity-title"><?= htmlspecialchars($actividad['titulo'] ?? 'Actividad del sistema') ?></div>
-                                            <div class="activity-description"><?= htmlspecialchars($actividad['descripcion'] ?? 'Sin descripción') ?></div>
-                                            <div class="activity-time"><?= $actividad['tiempo'] ?? 'Hace un momento' ?></div>
+                                            <div class="activity-title">{{ $actividad['titulo'] ?? 'Actividad del sistema' }}</div>
+                                            <div class="activity-description">{{ $actividad['descripcion'] ?? 'Sin descripción' }}</div>
+                                            <div class="activity-time">{{ $actividad['tiempo'] ?? 'Hace un momento' }}</div>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
+                                @endforeach
+                            @else
                                 <div class="activity-item">
                                     <div class="activity-icon">
                                         <i class="fas fa-robot"></i>
@@ -311,7 +313,7 @@
                                         <div class="activity-time">Hace 1 hora</div>
                                     </div>
                                 </div>
-                            <?php endif; ?>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -676,23 +678,23 @@
             
             <div class="crud-form-body">
                 <div class="notifications-container">
-                    <?php if (!empty($notificaciones)): ?>
-                        <?php foreach ($notificaciones as $notificacion): ?>
-                            <div class="notification-item <?= $notificacion['tipo'] ?? 'info' ?>">
+                    @if(!empty($notificaciones))
+                        @foreach($notificaciones as $notificacion)
+                            <div class="notification-item {{ $notificacion['tipo'] ?? 'info' }}">
                                 <div class="notification-icon">
-                                    <i class="fas fa-<?= $notificacion['icono'] ?? 'info-circle' ?>"></i>
+                                    <i class="fas fa-{{ $notificacion['icono'] ?? 'info-circle' }}"></i>
                                 </div>
                                 <div class="notification-content">
-                                    <div class="notification-title"><?= htmlspecialchars($notificacion['titulo'] ?? 'Notificación') ?></div>
-                                    <div class="notification-message"><?= htmlspecialchars($notificacion['mensaje'] ?? 'Sin mensaje') ?></div>
-                                    <div class="notification-time"><?= $notificacion['tiempo'] ?? 'Ahora' ?></div>
+                                    <div class="notification-title">{{ $notificacion['titulo'] ?? 'Notificación' }}</div>
+                                    <div class="notification-message">{{ $notificacion['mensaje'] ?? 'Sin mensaje' }}</div>
+                                    <div class="notification-time">{{ $notificacion['tiempo'] ?? 'Ahora' }}</div>
                                 </div>
                                 <button class="notification-close" onclick="dismissNotification(this)">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+                        @endforeach
+                    @else
                         <div class="notification-item success">
                             <div class="notification-icon">
                                 <i class="fas fa-check-circle"></i>
@@ -725,7 +727,7 @@
                                 <div class="notification-time">Programado para este domingo</div>
                             </div>
                         </div>
-                    <?php endif; ?>
+                    @endif
                 </div>
             </div>
         </div>
@@ -1085,3 +1087,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 10000);
 });
 </script>
+
+@endsection

@@ -20,9 +20,7 @@ export default defineConfig({
                 "resources/js/auth/forgot-password.js",
                 "resources/css/auth/reset-password.css",
                 "resources/css/auth/otp-verification.css",
-                // Home Module
-                "resources/css/home/welcome.css",
-                "resources/js/home/welcome.js",
+                // Home Module (estilos incluidos en vistas.css)
                 // Layout Styles
                 "resources/css/layouts/header.css",
                 "resources/css/layouts/sidebar.css",
