@@ -32,13 +32,11 @@
     
     <!-- Estilos CSS -->
     @vite([
-        'resources/css/app.css', 
-        'resources/css/vistas.css', 
         'resources/css/layouts/sidebar.css',
         'resources/css/layouts/header.css',
         'resources/css/layouts/footer.css',
-        'resources/css/home/welcome.css', 
-        'resources/js/app.js'
+        'resources/css/home/welcome.css',
+        'resources/js/home/welcome.js'
     ])
 </head>
 <body>
@@ -1130,6 +1128,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 10000);
 });
 </script>
+
+<!-- Incluir Footer -->
+@include('layouts.footer')
 
 </body>
 </html>

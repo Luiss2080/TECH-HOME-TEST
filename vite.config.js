@@ -7,6 +7,10 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.js",
+                // General Styles
+                "resources/css/vistas.css",
+                "resources/css/Index.css",
+                "resources/css/errores.css",
                 // Auth Modules
                 "resources/css/auth/login.css",
                 "resources/js/auth/login.js",
