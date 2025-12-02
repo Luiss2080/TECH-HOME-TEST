@@ -1,7 +1,8 @@
 <!-- ============================================
  COMPONENTE HEADER TECH HOME
  ============================================ -->
-<div class="tech-header" id="techHeader">
+<div class="tech-header-wrapper">
+    <div class="tech-header" id="techHeader">
     <!-- Circuitos tecnológicos de fondo -->
     <div class="tech-circuit"></div>
 
@@ -120,4 +121,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

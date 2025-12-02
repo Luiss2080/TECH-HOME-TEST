@@ -8,26 +8,38 @@
         }
 
         /* ============================================
+           CONTENEDOR WRAPPER DEL HEADER (como crud-edit-container)
+           ============================================ */
+        .tech-header-wrapper {
+            position: fixed;
+            top: 10px;
+            left: 270px;
+            right: 20px;
+            z-index: 999;
+            /* Usar la misma estructura que main-content-area */
+            width: calc(100% - 290px);
+            max-width: calc(1600px - 290px);
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        
+        /* ============================================
            CONTENEDOR PRINCIPAL DEL HEADER
            ============================================ */
         .tech-header {
-            background: rgba(255, 255, 255, 0.95);
+            /* Usar exactamente las mismas propiedades que crud-section-card */
+            background: var(--background-card, rgba(255, 255, 255, 0.95));
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px; /* Bordes más pequeños */
-            padding: 1rem; /* Padding reducido */
-            position: fixed;
-            top: 10px; /* Más cerca del borde superior */
-            left: 270px; /* Espacio para el sidebar (260px + 10px margen) */
-            right: 20px; /* Margen derecho responsivo */
-            overflow: visible; /* Permitir que el contenido se muestre */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra más sutil */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius-lg, 15px);
+            padding: 1.2rem; /* Mismo padding que las tarjetas */
+            position: relative; /* Como las tarjetas, el wrapper maneja fixed */
+            overflow: visible;
+            box-shadow: var(--shadow-strong, 0 10px 30px rgba(0, 0, 0, 0.2));
             animation: headerEntry 1s ease-out;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Hacer responsivo quitando width y height fijos */
-            min-height: 60px; /* Altura mínima en lugar de fija */
-            /* ASEGURAR QUE EL HEADER RESPETE EL SIDEBAR */
-            z-index: 999 !important; /* Menor que el sidebar (2000) */
+            width: 100%; /* Ancho completo como las tarjetas */
+            transition: var(--transition-base, all 0.3s ease);
         }
 
 
@@ -553,10 +565,11 @@
            RESPONSIVE DESIGN
            ============================================ */
         @media (max-width: 1024px) {
-            .tech-header {
+            .tech-header-wrapper {
                 left: 20px; /* Reducir separación en tablet */
                 right: 20px;
-                width: auto;
+                width: calc(100% - 40px);
+                max-width: calc(1600px - 40px);
             }
             
             .header-content {
@@ -590,14 +603,15 @@
         }
 
         @media (max-width: 768px) {
-            .tech-header {
-                left: 10px; /* Reducir separación en móvil */
-                right: 10px;
-                padding: 1rem;
-                border-radius: 15px;
+            .tech-header-wrapper {
                 position: relative; /* Cambiar a relative en móvil */
                 top: auto;
-                width: auto;
+                left: auto;
+                right: auto;
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 10px; /* Mismo padding que main-content-area */
             }
             
             .welcome-text h1 {
