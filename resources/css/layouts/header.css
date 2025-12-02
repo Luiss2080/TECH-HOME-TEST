@@ -14,9 +14,11 @@
             position: fixed;
             top: 10px;
             left: 270px; /* Mantener la posición original */
-            right: 20px; /* Restaurar right para mantener posición */
+            right: 20px;
             z-index: 999;
-            /* Sin cambiar width, usar right para el ancho automático */
+            /* Usar exactamente la misma estructura que crud-edit-container */
+            max-width: 1600px;
+            margin: 0 auto; /* Centrado como los contenedores */
             padding: 0 10px; /* Mismo padding que crud-edit-container */
         }
         
