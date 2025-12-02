@@ -118,8 +118,8 @@
                         <span class="ithr-nav-badge">
                             @php
                                 try {
-                                    // Obtener contador dinámico de usuarios activos
-                                    $contadorUsuarios = \App\Models\User::where('estado', '=', 1)->count();
+                                    // Obtener contador dinámico de usuarios totales
+                                    $contadorUsuarios = \App\Models\User::count();
                                     echo $contadorUsuarios;
                                 } catch (Exception $e) {
                                     echo '0';
@@ -142,7 +142,7 @@
                             @php
                                 try {
                                     // Obtener contador dinámico de libros disponibles
-                                    $contadorLibros = \App\Models\Libro::disponibles()->count();
+                                    $contadorLibros = \App\Models\Libro::count();
                                     echo $contadorLibros;
                                 } catch (Exception $e) {
                                     echo '0';
@@ -159,7 +159,7 @@
                             @php
                                 try {
                                     // Obtener contador dinámico de materiales disponibles
-                                    $contadorMateriales = \App\Models\Material::disponibles()->count();
+                                    $contadorMateriales = \App\Models\Material::count();
                                     echo $contadorMateriales;
                                 } catch (Exception $e) {
                                     echo '0';
@@ -176,7 +176,7 @@
                             @php
                                 try {
                                     // Obtener contador dinámico de laboratorios disponibles
-                                    $contadorLaboratorios = \App\Models\Laboratorio::disponibles()->count();
+                                    $contadorLaboratorios = \App\Models\Laboratory::count();
                                     echo $contadorLaboratorios;
                                 } catch (Exception $e) {
                                     echo '0';
@@ -193,7 +193,7 @@
                             @php
                                 try {
                                     // Obtener contador dinámico de componentes disponibles
-                                    $contadorComponentes = \App\Models\Componente::disponibles()->count();
+                                    $contadorComponentes = \App\Models\Componente::count();
                                     echo $contadorComponentes;
                                 } catch (Exception $e) {
                                     echo '0';
