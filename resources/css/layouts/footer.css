@@ -2,29 +2,33 @@
            FOOTER TECH HOME - Instituto de Robótica CORREGIDO
            ============================================ */
 
-        /* Contenedor del footer - MISMA ALINEACIÓN QUE HEADER-CONTAINER */
+        /* Contenedor del footer - EXACTAMENTE IGUAL QUE tech-header-wrapper */
         .footer-container-wrapper {
-            margin-left: 270px; /* Misma separación que header y contenido */
-            margin-right: 10px;
-            margin-bottom: 10px; /* Margen más compacto */
-            z-index: 998; /* Menor que el sidebar (2000) y header (999) */
+            /* Posición relativa para que fluya con el contenido */
+            position: relative;
+            left: 270px;
+            right: 12px;
+            /* Exactamente la misma estructura que tech-header-wrapper */
+            max-width: 1600px;
+            margin: 20px auto 0;
+            padding: 0 10px;
         }
 
         /* Contenedor principal del footer con glassmorphism - CENTRADO FORZADO */
         .tech-home-footer {
-            background: rgba(255, 255, 255, 0.95);
+            /* Exactamente las mismas propiedades que tech-header */
+            background: var(--background-card, rgba(255, 255, 255, 0.95));
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px; /* Border radius más compacto */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius-lg, 15px);
+            padding: 1.2rem; /* Mismo padding que tech-header */
             color: #1f2937;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra más sutil */
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto !important;
-            box-sizing: border-box;
-            z-index: 998;
+            overflow: visible;
+            box-shadow: var(--shadow-strong, 0 10px 30px rgba(0, 0, 0, 0.2));
+            width: 100%; /* Mismo ancho que tech-header */
+            box-sizing: border-box; /* Mismo box-sizing que tech-header */
+            transition: var(--transition-base, all 0.3s ease); /* Misma transición */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -137,12 +141,10 @@
             gap: 3rem;
             align-items: start;
             margin-bottom: 2.5rem;
-            width: 100%;
-            max-width: 1400px;
-            margin-left: auto !important;
-            margin-right: auto !important;
-            box-sizing: border-box;
-            padding: 1.2rem; /* Padding más compacto */
+            width: 100%; /* Mismo ancho que tech-header */
+            box-sizing: border-box; /* Mismo box-sizing que tech-header */
+            padding: 1.2rem; /* Exactamente el mismo padding que tech-header */
+            transition: var(--transition-base, all 0.3s ease); /* Misma transición */
         }
 
         /* Grid cuando usuario está autenticado (3 columnas) */

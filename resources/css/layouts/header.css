@@ -14,7 +14,7 @@
             position: fixed;
             top: 10px;
             left: 270px; /* Mantener la posición original */
-            right: 20px;
+            right: 12px;
             z-index: 999;
             /* Usar exactamente la misma estructura que crud-edit-container */
             max-width: 1600px;

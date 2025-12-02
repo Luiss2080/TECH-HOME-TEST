@@ -1,7 +1,8 @@
 <!-- ============================================================================
  FOOTER TECH HOME - Instituto de Robótica
  ============================================================================ -->
-<footer class="tech-home-footer">
+<div class="footer-container-wrapper">
+    <footer class="tech-home-footer">
     <div class="footer-container">
         <!-- ============================================================================
          CONTENIDO PRINCIPAL DEL FOOTER
@@ -172,3 +173,4 @@
         </div>
     </div>
 </footer>
+</div>
