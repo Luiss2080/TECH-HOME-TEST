@@ -1,3 +1,12 @@
+@php
+    $user = auth()->user();
+    $roles = $user ? $user->roles : [];
+    $isAuth = $user ? true : false;
+    $isAdmin = $roles ? in_array('administrador', array_column($roles->toArray(), 'nombre')) : false;
+    $isDocente = $roles ? in_array('docente', array_column($roles->toArray(), 'nombre')) : false;
+    $isEstudiante = $roles ? in_array('estudiante', array_column($roles->toArray(), 'nombre')) : false;
+@endphp
+
 <!-- ============================================================================
  SIDEBAR REDISEÑADO - Instituto Tech Home
  ============================================================================ -->
@@ -33,7 +42,7 @@
                 <h6 class="ithr-nav-group-title">Panel Principal</h6>
                 <ul class="ithr-nav-list">
                     <li class="ithr-nav-item ithr-active">
-                        <a href="{{ route(Dashboard()) }}" class="ithr-nav-link">
+                        <a href="{{ route('home') }}" class="ithr-nav-link">
                             <i class="fas fa-tachometer-alt ithr-nav-icon"></i>
                             <span class="ithr-nav-text">Dashboard</span>
                             <div class="ithr-nav-indicator"></div>
