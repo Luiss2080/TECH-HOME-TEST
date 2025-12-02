@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Curso;
+use App\Models\Laboratorio;
 use App\Models\Componente;
 use App\Models\Material;
 use App\Models\User;
@@ -26,33 +26,25 @@ class LaboratorioController extends Controller
             /** @var \App\Models\User $user */
             $user = Auth::user();
             
-            // Laboratorios son cursos prácticos con componentes tipo "laboratorio"
-            $query = Curso::with(['categoria', 'docente', 'componentes'])
-                         ->where('estado', 'activo');
+            // Obtener laboratorios activos
+            $query = Laboratorio::where('estado', 'activo');
 
-            // Filtrar por rol
+            // Filtrar por rol (comentado hasta implementar sistema de roles)
             // if ($user->hasRole('docente')) {
-                $query->where('docente_id', $user->id);
-            }
+            //     $query->where('responsable', $user->nombre);
+            // }
 
-            // Solo cursos que tienen componentes de laboratorio
-            $laboratorios = $query->whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->orderBy('creado_en', 'desc')
+            $laboratorios = $query->orderBy('nombre', 'asc')
               ->paginate(12);
 
             $estadisticas = [
                 'total_laboratorios' => $laboratorios->total(),
-                'laboratorios_activos' => Curso::where('estado', 'activo')
-                                               ->whereHas('componentes', function($q) {
-                                                   $q->where('tipo', 'laboratorio');
-                                               })->count(),
-                'total_estudiantes' => Enrollment::whereHas('curso.componentes', function($q) {
-                    $q->where('tipo', 'laboratorio');
-                })->distinct('usuario_id')->count()
+                'laboratorios_activos' => Laboratorio::where('estado', 'activo')->count(),
+                'laboratorios_disponibles' => Laboratorio::disponibles()->count(),
+                'capacidad_total' => Laboratorio::sum('capacidad'),
             ];
 
-            return view('admin.laboratorios.index', compact('laboratorios', 'estadisticas'));
+            return view('laboratorios.index', compact('laboratorios', 'estadisticas'));
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar laboratorios: ' . $e->getMessage()]);
@@ -65,14 +57,10 @@ class LaboratorioController extends Controller
     public function show($id)
     {
         try {
+            /** @var \App\Models\User $user */
             $user = Auth::user();
             
-            $laboratorio = Curso::with(['categoria', 'docente', 'componentes' => function($query) {
-                $query->where('tipo', 'laboratorio')->orderBy('orden');
-            }, 'materiales'])
-            ->whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos (comentado hasta implementar sistema de roles)
             // // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
@@ -81,14 +69,13 @@ class LaboratorioController extends Controller
 
             // Estadísticas del laboratorio
             $estadisticas = [
-                'total_componentes' => $laboratorio->componentes->count(),
-                'estudiantes_inscritos' => $laboratorio->enrollments()->count(),
-                'completados' => $laboratorio->enrollments()
-                                            ->where('progreso', 100)
-                                            ->count()
+                'capacidad' => $laboratorio->capacidad,
+                'estado' => $laboratorio->estado,
+                'disponibilidad' => $laboratorio->disponibilidad,
+                'equipamiento_count' => is_array($laboratorio->equipamiento) ? count($laboratorio->equipamiento) : 0
             ];
 
-            return view('admin.laboratorios.show', compact('laboratorio', 'estadisticas'));
+            return view('laboratorios.ver', compact('laboratorio', 'estadisticas'));
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
@@ -101,12 +88,7 @@ class LaboratorioController extends Controller
     public function create()
     {
         try {
-            $categorias = Categoria::orderBy('nombre')->get();
-            $docentes = User::whereHas('roles', function($query) {
-                $query->where('nombre', 'docente');
-            })->orderBy('nombre')->get();
-
-            return view('admin.laboratorios.create', compact('categorias', 'docentes'));
+            return view('laboratorios.crear');
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar formulario: ' . $e->getMessage()]);
@@ -119,15 +101,15 @@ class LaboratorioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titulo' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categories,id',
-            'docente_id' => 'required|exists:users,id',
-            'duracion_horas' => 'required|integer|min:1',
-            'nivel' => 'required|in:principiante,intermedio,avanzado',
-            'precio' => 'required|numeric|min:0',
-            'requisitos' => 'nullable|string',
-            'objetivos' => 'nullable|string'
+            'responsable_id' => 'required|exists:users,id',
+            'capacidad' => 'required|integer|min:1',
+            'ubicacion' => 'required|string|max:255',
+            'equipamiento' => 'nullable|array',
+            'horario_disponible' => 'nullable|string',
+            'activo' => 'boolean'
         ]);
 
         if ($validator->fails()) {
@@ -137,31 +119,17 @@ class LaboratorioController extends Controller
         try {
             DB::beginTransaction();
 
-            // Crear curso base
-            $laboratorio = Curso::create([
-                'titulo' => $request->titulo,
+            // Crear laboratorio
+            $laboratorio = Laboratorio::create([
+                'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'categoria_id' => $request->categoria_id,
-                'docente_id' => $request->docente_id,
-                'duracion_horas' => $request->duracion_horas,
-                'nivel' => $request->nivel,
-                'precio' => $request->precio,
-                'requisitos' => $request->requisitos,
-                'objetivos' => $request->objetivos,
-                'estado' => 'borrador',
-                'slug' => \Illuminate\Support\Str::slug($request->titulo),
-                'creado_en' => now()
-            ]);
-
-            // Crear componente inicial de laboratorio
-            Componente::create([
-                'curso_id' => $laboratorio->id,
-                'titulo' => 'Introducción al Laboratorio',
-                'descripcion' => 'Componente inicial del laboratorio',
-                'tipo' => 'laboratorio',
-                'orden' => 1,
-                'estado' => 'activo',
-                'creado_en' => now()
+                'responsable_id' => $request->responsable_id,
+                'capacidad' => $request->capacidad,
+                'ubicacion' => $request->ubicacion,
+                'equipamiento' => $request->equipamiento ?? [],
+                'horario_disponible' => $request->horario_disponible,
+                'activo' => $request->activo ?? true
             ]);
 
             DB::commit();
@@ -184,21 +152,17 @@ class LaboratorioController extends Controller
         try {
             $user = Auth::user();
             
-            $laboratorio = Curso::whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
                 // return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
-            }
+            // }
 
             $categorias = Categoria::orderBy('nombre')->get();
-            $docentes = User::whereHas('roles', function($query) {
-                $query->where('nombre', 'docente');
-            })->orderBy('nombre')->get();
+            $responsables = User::orderBy('nombre')->get();
 
-            return view('admin.laboratorios.edit', compact('laboratorio', 'categorias', 'docentes'));
+            return view('admin.laboratorios.edit', compact('laboratorio', 'categorias', 'responsables'));
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
@@ -211,16 +175,15 @@ class LaboratorioController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'titulo' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categories,id',
-            'docente_id' => 'required|exists:users,id',
-            'duracion_horas' => 'required|integer|min:1',
-            'nivel' => 'required|in:principiante,intermedio,avanzado',
-            'precio' => 'required|numeric|min:0',
-            'estado' => 'required|in:borrador,activo,inactivo',
-            'requisitos' => 'nullable|string',
-            'objetivos' => 'nullable|string'
+            'responsable_id' => 'required|exists:users,id',
+            'capacidad' => 'required|integer|min:1',
+            'ubicacion' => 'required|string|max:255',
+            'equipamiento' => 'nullable|array',
+            'horario_disponible' => 'nullable|string',
+            'activo' => 'boolean'
         ]);
 
         if ($validator->fails()) {
@@ -230,28 +193,23 @@ class LaboratorioController extends Controller
         try {
             $user = Auth::user();
             
-            $laboratorio = Curso::whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
                 // return back()->withErrors(['error' => 'No tiene permisos para editar este laboratorio.']);
-            }
+            // }
 
             $laboratorio->update([
-                'titulo' => $request->titulo,
+                'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'categoria_id' => $request->categoria_id,
-                'docente_id' => $request->docente_id,
-                'duracion_horas' => $request->duracion_horas,
-                'nivel' => $request->nivel,
-                'precio' => $request->precio,
-                'estado' => $request->estado,
-                'requisitos' => $request->requisitos,
-                'objetivos' => $request->objetivos,
-                'slug' => \Illuminate\Support\Str::slug($request->titulo),
-                'actualizado_en' => now()
+                'responsable_id' => $request->responsable_id,
+                'capacidad' => $request->capacidad,
+                'ubicacion' => $request->ubicacion,
+                'equipamiento' => $request->equipamiento ?? [],
+                'horario_disponible' => $request->horario_disponible,
+                'activo' => $request->activo ?? true
             ]);
 
             return back()->with('success', 'Laboratorio actualizado exitosamente.');
@@ -270,26 +228,15 @@ class LaboratorioController extends Controller
         try {
             $user = Auth::user();
             
-            $laboratorio = Curso::whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+            // if ($user->hasRole('docente') && $laboratorio->responsable_id !== $user->id) {
                 if ($request->expectsJson()) {
                     return response()->json(['success' => false, 'message' => 'No tiene permisos para eliminar este laboratorio.'], 403);
                 }
                 // return back()->withErrors(['error' => 'No tiene permisos para eliminar este laboratorio.']);
-            }
-
-            // Verificar si tiene estudiantes inscritos
-            if ($laboratorio->enrollments()->count() > 0) {
-                $error = 'No se puede eliminar el laboratorio porque tiene estudiantes inscritos.';
-                if ($request->expectsJson()) {
-                    return response()->json(['success' => false, 'message' => $error], 400);
-                }
-                return back()->withErrors(['error' => $error]);
-            }
+            // }
 
             $laboratorio->delete();
 
@@ -311,28 +258,24 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Gestionar componentes de laboratorio
+     * Gestionar equipamiento de laboratorio
      */
     public function components($id)
     {
         try {
             $user = Auth::user();
             
-            $laboratorio = Curso::with(['componentes' => function($query) {
-                $query->where('tipo', 'laboratorio')->orderBy('orden');
-            }])->whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+            // if ($user->hasRole('admin') && $laboratorio->responsable_id !== $user->id) {
                 // return back()->withErrors(['error' => 'No tiene permisos para gestionar este laboratorio.']);
-            }
+            // }
 
             return view('admin.laboratorios.components', compact('laboratorio'));
             
         } catch (Exception $e) {
-            return back()->withErrors(['error' => 'Error al cargar componentes: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Error al cargar laboratorio: ' . $e->getMessage()]);
         }
     }
 
@@ -344,30 +287,24 @@ class LaboratorioController extends Controller
         try {
             $user = Auth::user();
             
-            $laboratorio = Curso::whereHas('componentes', function($q) {
-                $q->where('tipo', 'laboratorio');
-            })->findOrFail($id);
+            $laboratorio = Laboratorio::findOrFail($id);
 
             // Verificar permisos
-            // if ($user->hasRole('docente') && $laboratorio->docente_id !== $user->id) {
+            // if ($user->hasRole('admin') && $laboratorio->responsable_id !== $user->id) {
                 // return back()->withErrors(['error' => 'No tiene permisos para ver los reportes de este laboratorio.']);
-            }
+            // }
 
-            // Estadísticas detalladas
-            $inscripciones = $laboratorio->enrollments()
-                                       ->with(['usuario'])
-                                       ->orderBy('progreso', 'desc')
-                                       ->get();
-
+            // Estadísticas básicas del laboratorio
             $estadisticas = [
-                'total_inscritos' => $inscripciones->count(),
-                'completados' => $inscripciones->where('progreso', 100)->count(),
-                'en_progreso' => $inscripciones->where('progreso', '>', 0)->where('progreso', '<', 100)->count(),
-                'sin_iniciar' => $inscripciones->where('progreso', 0)->count(),
-                'progreso_promedio' => $inscripciones->avg('progreso') ?? 0
+                'capacidad' => $laboratorio->capacidad,
+                'ubicacion' => $laboratorio->ubicacion,
+                'equipamiento_count' => count($laboratorio->equipamiento ?? []),
+                'responsable' => $laboratorio->responsable->nombre ?? 'No asignado',
+                'categoria' => $laboratorio->categoria->nombre ?? 'Sin categoría',
+                'activo' => $laboratorio->activo
             ];
 
-            return view('admin.laboratorios.reports', compact('laboratorio', 'inscripciones', 'estadisticas'));
+            return view('admin.laboratorios.reports', compact('laboratorio', 'estadisticas'));
             
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error al cargar reportes: ' . $e->getMessage()]);
