@@ -65,28 +65,19 @@
     @stack('scripts')
     
     <script>
-        // Inicializar el dashboard cuando el DOM esté listo
+        // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            // Preparar datos del usuario para JavaScript
-            @auth
             const userData = {
-                nombre: '{{ auth()->user()->name }}',
+                nombre: '{{ auth()->user()->nombre ?? "" }}',
                 apellido: '{{ auth()->user()->apellido ?? "" }}',
-                roles: ['usuario'],
-                email: '{{ auth()->user()->email }}',
+                email: '{{ auth()->user()->email ?? "" }}',
                 sessionId: '{{ session()->getId() }}'
             };
-            @else
-            const userData = {
-                nombre: '',
-                apellido: '',
-                roles: ['invitado'],
-                email: '',
-                sessionId: '{{ session()->getId() }}'
-            };
-            @endauth
-            
-            console.log('Tech Home App initialized', userData);
+
+            // Inicializar efectos de la aplicación
+            if (typeof initAdminDashboard === 'function') {
+                initAdminDashboard(userData);
+            }
         });
     </script>
 </body>
