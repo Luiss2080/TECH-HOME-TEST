@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             InscripcionesSeeder::class,
             VentasSeeder::class,
             NotasSeeder::class,
+            LaboratorioSeeder::class,
         ]);
     }
 }

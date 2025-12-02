@@ -122,6 +122,9 @@ Route::middleware(['auth'])->group(function () {
         // Gestión de materiales
         Route::resource('materiales', MaterialController::class);
         
+        // Gestión de laboratorios
+        Route::resource('laboratorios', LaboratorioController::class);
+        
         // Gestión de estudiantes
         Route::get('/estudiantes', [DocenteController::class, 'estudiantes'])->name('estudiantes');
     });
