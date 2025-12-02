@@ -47,33 +47,31 @@
 <!-- Incluir Header -->
 @include('layouts.header')
 
-<div style="height: 180px;"></div>
-
 <!-- Contenedor principal de la vista Home -->
-<div class="crud-edit-container">
-    <div class="crud-edit-wrapper">
+<div class="welcome-main-container">
+    <div class="welcome-content-wrapper">
 
         <!-- Header principal de bienvenida -->
-        <div class="crud-section-card tech-home-hero">
-            <div class="crud-section-header">
-                <div class="crud-section-header-content">
-                    <div class="crud-section-icon tech-home-icon">
+        <div class="welcome-hero-section">
+            <div class="welcome-hero-header">
+                <div class="welcome-hero-content">
+                    <div class="welcome-hero-icon">
                         <i class="fas fa-robot"></i>
                     </div>
-                    <div class="crud-section-title-group">
-                        <nav aria-label="breadcrumb" class="crud-breadcrumb-nav">
-                            <ol class="crud-breadcrumb">
-                                <li class="crud-breadcrumb-item active">
+                    <div class="welcome-hero-text">
+                        <nav aria-label="breadcrumb" class="welcome-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active">
                                     <i class="fas fa-home"></i>
                                     Inicio
                                 </li>
                             </ol>
                         </nav>
-                        <h1 class="crud-section-title tech-home-title">
+                        <h1 class="welcome-main-title">
                             Bienvenido al Instituto de Robótica
-                            <span class="tech-home-brand">TECH HOME</span>
+                            <span class="welcome-brand-text">TECH HOME</span>
                         </h1>
-                        <p class="crud-section-subtitle tech-home-subtitle">
+                        <p class="welcome-subtitle">
                             @if($usuario)
                                 Hola {{ $usuario->nombre }}, estás conectado al futuro de la robótica y la tecnología
                             @else

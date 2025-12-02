@@ -1,4 +1,146 @@
 /* Estilos específicos para la vista Home de TECH HOME */
+
+/* Layout principal responsivo */
+.welcome-main-container {
+    margin-left: 330px; /* Espacio para sidebar */
+    margin-top: 100px; /* Espacio para header */
+    padding: 20px;
+    min-height: calc(100vh - 120px);
+    background: #f8fafc;
+}
+
+.welcome-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Hero section */
+.welcome-hero-section {
+    background: linear-gradient(135deg, 
+        rgba(220, 38, 38, 0.1) 0%, 
+        rgba(14, 184, 166, 0.1) 50%, 
+        rgba(139, 92, 246, 0.1) 100%);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-hero-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.welcome-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.welcome-hero-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #dc2626, #0ea5e9);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    animation: robotPulse 3s ease-in-out infinite;
+}
+
+.welcome-hero-text {
+    flex: 1;
+}
+
+.welcome-breadcrumb {
+    margin-bottom: 10px;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item {
+    color: #6b7280;
+}
+
+.breadcrumb-item.active {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.welcome-main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+    color: #1f2937;
+}
+
+.welcome-brand-text {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #dc2626, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 3px;
+}
+
+.welcome-subtitle {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin: 10px 0 0 0;
+    font-style: italic;
+}
+
+/* Responsividad */
+@media (max-width: 1024px) {
+    .welcome-main-container {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-main-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+    
+    .welcome-hero-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-main-title {
+        font-size: 2rem;
+    }
+    
+    .welcome-brand-text {
+        font-size: 1.5rem;
+    }
+}
+
+@keyframes robotPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+}
+
 .tech-home-hero {
     background: linear-gradient(135deg, 
         rgba(220, 38, 38, 0.1) 0%, 
