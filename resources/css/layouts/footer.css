@@ -4,9 +4,9 @@
 
         /* Contenedor del footer - MISMA ALINEACIÓN QUE HEADER-CONTAINER */
         .footer-container-wrapper {
-            margin-left: 330px;
-            margin-right: 20px;
-            margin-bottom: 20px;
+            margin-left: 270px; /* Misma separación que header y contenido */
+            margin-right: 10px;
+            margin-bottom: 10px; /* Margen más compacto */
             z-index: 998; /* Menor que el sidebar (2000) y header (999) */
         }
 
@@ -15,11 +15,11 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
+            border-radius: 15px; /* Border radius más compacto */
             color: #1f2937;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra más sutil */
             width: 100%;
             max-width: 1600px;
             margin: 0 auto !important;
@@ -142,7 +142,7 @@
             margin-left: auto !important;
             margin-right: auto !important;
             box-sizing: border-box;
-            padding: 2rem;
+            padding: 1.2rem; /* Padding más compacto */
         }
 
         /* Grid cuando usuario está autenticado (3 columnas) */

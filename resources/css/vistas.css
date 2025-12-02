@@ -66,14 +66,27 @@ body {
 .app-container {
     display: flex;
     min-height: 100vh;
-    padding-top: 140px; /* Espacio para el header fijo */
+    padding-top: 100px; /* Espacio suficiente para el header */
+}
+
+/* Media queries para responsive */
+@media (max-width: 1024px) {
+    .app-container {
+        padding-top: 120px; /* Más espacio en tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        padding-top: 20px; /* Menos espacio en móvil (header relative) */
+    }
 }
 
 .main-content-area {
     flex: 1;
-    padding: 20px;
-    margin-left: 240px; /* Espacio para el sidebar */
-    width: calc(100% - 240px);
+    padding: 10px; /* Padding más compacto y uniforme */
+    margin-left: 270px; /* Misma separación que header y footer */
+    width: calc(100% - 290px); /* Mismo ancho que header */
     box-sizing: border-box;
     position: relative;
     z-index: 1;
@@ -85,10 +98,10 @@ body {
 .crud-edit-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px; /* Padding reducido */
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem; /* Gap reducido */
     opacity: 0;
     animation: containerFadeIn 0.8s ease-out 0.2s forwards;
 }
@@ -110,7 +123,7 @@ body {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius-lg);
-    padding: 2rem;
+    padding: 1.2rem; /* Padding reducido */
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-strong);
