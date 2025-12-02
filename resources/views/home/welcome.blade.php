@@ -3,7 +3,7 @@
 @section('title', 'Bienvenido a TECH HOME')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/vistas.css') }}">
+@vite('resources/css/vistas.css')
 @endpush
 
 @section('content')

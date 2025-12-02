@@ -16,14 +16,16 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
             padding: 2rem;
-            position: relative;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             animation: headerEntry 1s ease-out;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            width: 100%;
+            width: calc(100% - 40px);
             max-width: 1600px;
-            margin: 0 auto;
             /* ASEGURAR QUE EL HEADER RESPETE EL SIDEBAR */
             z-index: 999 !important; /* Menor que el sidebar (2000) */
         }

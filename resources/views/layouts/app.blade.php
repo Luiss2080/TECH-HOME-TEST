@@ -39,22 +39,20 @@
 </head>
 <body>
     <!-- Header Component -->
-    @include('components.header')
+    @include('layouts.header')
     
-    <div style="height: 180px;"></div>
-    
-    <div class="app-container" style="display: flex; min-height: calc(100vh - 180px);">
+    <div class="app-container">
         <!-- Sidebar Component -->
-        @include('components.sidebar')
+        @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <div class="main-content-area" style="flex: 1; padding: 20px; width: 100%;">
+        <div class="main-content-area">
             @yield('content')
         </div>
     </div>
     
     <!-- Footer Component -->
-    @include('components.footer')
+    @include('layouts.footer')
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

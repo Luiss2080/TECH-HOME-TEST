@@ -54,8 +54,29 @@ body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   LAYOUT PRINCIPAL
+   ============================================ */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 140px; /* Espacio para el header fijo */
+}
+
+.main-content-area {
+    flex: 1;
+    padding: 20px;
+    margin-left: 240px; /* Espacio para el sidebar */
+    width: calc(100% - 240px);
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================
