@@ -31,8 +31,7 @@
     <meta name="twitter:card" content="summary_large_image">
     
     <!-- Estilos CSS -->
-    <link rel="stylesheet" href="{{ asset('css/vistas.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/home/welcome.css') }}">
+    @vite(['resources/css/app.css', 'resources/css/vistas.css', 'resources/css/home/welcome.css', 'resources/js/app.js'])
 </head>
 <body>
 
