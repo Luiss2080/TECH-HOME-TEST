@@ -4,13 +4,15 @@
 
         /* Contenedor del footer - EXACTAMENTE IGUAL QUE tech-header-wrapper */
         .footer-container-wrapper {
-            /* Posición relativa para que fluya con el contenido */
+            /* Posición relativa pero simulando la misma alineación que el header fijo */
             position: relative;
-            left: 270px;
-            right: 12px;
-            /* Exactamente la misma estructura que tech-header-wrapper */
+            width: calc(100% - 270px - 12px); /* Mismo ancho que el header: 100% - left - right */
+            margin-left: 270px; /* Mismo left que el header */
+            margin-right: 12px; /* Mismo right que el header */
+            margin-top: 20px;
+            margin-bottom: 0;
+            /* Exactamente la misma estructura interna que tech-header-wrapper */
             max-width: 1600px;
-            margin: 20px auto 0;
             padding: 0 10px;
         }
 
