@@ -21,9 +21,9 @@ export default defineConfig({
                 "resources/css/home/welcome.css",
                 "resources/js/home/welcome.js",
                 // Layout Styles
-                "resources/css/header.css",
-                "resources/css/sidebar.css",
-                "resources/css/footer.css",
+                "resources/css/layouts/header.css",
+                "resources/css/layouts/sidebar.css",
+                "resources/css/layouts/footer.css",
             ],
             refresh: true,
         }),
