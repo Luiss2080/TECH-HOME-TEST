@@ -176,7 +176,7 @@
                             @php
                                 try {
                                     // Obtener contador dinámico de laboratorios disponibles
-                                    $contadorLaboratorios = \App\Models\Laboratory::count();
+                                    $contadorLaboratorios = \App\Models\Laboratorio::count();
                                     echo $contadorLaboratorios;
                                 } catch (Exception $e) {
                                     echo '0';

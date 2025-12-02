@@ -33,7 +33,7 @@ class LaboratorioSeeder extends Seeder
             ],
             [
                 'nombre' => 'Laboratorio de Inteligencia Artificial',
-                'descripción' => 'Espacio dedicado al desarrollo y pruebas de algoritmos de IA y Machine Learning',
+                'descripcion' => 'Espacio dedicado al desarrollo y pruebas de algoritmos de IA y Machine Learning',
                 'ubicacion' => 'Segundo Piso - Ala Norte',
                 'capacidad' => 30,
                 'equipamiento' => [

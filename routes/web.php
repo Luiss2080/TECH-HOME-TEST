@@ -161,6 +161,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/libros/{id}', [LibroController::class, 'show'])->name('libros.show');
     Route::get('/libros/{id}/download', [LibroController::class, 'download'])->name('libros.download');
     
+    // Laboratorios (visualización)
+    Route::get('/laboratorios', [LaboratorioController::class, 'index'])->name('laboratorios');
+    Route::get('/laboratorios/{id}', [LaboratorioController::class, 'show'])->name('laboratorios.show');
+    
     // Categorías
     Route::get('/categoria/{id}', [HomeController::class, 'categoria'])->name('categoria');
     
