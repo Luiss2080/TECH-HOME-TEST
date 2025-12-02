@@ -31,7 +31,15 @@
     <meta name="twitter:card" content="summary_large_image">
     
     <!-- Estilos CSS -->
-    @vite(['resources/css/app.css', 'resources/css/vistas.css', 'resources/css/home/welcome.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css', 
+        'resources/css/vistas.css', 
+        'resources/css/layouts/sidebar.css',
+        'resources/css/layouts/header.css',
+        'resources/css/layouts/footer.css',
+        'resources/css/home/welcome.css', 
+        'resources/js/app.js'
+    ])
 </head>
 <body>
 
