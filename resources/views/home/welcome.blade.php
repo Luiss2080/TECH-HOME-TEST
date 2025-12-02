@@ -1,13 +1,10 @@
-﻿<?php
-$title = $title ?? 'Bienvenido a TECH HOME';
-$usuario = $usuario ?? null;
-$estadisticas = $estadisticas ?? [];
-$actividades_recientes = $actividades_recientes ?? [];
-$notificaciones = $notificaciones ?? [];
-?>
+﻿@extends('layouts.app')
 
+@section('title', $title ?? 'Bienvenido a TECH HOME')
+
+@section('content')
 <!-- Estilos específicos para el módulo CRUD - Vista Home -->
-<link rel="stylesheet" href="<?= asset('css/vistas.css'); ?>">
+<link rel="stylesheet" href="{{ asset('css/vistas.css') }}">
 
 <!-- Contenedor principal de la vista Home -->
 <div class="crud-edit-container">
@@ -34,11 +31,11 @@ $notificaciones = $notificaciones ?? [];
                             <span class="tech-home-brand">TECH HOME</span>
                         </h1>
                         <p class="crud-section-subtitle tech-home-subtitle">
-                            <?php if ($usuario): ?>
-                                Hola <?= htmlspecialchars($usuario->nombre) ?>, estás conectado al futuro de la robótica y la tecnología
-                            <?php else: ?>
+                            @if($usuario ?? null)
+                                Hola {{ $usuario->nombre ?? 'Usuario' }}, estás conectado al futuro de la robótica y la tecnología
+                            @else
                                 Portal de acceso al ecosistema tecnológico más avanzado
-                            <?php endif; ?>
+                            @endif
                         </p>
                     </div>
                 </div>
@@ -94,7 +91,7 @@ $notificaciones = $notificaciones ?? [];
                             <h4>Biblioteca Digital</h4>
                             <p>Recursos académicos especializados</p>
                             <div class="quick-action-stats">
-                                <span class="stat-number"><?= $estadisticas['libros'] ?? '2,847' ?></span>
+                                <span class="stat-number">{{ $estadisticas['libros'] ?? '2,847' }}</span>
                                 <span class="stat-label">libros disponibles</span>
                             </div>
                         </div>
@@ -111,7 +108,7 @@ $notificaciones = $notificaciones ?? [];
                             <h4>Centro de Componentes</h4>
                             <p>Hardware y tecnología robótica</p>
                             <div class="quick-action-stats">
-                                <span class="stat-number"><?= $estadisticas['componentes'] ?? '1,523' ?></span>
+                                <span class="stat-number">{{ $estadisticas['componentes'] ?? '1,523' }}</span>
                                 <span class="stat-label">componentes activos</span>
                             </div>
                         </div>
@@ -128,7 +125,7 @@ $notificaciones = $notificaciones ?? [];
                             <h4>Cursos Especializados</h4>
                             <p>Formación en robótica e IA</p>
                             <div class="quick-action-stats">
-                                <span class="stat-number"><?= $estadisticas['cursos'] ?? '45' ?></span>
+                                <span class="stat-number">{{ $estadisticas['cursos'] ?? '45' }}</span>
                                 <span class="stat-label">cursos activos</span>
                             </div>
                         </div>
@@ -145,7 +142,7 @@ $notificaciones = $notificaciones ?? [];
                             <h4>Proyectos Innovadores</h4>
                             <p>Desarrollos tecnológicos en curso</p>
                             <div class="quick-action-stats">
-                                <span class="stat-number"><?= $estadisticas['proyectos'] ?? '128' ?></span>
+                                <span class="stat-number">{{ $estadisticas['proyectos'] ?? '128' }}</span>
                                 <span class="stat-label">en desarrollo</span>
                             </div>
                         </div>
