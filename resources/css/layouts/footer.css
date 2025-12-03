@@ -5,13 +5,15 @@
         /* Contenedor del footer */
         .footer-container-wrapper {
             position: relative;
-            width: calc(100% - 270px - 12px);
-            margin-left: 270px;
-            margin-right: 12px;
-            margin-top: 20px;
-            margin-bottom: 0;
+            bottom: auto;
+            left: auto;
+            right: auto;
+            width: auto;
             max-width: 1600px;
-            padding: 0 10px;
+            margin: 10px 20px 10px 300px;
+            padding: 0;
+            z-index: 10;
+            transform: none;
         }
 
         /* Contenedor principal del footer con glassmorphism */
@@ -561,8 +563,8 @@
         /* Para pantallas hasta 992px */
         @media (max-width: 992px) {
             .footer-container-wrapper {
-                margin-left: 20px;
-                margin-right: 20px;
+                left: 270px;
+                right: 12px;
             }
 
             .footer-main-content.authenticated,
