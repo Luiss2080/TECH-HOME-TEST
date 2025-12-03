@@ -1,58 +1,33 @@
         /* ============================================
-           ESTILOS DEL COMPONENTE HEADER CORREGIDO
+           ESTILOS DEL COMPONENTE HEADER
            ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        /* ============================================
-           CONTENEDOR WRAPPER DEL HEADER (idéntico al contenedor de bienvenida)
-           ============================================ */
         .tech-header-wrapper {
             position: fixed;
             top: 10px;
-            left: 270px; /* Mantener la posición original */
+            left: 270px;
             right: 12px;
             z-index: 999;
-            /* Usar exactamente la misma estructura que crud-edit-container */
             max-width: 1600px;
-            margin: 0 auto; /* Centrado como los contenedores */
-            padding: 0 10px; /* Mismo padding que crud-edit-container */
+            margin: 0 auto;
+            padding: 0 10px;
         }
         
-        /* ============================================
-           CONTENEDOR PRINCIPAL DEL HEADER
-           ============================================ */
         .tech-header {
-            /* Exactamente las mismas propiedades que crud-section-card */
             background: var(--background-card, rgba(255, 255, 255, 0.95));
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: var(--border-radius-lg, 15px);
-            padding: 1.2rem; /* Exactamente el mismo padding que las tarjetas */
-            position: relative; /* Como las tarjetas, el wrapper maneja fixed */
+            padding: 1.2rem;
+            position: relative;
             overflow: visible;
             box-shadow: var(--shadow-strong, 0 10px 30px rgba(0, 0, 0, 0.2));
             animation: headerEntry 1s ease-out;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            width: 100%; /* Exactamente el mismo ancho que las tarjetas */
-            box-sizing: border-box; /* Mismo box-sizing que las tarjetas */
+            width: 100%;
+            box-sizing: border-box;
             transition: var(--transition-base, all 0.3s ease);
         }
-
-
-        @keyframes logoGlow {
-        0%, 100% {
-        box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
-        transform: scale(1);
-        }
-        50% {
-        box-shadow: 0 12px 30px rgba(220, 38, 38, 0.6);
-        transform: scale(1.05);
-        }
-        } 
 
         @keyframes headerEntry {
             0% { opacity: 0; transform: translateY(-20px); }
@@ -76,51 +51,28 @@
             50% { left: 100%; }
         }
 
-        /* ============================================
-           TEMA OSCURO PARA EL HEADER
-           ============================================ */
-        body.ithr-dark-mode .tech-header,
-        body.dark-theme .tech-header {
-            background: rgba(17, 24, 39, 0.95);
-            border-color: rgba(55, 65, 81, 0.3);
-        }
-
-        body.ithr-dark-mode .tech-header::before,
-        body.dark-theme .tech-header::before {
-            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.15), transparent);
-        }
-
-/* ============================================
-           CONTENIDO DEL HEADER
-           ============================================ */
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             z-index: 2;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            width: 100%; /* Asegurar que tome el ancho completo */
+            padding: 0 2rem;
+            width: 100%;
         }
 
-.welcome-section {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: auto;
-    position: relative;
-}
+        .welcome-section,
+        .loga-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+        }
 
-.loga-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: auto;
-    max-width: 300px; 
-    position: relative;
-    animation: logoEntry 1.5s ease-out both;
-}
+        .loga-container {
+            max-width: 300px;
+            animation: logoEntry 1.5s ease-out both;
+        }
 
 /* Animación de entrada del logo */
 @keyframes logoEntry {
@@ -150,34 +102,7 @@
     transition: all 0.3s ease;
 }
 
-/* Animación de flotación reducida */
-@keyframes logoFloat {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-5px); }
-}
-
-/* Animación de brillo suavizada */
-@keyframes logoGlow {
-    0% { 
-        filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.3))
-                drop-shadow(0 0 15px rgba(220, 38, 38, 0.2))
-                drop-shadow(0 0 25px rgba(185, 28, 28, 0.1));
-    }
-    100% { 
-        filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.4))
-                drop-shadow(0 0 25px rgba(220, 38, 38, 0.3))
-                drop-shadow(0 0 40px rgba(185, 28, 28, 0.2))
-                drop-shadow(0 0 60px rgba(153, 27, 27, 0.1));
-    }
-}
-
-/* Animación de escala sutil */
-@keyframes logoScale {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.01); }
-}
-
-/* Efecto hover suavizado */
+        /* Efecto hover suavizado */
 .header-logo-img:hover {
     transform: scale(1.03);
     filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.4))
@@ -252,84 +177,23 @@
     }
 }
 
-/* Contenedor de información del usuario - Posicionamiento a la derecha */
-.user-info-container,
-.header-content > *:last-child {
-    margin-left: auto;
-    flex-shrink: 0; /* Evitar que se comprima */
-}
-
-/* Contenedor del logo - Posicionamiento a la izquierda */
-.welcome-section,
-.loga-container {
-    margin-right: auto;
-    flex-shrink: 0; /* Evitar que se comprima */
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-    .header-content {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        flex-wrap: nowrap; /* Evitar que se envuelvan los elementos */
-    }
-    
-    .loga-container {
-        max-width: 200px;
-    }
-    
-    .header-logo-img {
-        max-width: 180px;
-    }
-    
-    /* Asegurar distribución en móviles */
-    .user-info-container,
-    .header-content > *:last-child {
-        margin-left: auto;
-    }
-}
-
-        /* ============================================
-           SECCIÓN IZQUIERDA - LOGO Y BRANDING
-           ============================================ */
-       
-        /* Tema oscuro para el título */
-        body.ithr-dark-mode .welcome-text h1,
-        body.dark-theme .welcome-text h1 {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .user-controls {
+            margin-left: auto;
+            flex-shrink: 0;
         }
 
-        @keyframes textPulse {
-            0% { opacity: 0.8; }
-            100% { opacity: 1; }
+        .welcome-section {
+            margin-right: auto;
+            flex-shrink: 0;
         }
 
-        .welcome-text p {
-            color: #6b7280;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
 
-        /* Tema oscuro para el subtítulo */
-        body.ithr-dark-mode .welcome-text p,
-        body.dark-theme .welcome-text p {
-            color: #9ca3af;
-        }
-
-        /* ============================================
-           SECCIÓN DERECHA - CONTROLES Y USUARIO
-           ============================================ */
         .user-controls {
             display: flex;
             align-items: center;
             gap: 1.5rem;
         }
 
-        /* ============================================
-           BOTÓN DE NOTIFICACIONES
-           ============================================ */
         .notifications-btn {
             width: 50px;
             height: 50px;
@@ -353,13 +217,6 @@
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
             text-decoration: none;
-        }
-
-        /* Tema oscuro para notificaciones */
-        body.ithr-dark-mode .notifications-btn,
-        body.dark-theme .notifications-btn {
-            background: rgba(220, 38, 38, 0.15);
-            border-color: rgba(220, 38, 38, 0.3);
         }
 
         /* Badge de notificaciones */
@@ -386,9 +243,6 @@
             50% { transform: scale(1.1); }
         }
 
-        /* ============================================
-           TARJETA DE USUARIO Y CONTROLES
-           ============================================ */
         .user-info {
             display: flex;
             align-items: center;
@@ -401,16 +255,6 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        /* Tema oscuro para user-info */
-        body.ithr-dark-mode .user-info,
-        body.dark-theme .user-info {
-            background: rgba(17, 24, 39, 0.3);
-            border-color: rgba(55, 65, 81, 0.3);
-        }
-
-        /* ============================================
-           AVATAR DEL USUARIO
-           ============================================ */
         .user-avatar {
             width: 50px;
             height: 50px;
@@ -439,9 +283,6 @@
             object-fit: cover;
         }
 
-        /* ============================================
-           DETALLES DEL USUARIO
-           ============================================ */
         .user-details {
             color: #1f2937;
             display: flex;
@@ -470,25 +311,6 @@
             font-weight: 400;
         }
 
-        /* Tema oscuro para detalles del usuario */
-        body.ithr-dark-mode .user-details h4,
-        body.dark-theme .user-details h4 {
-            color: #f9fafb;
-        }
-
-        body.ithr-dark-mode .user-details .user-role,
-        body.dark-theme .user-details .user-role {
-            color: #ef4444;
-        }
-
-        body.ithr-dark-mode .user-details .user-email,
-        body.dark-theme .user-details .user-email {
-            color: #9ca3af;
-        }
-
-        /* ============================================
-           INFORMACIÓN DE FECHA Y HORA
-           ============================================ */
         .datetime-info {
             text-align: right;
             color: #6b7280;
@@ -514,20 +336,6 @@
             font-size: 0.8rem;
         }
 
-        /* Tema oscuro para datetime */
-        body.ithr-dark-mode .datetime-info,
-        body.dark-theme .datetime-info {
-            color: #9ca3af;
-        }
-
-        body.ithr-dark-mode .datetime-item i,
-        body.dark-theme .datetime-item i {
-            color: #ef4444;
-        }
-
-        /* ============================================
-           BOTÓN DE LOGOUT
-           ============================================ */
         .logout-btn {
             background: rgba(220, 38, 38, 0.2);
             border: 1px solid rgba(220, 38, 38, 0.3);
@@ -553,23 +361,15 @@
             text-decoration: none;
         }
 
-        /* Tema oscuro para logout */
-        body.ithr-dark-mode .logout-btn,
-        body.dark-theme .logout-btn {
-            background: rgba(220, 38, 38, 0.25);
-            border-color: rgba(220, 38, 38, 0.4);
-            color: #ef4444;
-        }
-
         /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
         @media (max-width: 1024px) {
             .tech-header-wrapper {
-                left: 20px; /* Misma separación que main-content-area en tablet */
+                left: 20px;
                 width: calc(100% - 40px);
                 max-width: calc(1600px - 40px);
-                padding: 0 10px; /* Mantener el mismo padding interno */
+                padding: 0 10px;
             }
             
             .header-content {
@@ -604,16 +404,12 @@
 
         @media (max-width: 768px) {
             .tech-header-wrapper {
-                position: relative; /* Cambiar a relative en móvil */
+                position: relative;
                 top: auto;
                 left: auto;
                 width: 100%;
                 max-width: 100%;
-                padding: 10px; /* Exactamente el mismo padding que main-content-area */
-            }
-            
-            .welcome-text h1 {
-                font-size: 2rem;
+                padding: 10px;
             }
             
             .user-controls {
@@ -631,15 +427,6 @@
         }
 
         @media (max-width: 480px) {
-            .welcome-text h1 {
-                font-size: 1.6rem;
-            }
-            
-            .logo-container {
-                width: 100px;
-                height: 100px;
-            }
-            
             .user-avatar {
                 width: 40px;
                 height: 40px;
@@ -653,9 +440,6 @@
             }
         }
 
-        /* ============================================
-           EFECTOS ADICIONALES
-           ============================================ */
         .tech-circuit {
             position: absolute;
             top: 0;
@@ -673,4 +457,59 @@
         @keyframes circuitMove {
             0% { background-position: 0 0, 0 0; }
             100% { background-position: 40px 40px, 30px 30px; }
+        }
+
+        /* ============================================
+           TEMA OSCURO CONSOLIDADO
+           ============================================ */
+        body.ithr-dark-mode .tech-header,
+        body.dark-theme .tech-header {
+            background: rgba(17, 24, 39, 0.95);
+            border-color: rgba(55, 65, 81, 0.3);
+        }
+
+        body.ithr-dark-mode .tech-header::before,
+        body.dark-theme .tech-header::before {
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.15), transparent);
+        }
+
+        body.ithr-dark-mode .notifications-btn,
+        body.dark-theme .notifications-btn {
+            background: rgba(220, 38, 38, 0.15);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        body.ithr-dark-mode .user-info,
+        body.dark-theme .user-info {
+            background: rgba(17, 24, 39, 0.3);
+            border-color: rgba(55, 65, 81, 0.3);
+        }
+
+        body.ithr-dark-mode .user-details h4,
+        body.dark-theme .user-details h4 {
+            color: #f9fafb;
+        }
+
+        body.ithr-dark-mode .user-details .user-role,
+        body.dark-theme .user-details .user-role {
+            color: #ef4444;
+        }
+
+        body.ithr-dark-mode .user-details .user-email,
+        body.ithr-dark-mode .datetime-info,
+        body.dark-theme .user-details .user-email,
+        body.dark-theme .datetime-info {
+            color: #9ca3af;
+        }
+
+        body.ithr-dark-mode .datetime-item i,
+        body.dark-theme .datetime-item i {
+            color: #ef4444;
+        }
+
+        body.ithr-dark-mode .logout-btn,
+        body.dark-theme .logout-btn {
+            background: rgba(220, 38, 38, 0.25);
+            border-color: rgba(220, 38, 38, 0.4);
+            color: #ef4444;
         }
