@@ -1,44 +1,7 @@
         /* ============================================
-           RESET Y CONFIGURACIÓN BASE
+           ESTILOS DEL SIDEBAR - TECH HOME
            ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        /* ============================================
-           TEMA OSCURO GLOBAL
-           ============================================ */
-        body.ithr-dark-mode {
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-        }
-
-        body.ithr-dark-mode .ithr-main-content {
-            background: rgba(17, 24, 39, 0.95) !important;
-            color: #f9fafb !important;
-        }
-
-        body.ithr-dark-mode .ithr-main-content h2 {
-            color: #f9fafb !important;
-        }
-
-        body.ithr-dark-mode .ithr-main-content p {
-            color: #d1d5db !important;
-        }
-
-        /* ============================================
-           CONTENEDOR PRINCIPAL DEL SIDEBAR
-           ============================================ */
         .ithr-navigation-panel {
             position: fixed;
             top: 20px;
@@ -55,23 +18,8 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            animation: ithr-panel-slide-in 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes ithr-panel-slide-in {
-            0% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* ============================================
-           FONDO ANIMADO DEL SIDEBAR
-           ============================================ */
         .ithr-animated-background {
             position: absolute;
             top: 0;
@@ -95,7 +43,6 @@
             background: rgba(220, 38, 38, 0.05);
             top: 10%;
             left: -20px;
-            animation-delay: 0s;
         }
 
         .ithr-floating-element-2 {
@@ -121,9 +68,6 @@
             50% { transform: translateY(-15px) rotate(180deg); opacity: 0.6; }
         }
 
-        /* ============================================
-           HEADER DEL SIDEBAR CON NUEVO ESTILO
-           ============================================ */
         .ithr-panel-header {
             position: relative;
             z-index: 10;
@@ -177,9 +121,6 @@
             font-weight: 500;
         }
 
-        /* ============================================
-           NAVEGACIÓN PRINCIPAL CON ESTILO MEJORADO
-           ============================================ */
         .ithr-main-navigation {
             position: relative;
             z-index: 10;
@@ -198,7 +139,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* TÍTULOS CON ESTILO DE LA IMAGEN DEL FOOTER */
         .ithr-nav-group-title {
             font-size: 0.75rem;
             font-weight: 700;
@@ -223,8 +163,6 @@
 
         .ithr-nav-list {
             list-style: none;
-            margin: 0;
-            padding: 0;
         }
 
         .ithr-nav-item {
@@ -304,9 +242,6 @@
             opacity: 1;
         }
 
-        /* ============================================
-           FOOTER REDISEÑADO CON NUEVAS FUNCIONES
-           ============================================ */
         .ithr-panel-footer {
             position: relative;
             z-index: 10;
@@ -315,7 +250,6 @@
             margin-top: auto;
         }
 
-        /* TARJETA DE VISITA AL SITIO WEB */
         .ithr-website-promotion {
             margin-bottom: 1rem;
         }
@@ -360,7 +294,6 @@
             font-size: 0.9rem;
         }
 
-        /* TOGGLE DE MODO OSCURO MEJORADO */
         .ithr-theme-control {
             background: rgba(220, 38, 38, 0.05);
             border: 1px solid rgba(220, 38, 38, 0.1);
@@ -406,7 +339,6 @@
             color: #6b7280;
         }
 
-        /* SWITCH MEJORADO */
         .ithr-theme-switch {
             position: relative;
         }
@@ -457,7 +389,6 @@
 
         .ithr-sun-icon {
             color: #f59e0b;
-            opacity: 1;
         }
 
         .ithr-moon-icon {
@@ -475,7 +406,7 @@
         }
 
         /* ============================================
-           TEMA OSCURO PARA EL SIDEBAR
+           TEMA OSCURO CONSOLIDADO
            ============================================ */
         body.ithr-dark-mode .ithr-navigation-panel {
             background: rgba(17, 24, 39, 0.95);
@@ -489,11 +420,9 @@
             background-clip: text;
         }
 
-        body.ithr-dark-mode .ithr-brand-subtitle {
-            color: #9ca3af;
-        }
-
-        body.ithr-dark-mode .ithr-nav-group-title {
+        body.ithr-dark-mode .ithr-brand-subtitle,
+        body.ithr-dark-mode .ithr-nav-group-title,
+        body.ithr-dark-mode .ithr-theme-description {
             color: #9ca3af;
         }
 
@@ -515,10 +444,6 @@
             color: #f9fafb;
         }
 
-        body.ithr-dark-mode .ithr-theme-description {
-            color: #9ca3af;
-        }
-
         body.ithr-dark-mode .ithr-theme-control {
             background: rgba(55, 65, 81, 0.3);
             border-color: rgba(75, 85, 99, 0.3);
@@ -528,52 +453,6 @@
             border-color: rgba(55, 65, 81, 0.3);
         }
 
-        /* ============================================
-           CONTENIDO PRINCIPAL
-           ============================================ */
-        .ithr-main-content {
-            margin-left: 280px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .ithr-main-content h2 {
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-
-        .ithr-main-content p {
-            color: #6b7280;
-        }
-
-        /* ============================================
-           ANIMACIONES ADICIONALES
-           ============================================ */
-        @keyframes ithr-particle-float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-400px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
         @media (max-width: 1024px) {
             .ithr-navigation-panel {
                 transform: translateX(-100%);
@@ -582,10 +461,6 @@
             
             .ithr-navigation-panel.ithr-show {
                 transform: translateX(0);
-            }
-
-            .ithr-main-content {
-                margin-left: 0;
             }
         }
 
@@ -603,9 +478,5 @@
             
             .ithr-website-card {
                 height: 70px;
-            }
-
-            body {
-                padding: 10px;
             }
         }
