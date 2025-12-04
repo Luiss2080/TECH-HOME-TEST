@@ -275,5 +275,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/pages/welcome.js') }}" defer></script>
+    @vite(['resources/js/pages/welcome.js'])
 @endpush

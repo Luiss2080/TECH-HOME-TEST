@@ -24,6 +24,9 @@
 @import './home/animations.css';
 @import './home/responsive.css';
 
+/* Páginas específicas */
+@import './pages/welcome.css';
+
 /* ============================================
    ESTILOS BASE DE LA APLICACIÓN
    ============================================ */
