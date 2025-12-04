@@ -1,176 +1,221 @@
-<!-- ============================================================================
- FOOTER TECH HOME - Instituto de Robótica
- ============================================================================ -->
-<div class="footer-container-wrapper">
-    <footer class="tech-home-footer">
-    <div class="footer-container">
-        <!-- ============================================================================
-         CONTENIDO PRINCIPAL DEL FOOTER
-         ============================================================================ -->
-        <div class="footer-main-content {{ auth()->check() ? 'authenticated' : 'non-authenticated' }}">
-            <!-- Columna 1: Información de Contacto -->
-            <div class="footer-column footer-contact-column">
-                <h6 class="footer-column-title">Contacto</h6>
-                <div class="footer-contact-info">
-                    <!-- Dirección física -->
+{{-- ============================================ --}}
+{{-- FOOTER TECH HOME - Instituto de Robótica --}}
+{{-- ============================================ --}}
+
+<footer class="tech-footer">
+    <!-- Fondo animado -->
+    <div class="footer-background">
+        <div class="footer-gradient"></div>
+        <div class="footer-particles"></div>
+    </div>
+
+    <!-- Contenido principal del footer -->
+    <div class="footer-content">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-section contact-section">
+                <h3 class="section-title">
+                    <i class="fas fa-address-book"></i>
+                    Contacto
+                </h3>
+                <div class="section-divider"></div>
+
+                <div class="contact-items">
+                    <!-- Dirección -->
                     <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Av. Tecnológica #456<br>Santa Cruz, Bolivia</span>
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="info-label">Dirección:</span>
+                            <span class="info-text">Av. Tecnológica #456</span>
+                            <span class="info-subtext">Santa Cruz, Bolivia</span>
+                        </div>
                     </div>
-                    <!-- Número de teléfono -->
+
+                    <!-- Teléfono -->
                     <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+591 3 789-0123</span>
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="info-label">Teléfono:</span>
+                            <a href="tel:+59137890123" class="info-link">
+                                +591 3 789-0123
+                            </a>
+                        </div>
                     </div>
-                    <!-- Correo electrónico -->
+
+                    <!-- Email -->
                     <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@techhome.edu.bo</span>
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="info-label">Email:</span>
+                            <a href="mailto:info@techhome.edu.bo" class="info-link">
+                                info@techhome.edu.bo
+                            </a>
+                        </div>
                     </div>
-                    <!-- Horarios de atención -->
+
+                    <!-- Horarios -->
                     <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <span>Lun - Vie: 7:00 - 19:00<br>Sáb: 8:00 - 12:00</span>
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-info">
+                            <span class="info-label">Horarios:</span>
+                            <span class="info-text">Lun - Vie: 7:00 - 19:00</span>
+                            <span class="info-subtext">Sáb: 8:00 - 12:00</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            @auth
-                <!-- Columna 2: Enlaces de Navegación del Sistema -->
-                <div class="footer-column footer-nav-column">
-                    <h6 class="footer-column-title">Sistema</h6>
-                    <div class="footer-nav-links">
-                        <!-- Enlace al Dashboard principal -->
-                        <a href="{{ route(Dashboard()) }}" class="footer-nav-link">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Dashboard
-                        </a>
-                        <!-- Gestión de Estudiantes -->
-                        <a href="{{ route('estudiantes') }}" class="footer-nav-link">
-                            <i class="fas fa-user-graduate"></i>
-                            Estudiantes
-                        </a>
-                        <!-- Catálogo de Cursos -->
-                        <a href="{{ route('cursos') }}" class="footer-nav-link">
-                            <i class="fas fa-graduation-cap"></i>
-                            Cursos
-                        </a>
-                        <!-- Biblioteca Digital -->
-                        <a href="{{ route('libros') }}" class="footer-nav-link">
-                            <i class="fas fa-book"></i>
-                            Biblioteca
-                        </a>
-                        <!-- Materiales Educativos -->
-                        <a href="{{ route('materiales') }}" class="footer-nav-link">
-                            <i class="fas fa-file-alt"></i>
-                            Materiales
-                        </a>
-                        <!-- Administración de Usuarios -->
-                        <a href="{{ route('usuarios') }}" class="footer-nav-link">
-                            <i class="fas fa-users-cog"></i>
-                            Usuarios
-                        </a>
-                    </div>
-                </div>
-            @endauth
+            <!-- Sección TECH HOME -->
+            <div class="footer-section company-section">
+                <h3 class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    TECH HOME
+                </h3>
+                <div class="section-divider"></div>
 
-            <!-- Columna 3: Información Acerca del Instituto -->
-            <div class="footer-column footer-about-column">
-                <h6 class="footer-column-title">TECH HOME</h6>
-                <div class="footer-about">
-                    <!-- Descripción del instituto -->
-                    <p class="footer-about-text">
-                        Instituto de excelencia en robótica y tecnología.
-                        Formamos profesionales capacitados para liderar
-                        la revolución tecnológica del futuro.
-                    </p>
-                    <!-- Características destacadas -->
-                    <div class="footer-features">
+                <div class="company-content">
+                    <div class="company-description">
+                        <p>Instituto de excelencia en robótica y tecnología. Formamos profesionales capacitados para liderar la revolución tecnológica del futuro.</p>
+                    </div>
+
+                    <!-- Características distintivas -->
+                    <div class="features-list">
                         <div class="feature-item">
-                            <i class="fas fa-shield-alt"></i>
+                            <i class="fas fa-certificate"></i>
                             <span>Certificado</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-rocket"></i>
+                            <i class="fas fa-lightbulb"></i>
                             <span>Innovador</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-mobile-alt"></i>
+                            <i class="fas fa-universal-access"></i>
                             <span>Accesible</span>
                         </div>
                     </div>
-                    <!-- Información de versión -->
-                    <div class="footer-version">
-                        <span class="version-badge">Versión 2.0</span>
-                        <span class="build-info">Build #2025.1</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Separador principal horizontal -->
-        <div class="footer-main-divider"></div>
-
-        <!-- ============================================================================
-         FOOTER INFERIOR
-         ============================================================================ -->
-        <div class="footer-bottom">
-            <!-- Sección izquierda: Marca y logo -->
-            <div class="footer-bottom-left">
-                <div class="footer-brand-section">
-                    <!-- Icono de la marca -->
-                    <div class="footer-logo-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <!-- Texto de la marca -->
-                    <div class="footer-brand-text">
-                        <h5 class="footer-brand-name">TECH HOME</h5>
-                        <p class="footer-brand-tagline">Instituto de Robótica y Tecnología</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección central: Redes sociales -->
-            <div class="footer-bottom-center">
-                <div class="footer-social-links">
-                    <!-- Enlaces a redes sociales -->
-                    <a href="#" class="social-link facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link whatsapp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                    <a href="#" class="social-link linkedin">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link youtube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Sección derecha: Información legal -->
-            <div class="footer-bottom-right">
-                <div class="footer-legal">
-                    <!-- Copyright con año dinámico -->
-                    <p class="copyright-text">
-                        &copy; {{ date('Y') }} Instituto Tech Home. Todos los derechos reservados.
-                    </p>
-                    <!-- Enlaces legales -->
-                    <div class="legal-links">
-                        <a href="#" class="legal-link">Política de Privacidad</a>
-                        <span class="legal-separator">|</span>
-                        <a href="#" class="legal-link">Términos de Servicio</a>
+                    <!-- Información de la versión -->
+                    <div class="version-info">
+                        <div class="version-badge">
+                            <span class="version-text">Versión 2.0</span>
+                        </div>
+                        <div class="build-info">
+                            <span>Build #2025.1</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Sección de redes sociales y copyright -->
+    <div class="footer-bottom">
+        <div class="footer-container">
+            <!-- Logo y nombre -->
+            <div class="footer-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="brand-text">
+                    <h4>TECH HOME</h4>
+                    <span>Instituto de Robótica y Tecnología</span>
+                </div>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="social-networks">
+                <a href="https://facebook.com/techhome" 
+                   target="_blank" 
+                   class="social-link facebook"
+                   title="Síguenos en Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                
+                <a href="https://instagram.com/techhome" 
+                   target="_blank" 
+                   class="social-link instagram"
+                   title="Síguenos en Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                
+                <a href="https://twitter.com/techhome" 
+                   target="_blank" 
+                   class="social-link twitter"
+                   title="Síguenos en Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                
+                <a href="https://wa.me/59137890123" 
+                   target="_blank" 
+                   class="social-link whatsapp"
+                   title="Contáctanos por WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                
+                <a href="https://linkedin.com/company/techhome" 
+                   target="_blank" 
+                   class="social-link linkedin"
+                   title="Conéctate en LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                
+                <a href="https://youtube.com/@techhome" 
+                   target="_blank" 
+                   class="social-link youtube"
+                   title="Suscríbete a nuestro canal">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+
+            <!-- Copyright y enlaces legales -->
+            <div class="copyright-section">
+                <div class="copyright-text">
+                    <p>&copy; {{ date('Y') }} Instituto Tech Home. Todos los derechos reservados.</p>
+                </div>
+                <div class="legal-links">
+                    <a href="#" class="legal-link">
+                        Política de Privacidad
+                    </a>
+                    <span class="separator">|</span>
+                    <a href="#" class="legal-link">
+                        Términos de Servicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicador de scroll to top -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-chevron-up"></i>
+        <span class="tooltip">Volver arriba</span>
+    </div>
 </footer>
-</div>
+
+{{-- Scripts específicos del footer --}}
+@push('scripts')
+<script>
+    // Datos de contacto dinámicos
+    window.footerData = {
+        phone: '+591 3 789-0123',
+        email: 'info@techhome.edu.bo',
+        address: 'Av. Tecnológica #456, Santa Cruz - Bolivia',
+        socialMedia: {
+            facebook: 'https://facebook.com/techhome',
+            instagram: 'https://instagram.com/techhome',
+            twitter: 'https://twitter.com/techhome',
+            whatsapp: 'https://wa.me/59137890123',
+            linkedin: 'https://linkedin.com/company/techhome',
+            youtube: 'https://youtube.com/@techhome'
+        }
+    };
+</script>
+@endpush

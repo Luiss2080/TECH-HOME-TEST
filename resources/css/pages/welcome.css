@@ -1,0 +1,736 @@
+/* ============================================
+   WELCOME DASHBOARD - TECH HOME
+   Instituto de Robótica y Tecnología
+   ============================================ */
+
+:root {
+    --welcome-primary: #dc2626;
+    --welcome-secondary: #991b1b;
+    --welcome-accent: #059669;
+    --welcome-glass: rgba(255, 255, 255, 0.1);
+    --welcome-glass-border: rgba(255, 255, 255, 0.2);
+    --welcome-shadow: 0 8px 32px rgba(220, 38, 38, 0.1);
+    --welcome-hover-shadow: 0 12px 40px rgba(220, 38, 38, 0.2);
+    --welcome-text: #1f2937;
+    --welcome-text-muted: #6b7280;
+    --welcome-bg: #f8fafc;
+    --welcome-card-bg: rgba(255, 255, 255, 0.9);
+    --welcome-border: rgba(220, 38, 38, 0.1);
+}
+
+[data-theme="dark"] {
+    --welcome-text: #f9fafb;
+    --welcome-text-muted: #d1d5db;
+    --welcome-bg: #0f172a;
+    --welcome-card-bg: rgba(15, 23, 42, 0.9);
+    --welcome-glass: rgba(15, 23, 42, 0.8);
+    --welcome-glass-border: rgba(255, 255, 255, 0.1);
+    --welcome-border: rgba(220, 38, 38, 0.2);
+}
+
+/* ============================================
+   LAYOUT PRINCIPAL
+   ============================================ */
+.welcome-dashboard {
+    width: 100%;
+    min-height: calc(100vh - 140px);
+    background: linear-gradient(135deg, var(--welcome-bg) 0%, rgba(220, 38, 38, 0.02) 100%);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-dashboard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.welcome-dashboard > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ============================================
+   BREADCRUMB
+   ============================================ */
+.breadcrumb-section {
+    margin-bottom: 2rem;
+    animation: slideInFromTop 0.6s ease-out;
+}
+
+.breadcrumb-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--welcome-card-bg);
+    border: 1px solid var(--welcome-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--welcome-shadow);
+    width: fit-content;
+}
+
+.breadcrumb-icon {
+    color: var(--welcome-primary);
+    font-size: 1rem;
+}
+
+.breadcrumb-text {
+    color: var(--welcome-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+    margin-bottom: 3rem;
+    animation: slideInFromBottom 0.8s ease-out 0.2s both;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 2.5rem;
+    background: var(--welcome-card-bg);
+    border: 1px solid var(--welcome-border);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--welcome-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--welcome-primary), var(--welcome-accent));
+}
+
+.hero-icon .icon-container {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.hero-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.hero-text {
+    flex: 1;
+    text-align: left;
+}
+
+.hero-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--welcome-text);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--welcome-primary);
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--welcome-text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.hero-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(5, 150, 105, 0.1);
+    border: 1px solid rgba(5, 150, 105, 0.2);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--welcome-accent);
+}
+
+.status-indicator.online i {
+    color: var(--welcome-accent);
+    animation: blink 2s infinite;
+}
+
+.current-datetime {
+    text-align: right;
+}
+
+.current-time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--welcome-text);
+    font-family: 'Courier New', monospace;
+}
+
+.current-date {
+    font-size: 0.9rem;
+    color: var(--welcome-text-muted);
+    margin-top: 0.25rem;
+}
+
+/* ============================================
+   DASHBOARD GRID
+   ============================================ */
+.dashboard-section {
+    margin-bottom: 3rem;
+    animation: slideInFromBottom 0.8s ease-out 0.4s both;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.section-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+}
+
+.section-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--welcome-text);
+    margin: 0;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ============================================
+   TARJETAS DEL DASHBOARD
+   ============================================ */
+.dashboard-card {
+    background: var(--welcome-card-bg);
+    border: 1px solid var(--welcome-border);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--welcome-shadow);
+    padding: 1.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.dashboard-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--welcome-primary), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--welcome-hover-shadow);
+}
+
+.dashboard-card:hover::before {
+    opacity: 1;
+}
+
+.card-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Colores específicos para cada módulo */
+.card-icon.biblioteca {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+}
+
+.card-icon.componentes {
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+.card-icon.cursos {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.card-icon.proyectos {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+}
+
+.card-icon.laboratorios {
+    background: linear-gradient(135deg, #ea580c, #c2410c);
+}
+
+.card-icon.estudiantes {
+    background: linear-gradient(135deg, #0369a1, #075985);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--welcome-text);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: var(--welcome-text-muted);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.card-arrow {
+    width: 32px;
+    height: 32px;
+    background: rgba(220, 38, 38, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.card-arrow i {
+    color: var(--welcome-primary);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover .card-arrow {
+    background: var(--welcome-primary);
+}
+
+.dashboard-card:hover .card-arrow i {
+    color: white;
+    transform: translateX(2px);
+}
+
+.card-stats {
+    margin-top: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--welcome-primary);
+    font-family: 'Courier New', monospace;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--welcome-text-muted);
+    line-height: 1;
+}
+
+/* ============================================
+   OVERLAY EFFECT
+   ============================================ */
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
+}
+
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-content i {
+    font-size: 2.5rem;
+}
+
+.overlay-content span {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.dashboard-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.dashboard-card:hover .overlay-content {
+    transform: scale(1);
+}
+
+/* ============================================
+   ACCIONES RÁPIDAS
+   ============================================ */
+.quick-actions-section {
+    margin-bottom: 3rem;
+    animation: slideInFromBottom 0.8s ease-out 0.6s both;
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--welcome-card-bg);
+    border: 1px solid var(--welcome-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--welcome-shadow);
+    text-decoration: none;
+    color: var(--welcome-text);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-action-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.quick-action-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--welcome-hover-shadow);
+    border-color: var(--welcome-primary);
+}
+
+.quick-action-item:hover::before {
+    left: 100%;
+}
+
+.action-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.action-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   INFORMACIÓN DE VERSIÓN
+   ============================================ */
+.version-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--welcome-card-bg);
+    border: 1px solid var(--welcome-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--welcome-shadow);
+    animation: slideInFromBottom 0.8s ease-out 0.8s both;
+}
+
+.version-badge {
+    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.build-info {
+    font-size: 0.85rem;
+    color: var(--welcome-text-muted);
+    font-family: 'Courier New', monospace;
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-dashboard {
+        padding: 1rem;
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+    
+    .hero-status {
+        align-items: center;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hero-title {
+        font-size: 1.875rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .version-section {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+/* ============================================
+   TEMA OSCURO - AJUSTES ESPECÍFICOS
+   ============================================ */
+[data-theme="dark"] .dashboard-card {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dashboard-card:hover {
+    border-color: var(--welcome-primary);
+}
+
+[data-theme="dark"] .hero-content::before {
+    background: linear-gradient(90deg, var(--welcome-primary), var(--welcome-accent));
+}
+
+[data-theme="dark"] .status-indicator {
+    background: rgba(5, 150, 105, 0.2);
+    border-color: rgba(5, 150, 105, 0.3);
+}
+
+/* ============================================
+   EFECTOS ADICIONALES
+   ============================================ */
+.dashboard-card:hover .card-icon {
+    transform: scale(1.1);
+}
+
+.dashboard-card:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.quick-action-item:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states para accesibilidad */
+.dashboard-card:focus,
+.quick-action-item:focus {
+    outline: 2px solid var(--welcome-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    .welcome-dashboard {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .dashboard-card,
+    .quick-action-item {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+}
