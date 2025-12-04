@@ -12,7 +12,14 @@ export default defineConfig({
                 // Archivos compartidos
                 "resources/css/shared/globals.css",
                 "resources/css/shared/variables.css", 
-                "resources/css/shared/utilities.css"
+                "resources/css/shared/utilities.css",
+                // Archivos de Home/Welcome
+                "resources/css/home/main.css",
+                "resources/css/home/components.css", 
+                "resources/css/home/animations.css",
+                "resources/css/home/responsive.css",
+                "resources/js/home/main.js",
+                "resources/js/home/interactions.js"
             ],
             refresh: true,
         }),
