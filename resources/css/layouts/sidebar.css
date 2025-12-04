@@ -1,0 +1,588 @@
+/* ============================================
+   SIDEBAR TECH HOME - Instituto de Robótica
+   ============================================ */
+
+/* Panel principal del sidebar */
+.tech-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 0 25px 25px 0;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Fondo animado del sidebar */
+.sidebar-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Partículas flotantes */
+.floating-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.05);
+    animation: sidebarFloat 15s ease-in-out infinite;
+}
+
+.particle-1 {
+    width: 80px;
+    height: 80px;
+    top: 15%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.particle-2 {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    right: 20%;
+    animation-delay: 5s;
+}
+
+.particle-3 {
+    width: 40px;
+    height: 40px;
+    top: 80%;
+    right: 15%;
+    animation-delay: 10s;
+}
+
+@keyframes sidebarFloat {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.3;
+    }
+    25% { 
+        transform: translateY(-20px) rotate(90deg);
+        opacity: 0.5;
+    }
+    50% { 
+        transform: translateY(-10px) rotate(180deg);
+        opacity: 0.3;
+    }
+    75% { 
+        transform: translateY(-15px) rotate(270deg);
+        opacity: 0.4;
+    }
+}
+
+/* ============================================
+   HEADER DEL SIDEBAR
+   ============================================ */
+
+/* Header del sidebar */
+.sidebar-header {
+    padding: 2rem 1.5rem 1.5rem;
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor del brand */
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Ícono del brand */
+.brand-icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    animation: brandPulse 3s ease-in-out infinite;
+}
+
+@keyframes brandPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+    }
+}
+
+/* Información del brand */
+.brand-info {
+    flex: 1;
+}
+
+.brand-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin: 0;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #dc2626, #7c2d12);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-subtitle {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+    display: block;
+    margin-top: 2px;
+}
+
+/* ============================================
+   NAVEGACIÓN DEL SIDEBAR
+   ============================================ */
+
+/* Navegación principal */
+.sidebar-navigation {
+    flex: 1;
+    padding: 1rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+/* Secciones de navegación */
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Lista de navegación */
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0.25rem 0;
+    position: relative;
+}
+
+/* Enlaces de navegación */
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 0;
+}
+
+.nav-link:hover {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+    text-decoration: none;
+    transform: translateX(8px);
+}
+
+/* Íconos de navegación */
+.nav-icon {
+    width: 20px;
+    font-size: 1rem;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+    color: #6b7280;
+}
+
+.nav-link:hover .nav-icon {
+    color: #dc2626;
+    transform: scale(1.1);
+}
+
+/* Texto de navegación */
+.nav-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+/* Contadores de navegación */
+.nav-counter {
+    background: #dc2626;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 24px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+}
+
+/* Estados activos */
+.nav-item.active .nav-link {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    font-weight: 600;
+    transform: translateX(8px);
+    border-left: 3px solid #dc2626;
+}
+
+.nav-item.active .nav-icon {
+    color: #dc2626;
+    transform: scale(1.1);
+}
+
+.nav-item.active .nav-counter {
+    background: #dc2626;
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4);
+}
+
+/* ============================================
+   FOOTER DEL SIDEBAR
+   ============================================ */
+
+/* Footer del sidebar */
+.sidebar-footer {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(220, 38, 38, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Botón de sitio web */
+.website-button {
+    margin-bottom: 1rem;
+}
+
+.website-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.website-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.website-link i {
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Control de tema */
+.theme-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+}
+
+.theme-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-icon {
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.theme-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Toggle del tema */
+.theme-toggle {
+    position: relative;
+}
+
+.theme-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    background: #cbd5e1;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.slider-knob {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-checkbox:checked + .theme-slider {
+    background: #dc2626;
+}
+
+.theme-checkbox:checked + .theme-slider .slider-knob {
+    transform: translateX(24px);
+}
+
+/* ============================================
+   TEMA OSCURO
+   ============================================ */
+
+body.dark-mode .tech-sidebar,
+body.ithr-dark-mode .tech-sidebar {
+    background: rgba(15, 23, 42, 0.95);
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar-header,
+body.ithr-dark-mode .sidebar-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .brand-title,
+body.ithr-dark-mode .brand-title {
+    color: #f1f5f9;
+    background: linear-gradient(135deg, #dc2626, #fca5a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .brand-subtitle,
+body.ithr-dark-mode .brand-subtitle {
+    color: #94a3b8;
+}
+
+body.dark-mode .section-title,
+body.ithr-dark-mode .section-title {
+    color: #64748b;
+}
+
+body.dark-mode .nav-link,
+body.ithr-dark-mode .nav-link {
+    color: #cbd5e1;
+}
+
+body.dark-mode .nav-link:hover,
+body.ithr-dark-mode .nav-link:hover {
+    background: rgba(220, 38, 38, 0.15);
+    color: #fca5a5;
+}
+
+body.dark-mode .nav-icon,
+body.ithr-dark-mode .nav-icon {
+    color: #94a3b8;
+}
+
+body.dark-mode .nav-link:hover .nav-icon,
+body.ithr-dark-mode .nav-link:hover .nav-icon {
+    color: #fca5a5;
+}
+
+body.dark-mode .nav-item.active .nav-link,
+body.ithr-dark-mode .nav-item.active .nav-link {
+    background: rgba(220, 38, 38, 0.2);
+    color: #fca5a5;
+}
+
+body.dark-mode .nav-item.active .nav-icon,
+body.ithr-dark-mode .nav-item.active .nav-icon {
+    color: #fca5a5;
+}
+
+body.dark-mode .sidebar-footer,
+body.ithr-dark-mode .sidebar-footer {
+    background: rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .theme-control,
+body.ithr-dark-mode .theme-control {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .theme-label,
+body.ithr-dark-mode .theme-label {
+    color: #e2e8f0;
+}
+
+body.dark-mode .theme-icon,
+body.ithr-dark-mode .theme-icon {
+    color: #94a3b8;
+}
+
+body.dark-mode .floating-particle,
+body.ithr-dark-mode .floating-particle {
+    background: rgba(220, 38, 38, 0.1);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .tech-sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tech-sidebar {
+        width: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        border-radius: 0;
+    }
+    
+    .tech-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    
+    .nav-link {
+        padding: 1rem 1.5rem;
+    }
+    
+    .brand-container {
+        gap: 0.75rem;
+    }
+    
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* ============================================
+   ANIMACIONES DE ENTRADA
+   ============================================ */
+
+@keyframes sidebarSlideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.tech-sidebar {
+    animation: sidebarSlideIn 0.5s ease-out;
+}
+
+/* Animación para los elementos de navegación */
+.nav-item {
+    animation: navItemFadeIn 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes navItemFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Retrasos escalonados para los elementos */
+.nav-item:nth-child(1) { animation-delay: 0.1s; }
+.nav-item:nth-child(2) { animation-delay: 0.2s; }
+.nav-item:nth-child(3) { animation-delay: 0.3s; }
+.nav-item:nth-child(4) { animation-delay: 0.4s; }
+.nav-item:nth-child(5) { animation-delay: 0.5s; }
+.nav-item:nth-child(6) { animation-delay: 0.6s; }
+.nav-item:nth-child(7) { animation-delay: 0.7s; }
+.nav-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Scrollbar personalizado para el sidebar */
+.tech-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tech-sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.tech-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.3);
+    border-radius: 3px;
+}
+
+.tech-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(220, 38, 38, 0.5);
+}
+
+body.dark-mode .tech-sidebar::-webkit-scrollbar-track,
+body.ithr-dark-mode .tech-sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .tech-sidebar::-webkit-scrollbar-thumb,
+body.ithr-dark-mode .tech-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.4);
+}
