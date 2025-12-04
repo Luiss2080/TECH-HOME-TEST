@@ -21,13 +21,20 @@
    ============================================ */
 
 .tech-footer {
-    position: relative;
+    position: fixed;
+    bottom: 20px;
+    left: calc(var(--sidebar-width) + 20px);
+    right: 20px;
     background: var(--footer-bg-primary);
     color: var(--footer-text-primary);
-    margin-top: auto;
     z-index: 10;
     overflow: hidden;
-    min-height: 400px;
+    height: 300px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--footer-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Fondo animado del footer */
@@ -562,6 +569,20 @@
 }
 
 /* ============================================
+   ADAPTACIÓN AL SIDEBAR
+   ============================================ */
+
+/* Sidebar colapsado */
+.sidebar-collapsed .tech-footer {
+    left: calc(var(--sidebar-collapsed-width) + 20px);
+}
+
+/* Sidebar oculto en móvil */
+.sidebar-hidden .tech-footer {
+    left: 20px;
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
@@ -583,6 +604,15 @@
 }
 
 @media (max-width: 768px) {
+    .tech-footer {
+        left: 10px !important;
+        right: 10px;
+        bottom: 10px;
+        height: auto;
+        min-height: 320px;
+        border-radius: 12px;
+    }
+    
     .footer-content {
         padding: 40px 0 30px;
     }
@@ -614,7 +644,7 @@
     .scroll-to-top {
         width: 50px;
         height: 50px;
-        bottom: 20px;
+        bottom: 340px; /* Ajustar posición sobre el footer fijo */
         right: 20px;
         font-size: 1rem;
     }

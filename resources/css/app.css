@@ -19,7 +19,7 @@
 @import './auth/register.css';
 
 /* Páginas específicas */
-@import './pages/welcome.css';
+@import './home/welcome.css';
 
 /* ============================================
    ESTILOS BASE DE LA APLICACIÓN
@@ -44,9 +44,10 @@ html, body {
 /* Contenedor principal de la aplicación */
 .app-container {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 300px); /* Ajustar para el footer fijo */
     position: relative;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding-bottom: 300px; /* Espacio para el footer */
 }
 
 /* Área de contenido principal */
@@ -55,8 +56,8 @@ html, body {
     margin-left: 320px; /* Espacio para el sidebar */
     margin-top: 20px;
     margin-right: 20px;
-    margin-bottom: 20px;
-    min-height: calc(100vh - 40px);
+    margin-bottom: 320px; /* Espacio para el footer fijo */
+    min-height: calc(100vh - 360px); /* Ajustar altura considerando header y footer */
     position: relative;
     z-index: 1;
 }
@@ -92,6 +93,11 @@ body.dark-theme .app-container {
         margin-top: 80px;
         margin-right: 10px;
         margin-left: 10px;
+        margin-bottom: 320px; /* Mantener espacio para footer en móviles */
+    }
+    
+    .app-container {
+        padding-bottom: 320px; /* Ajustar padding para móviles */
     }
 }
 

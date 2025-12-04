@@ -3,7 +3,7 @@
 @section('title', 'TECH HOME - Instituto de Robótica')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/welcome.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
 @endpush
 
 @section('content')
@@ -275,5 +275,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/pages/welcome.js'])
+    @vite('resources/js/home/welcome.js')
 @endpush
