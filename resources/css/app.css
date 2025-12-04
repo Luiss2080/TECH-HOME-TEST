@@ -3,23 +3,25 @@
    ============================================ */
 
 /* Variables CSS globales */
-@import url('./shared/variables.css');
+@import './shared/variables.css';
 
 /* Utilidades compartidas */
-@import url('./shared/utilities.css');
+@import './shared/utilities.css';
 
 /* Layouts principales */
-@import url('./layouts/header.css');
-@import url('./layouts/sidebar.css');
-@import url('./layouts/footer.css');
+@import './layouts/header.css';
+@import './layouts/sidebar.css';
+@import './layouts/footer.css';
 
 /* Estilos por sección */
-@import url('./auth/login.css');
-@import url('./auth/register.css');
+@import './auth/login.css';
+@import './auth/register.css';
 
-/* Home */
-@import url('./home/dashboard.css');
-@import url('./home/responsive.css');
+/* Home - Solo archivos que existen */
+@import './home/main.css';
+@import './home/components.css';
+@import './home/animations.css';
+@import './home/responsive.css';
 
 /* Admin */
 @import url('./admin/dashboard.css');
