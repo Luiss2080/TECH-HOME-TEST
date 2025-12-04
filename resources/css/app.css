@@ -12,6 +12,7 @@
 @import './layouts/header.css';
 @import './layouts/sidebar.css';
 @import './layouts/footer.css';
+@import './layouts/public.css';
 
 /* Estilos por sección */
 @import './auth/login.css';

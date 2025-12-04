@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-footer">
-                                <a href="{{ route('notificaciones') }}" class="view-all-btn">Ver todas</a>
+                                <a href="#" class="view-all-btn">Ver todas</a>
                             </div>
                         </div>
                     </div>
@@ -158,29 +158,29 @@
                             <div class="dropdown-divider"></div>
                             
                             <div class="dropdown-menu">
-                                <a href="{{ route('perfil') }}" class="dropdown-item">
+                                <a href="#" class="dropdown-item">
                                     <i class="fas fa-user"></i>
                                     <span>Ver Perfil</span>
                                 </a>
-                                <a href="{{ route('perfil.configuracion') }}" class="dropdown-item">
+                                <a href="#" class="dropdown-item">
                                     <i class="fas fa-cog"></i>
                                     <span>Configuración</span>
                                 </a>
-                                <a href="{{ route('perfil.editar') }}" class="dropdown-item">
+                                <a href="#" class="dropdown-item">
                                     <i class="fas fa-edit"></i>
                                     <span>Editar Perfil</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="{{ route('ayuda') }}" class="dropdown-item">
+                                <a href="#" class="dropdown-item">
                                     <i class="fas fa-question-circle"></i>
                                     <span>Ayuda</span>
                                 </a>
-                                <a href="{{ route('soporte') }}" class="dropdown-item">
-                                    <i class="fas fa-life-ring"></i>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-headset"></i>
                                     <span>Soporte</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                                <form action="{{ route('auth.logout') }}" method="POST" class="logout-form">
                                     @csrf
                                     <button type="submit" class="dropdown-item logout-item">
                                         <i class="fas fa-sign-out-alt"></i>
@@ -195,11 +195,11 @@
                      BOTONES PARA USUARIOS NO AUTENTICADOS
                      ============================================ -->
                     <div class="guest-actions">
-                        <a href="{{ route('login') }}" class="login-btn">
+                        <a href="{{ route('auth.login') }}" class="login-btn">
                             <i class="fas fa-sign-in-alt"></i>
                             <span>Iniciar Sesión</span>
                         </a>
-                        <a href="{{ route('register') }}" class="register-btn">
+                        <a href="{{ route('auth.register') }}" class="register-btn">
                             <i class="fas fa-user-plus"></i>
                             <span>Registrarse</span>
                         </a>
