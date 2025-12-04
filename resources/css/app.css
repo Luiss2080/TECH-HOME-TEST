@@ -1,0 +1,193 @@
+/* ============================================
+   ARCHIVO PRINCIPAL DE ESTILOS - TECH HOME
+   ============================================ */
+
+/* Variables CSS globales */
+@import url('./shared/variables.css');
+
+/* Utilidades compartidas */
+@import url('./shared/utilities.css');
+
+/* Layouts principales */
+@import url('./layouts/header.css');
+@import url('./layouts/sidebar.css');
+@import url('./layouts/footer.css');
+
+/* Estilos por sección */
+@import url('./auth/login.css');
+@import url('./auth/register.css');
+
+/* Home */
+@import url('./home/dashboard.css');
+@import url('./home/responsive.css');
+
+/* Admin */
+@import url('./admin/dashboard.css');
+@import url('./admin/index.css');
+@import url('./admin/crear.css');
+@import url('./admin/editar.css');
+@import url('./admin/ver.css');
+
+/* Categorías */
+@import url('./categorias/dashboard.css');
+@import url('./categorias/index.css');
+@import url('./categorias/crear.css');
+@import url('./categorias/editar.css');
+@import url('./categorias/ver.css');
+
+/* Cursos */
+@import url('./cursos/dashboard.css');
+@import url('./cursos/index.css');
+@import url('./cursos/crear.css');
+@import url('./cursos/editar.css');
+@import url('./cursos/ver.css');
+
+/* Componentes */
+@import url('./components/dashboard.css');
+@import url('./components/index.css');
+@import url('./components/crear.css');
+@import url('./components/editar.css');
+@import url('./components/ver.css');
+
+/* Materiales */
+@import url('./materials/dashboard.css');
+@import url('./materials/index.css');
+@import url('./materials/crear.css');
+@import url('./materials/editar.css');
+@import url('./materials/ver.css');
+
+/* Libros */
+@import url('./libros/dashboard.css');
+@import url('./libros/index.css');
+@import url('./libros/crear.css');
+@import url('./libros/editar.css');
+@import url('./libros/ver.css');
+
+/* ============================================
+   ESTILOS BASE DE LA APLICACIÓN
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2937;
+    background: #f8fafc;
+    overflow-x: hidden;
+}
+
+/* Contenedor principal de la aplicación */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Área de contenido principal */
+.main-content-area {
+    flex: 1;
+    margin-left: 320px; /* Espacio para el sidebar */
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    min-height: calc(100vh - 40px);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   MODO OSCURO GLOBAL
+   ============================================ */
+
+body.ithr-dark-mode,
+body.dark-theme {
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+body.ithr-dark-mode .app-container,
+body.dark-theme .app-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .main-content-area {
+        margin-left: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content-area {
+        margin-left: 0;
+        margin-top: 80px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+/* ============================================
+   UTILIDADES GLOBALES
+   ============================================ */
+
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(220, 38, 38, 0.5);
+}
+
+body.ithr-dark-mode ::-webkit-scrollbar-track,
+body.dark-theme ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.ithr-dark-mode ::-webkit-scrollbar-thumb,
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.4);
+}
