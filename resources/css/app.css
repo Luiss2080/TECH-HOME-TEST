@@ -53,13 +53,13 @@ html, body {
 /* Área de contenido principal */
 .main-content-area {
     flex: 1;
-    margin-left: 320px; /* Espacio para el sidebar */
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 320px; /* Espacio para el footer fijo */
-    min-height: calc(100vh - 360px); /* Ajustar altura considerando header y footer */
+    margin-left: var(--sidebar-width); /* Espacio para el sidebar */
+    margin-top: var(--header-height);
+    padding: 0 20px calc(300px + 40px) 20px; /* Espacio para el footer redondeado */
+    min-height: calc(100vh - var(--header-height) - 300px - 40px);
     position: relative;
     z-index: 1;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
@@ -81,19 +81,28 @@ body.dark-theme .app-container {
    RESPONSIVE DESIGN
    ============================================ */
 
+/* Sidebar colapsado */
+.sidebar-collapsed .main-content-area {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Sidebar oculto en móvil */
+.sidebar-hidden .main-content-area {
+    margin-left: 0;
+}
+
 @media (max-width: 1024px) {
     .main-content-area {
-        margin-left: 280px;
+        margin-left: var(--sidebar-collapsed-width);
     }
 }
 
 @media (max-width: 768px) {
     .main-content-area {
         margin-left: 0;
-        margin-top: 80px;
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 320px; /* Mantener espacio para footer en móviles */
+        margin-top: var(--header-height);
+        padding: 0 10px calc(320px + 20px) 10px; /* Ajustar padding para footer en móviles */
+        min-height: calc(100vh - var(--header-height) - 320px - 20px);
     }
     
     .app-container {
