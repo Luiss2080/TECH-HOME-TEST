@@ -1,0 +1,325 @@
+/* ============================================
+   TECH HOME - Animaciones para Welcome
+   Efectos específicos para welcome.blade.php
+   ============================================ */
+
+/* Animaciones de Entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Aplicar animaciones a elementos principales */
+.tech-home-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.tech-home-hero {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.crud-section-header {
+    animation: fadeInLeft 0.6s ease-out 0.4s both;
+}
+
+.quick-action-card {
+    animation: scaleIn 0.5s ease-out both;
+}
+
+.quick-action-card:nth-child(1) { animation-delay: 0.1s; }
+.quick-action-card:nth-child(2) { animation-delay: 0.2s; }
+.quick-action-card:nth-child(3) { animation-delay: 0.3s; }
+.quick-action-card:nth-child(4) { animation-delay: 0.4s; }
+
+.library-card {
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.library-card:nth-child(1) { animation-delay: 0.2s; }
+.library-card:nth-child(2) { animation-delay: 0.3s; }
+.library-card:nth-child(3) { animation-delay: 0.4s; }
+.library-card:nth-child(4) { animation-delay: 0.5s; }
+
+.component-card {
+    animation: fadeInRight 0.5s ease-out both;
+}
+
+.component-card:nth-child(1) { animation-delay: 0.3s; }
+.component-card:nth-child(2) { animation-delay: 0.4s; }
+.component-card:nth-child(3) { animation-delay: 0.5s; }
+.component-card:nth-child(4) { animation-delay: 0.6s; }
+
+.status-card {
+    animation: scaleIn 0.6s ease-out both;
+}
+
+.status-card:nth-child(1) { animation-delay: 0.1s; }
+.status-card:nth-child(2) { animation-delay: 0.2s; }
+.status-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Animación del Reloj Digital */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.digital-clock {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Efecto Hover para Iconos */
+@keyframes bounceIcon {
+    0%, 20%, 60%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    80% {
+        transform: translateY(-2px);
+    }
+}
+
+.quick-action-icon:hover,
+.library-icon:hover,
+.component-icon:hover,
+.hero-icon:hover {
+    animation: bounceIcon 0.6s ease-out;
+}
+
+/* Animación de Números de Estadísticas */
+@keyframes countUp {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.stat-number {
+    animation: countUp 0.8s ease-out 0.5s both;
+}
+
+.status-number {
+    animation: countUp 1s ease-out 0.7s both;
+}
+
+/* Efecto Respiración para Sistema Online */
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+}
+
+.sistema-online {
+    animation: breathe 3s infinite ease-in-out;
+}
+
+/* Efectos de Carga para Pestañas */
+@keyframes slideInTab {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.tab-content.active {
+    animation: slideInTab 0.4s ease-out;
+}
+
+/* Efecto de Shimmer para Indicadores */
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.status-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    border-radius: inherit;
+}
+
+/* Animación para Botones */
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.quick-action-button:active,
+.library-button:active,
+.component-button:active,
+.tab-button:active {
+    animation: buttonPress 0.1s ease-out;
+}
+
+/* Efecto de Ondas para Hover */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.quick-action-card::after,
+.library-card::after,
+.component-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(220, 38, 38, 0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.quick-action-card:hover::after,
+.library-card:hover::after,
+.component-card:hover::after {
+    animation: ripple 0.6s linear;
+}
+
+/* Animación de Líneas Tecnológicas */
+@keyframes techLines {
+    0%, 100% {
+        stroke-dashoffset: 1000;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.tech-line-animation {
+    stroke-dasharray: 1000;
+    animation: techLines 4s infinite linear;
+}
+
+/* Rotación Suave para Íconos Especiales */
+@keyframes rotate360 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating-icon {
+    animation: rotate360 3s infinite linear;
+}
+
+/* Efecto Glow para Estados Activos */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.8);
+    }
+}
+
+.active-glow {
+    animation: glow 2s infinite ease-in-out;
+}
+
+/* Preloader para carga inicial */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tech-loader {
+    border: 4px solid var(--tech-gray-200);
+    border-top: 4px solid var(--tech-red);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}

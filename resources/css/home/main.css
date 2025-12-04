@@ -1,0 +1,325 @@
+/* ============================================
+   TECH HOME - CSS Principal para Welcome
+   Optimizado específicamente para welcome.blade.php
+   ============================================ */
+
+:root {
+    --tech-red: #dc2626;
+    --tech-red-dark: #b91c1c;
+    --tech-red-light: #ef4444;
+    --tech-bg: #fef2f2;
+    --tech-white: #ffffff;
+    --tech-gray-100: #f3f4f6;
+    --tech-gray-200: #e5e7eb;
+    --tech-gray-300: #d1d5db;
+    --tech-gray-500: #6b7280;
+    --tech-gray-700: #374151;
+    --tech-gray-900: #111827;
+    --tech-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --tech-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --tech-border-radius: 12px;
+    --tech-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--tech-red) 0%, var(--tech-red-dark) 100%);
+    min-height: 100vh;
+    color: var(--tech-gray-900);
+}
+
+/* Contenedor Principal Welcome */
+.crud-edit-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Principal TECH HOME */
+.tech-home-header {
+    background: var(--tech-white);
+    border-radius: var(--tech-border-radius);
+    box-shadow: var(--tech-shadow);
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tech-home-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tech-home-logo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--tech-gray-900);
+}
+
+.tech-home-logo .logo-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--tech-red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--tech-gray-500);
+    font-size: 0.9rem;
+}
+
+.sistema-online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #10b981;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.digital-clock {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--tech-gray-700);
+}
+
+/* Sección Hero */
+.tech-home-hero {
+    background: var(--tech-white);
+    border-radius: var(--tech-border-radius);
+    box-shadow: var(--tech-shadow);
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-icon {
+    width: 70px;
+    height: 70px;
+    background: var(--tech-red);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.hero-text h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--tech-gray-900);
+    margin-bottom: 8px;
+}
+
+.hero-text h3 {
+    font-size: 1.5rem;
+    color: var(--tech-red);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.hero-text p {
+    color: var(--tech-gray-500);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.sistema-status {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Headers de Sección */
+.crud-section-header {
+    background: var(--tech-white);
+    border-radius: var(--tech-border-radius);
+    padding: 25px 30px;
+    margin-bottom: 15px;
+    box-shadow: var(--tech-shadow);
+}
+
+.crud-section-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tech-gray-900);
+    margin-bottom: 8px;
+}
+
+.crud-section-header .section-icon {
+    width: 35px;
+    height: 35px;
+    background: var(--tech-red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.crud-section-header p {
+    color: var(--tech-gray-500);
+    font-size: 1rem;
+    margin-left: 47px;
+}
+
+/* Contenedor de Información General */
+.crud-info-panel {
+    background: var(--tech-white);
+    border-radius: var(--tech-border-radius);
+    padding: 30px;
+    box-shadow: var(--tech-shadow);
+    margin-bottom: 20px;
+}
+
+/* Pestañas del Sistema */
+.system-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--tech-gray-100);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 30px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--tech-gray-500);
+    transition: var(--tech-transition);
+}
+
+.tab-button.active {
+    background: var(--tech-red);
+    color: white;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.tab-button:hover:not(.active) {
+    background: var(--tech-gray-200);
+    color: var(--tech-gray-700);
+}
+
+/* Contenido de Pestañas */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estado del Sistema */
+.system-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.status-card {
+    background: var(--tech-bg);
+    border: 2px solid var(--tech-gray-200);
+    border-radius: var(--tech-border-radius);
+    padding: 25px;
+    text-align: center;
+    transition: var(--tech-transition);
+}
+
+.status-card:hover {
+    border-color: var(--tech-red);
+    transform: translateY(-2px);
+    box-shadow: var(--tech-shadow-lg);
+}
+
+.status-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--tech-red);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.status-label {
+    font-weight: 600;
+    color: var(--tech-gray-900);
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.status-description {
+    color: var(--tech-gray-500);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+/* Indicador de Estado */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-indicator.active {
+    background: #dcfdf7;
+    color: #0f766e;
+}
+
+.status-indicator.available {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-indicator.progress {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-indicator::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
