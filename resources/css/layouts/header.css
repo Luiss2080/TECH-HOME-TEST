@@ -1,0 +1,845 @@
+/* ============================================
+   HEADER TECH HOME - Instituto de Robótica
+   ============================================ */
+
+/* Contenedor principal del header */
+.tech-header-container {
+    position: fixed;
+    top: 20px;
+    left: 320px;
+    right: 20px;
+    z-index: 999;
+}
+
+/* Header principal */
+.tech-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    transition: all 0.3s ease;
+    animation: headerSlideIn 0.8s ease-out;
+}
+
+@keyframes headerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fondo animado del header */
+.header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.05);
+    animation: headerFloat 12s ease-in-out infinite;
+}
+
+.particle-1 {
+    width: 60px;
+    height: 60px;
+    top: -20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.particle-2 {
+    width: 40px;
+    height: 40px;
+    top: -10%;
+    right: 15%;
+    animation-delay: 4s;
+}
+
+.particle-3 {
+    width: 30px;
+    height: 30px;
+    bottom: -15%;
+    left: 60%;
+    animation-delay: 8s;
+}
+
+@keyframes headerFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-15px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+/* ============================================
+   CONTENIDO DEL HEADER
+   ============================================ */
+
+/* Contenido principal */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    gap: 2rem;
+}
+
+/* ============================================
+   SECCIÓN IZQUIERDA - Logo y Bienvenida
+   ============================================ */
+
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+    }
+}
+
+.header-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.welcome-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #dc2626, #7c2d12);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   SECCIÓN DERECHA - Controles
+   ============================================ */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* ============================================
+   FECHA Y HORA
+   ============================================ */
+
+.datetime-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(220, 38, 38, 0.08);
+    border-radius: 12px;
+    min-width: 140px;
+}
+
+.datetime-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #4b5563;
+}
+
+.datetime-item i {
+    width: 14px;
+    color: #dc2626;
+    font-size: 0.8rem;
+}
+
+.datetime-text {
+    font-weight: 600;
+}
+
+/* ============================================
+   NOTIFICACIONES
+   ============================================ */
+
+.notifications-container {
+    position: relative;
+}
+
+.notifications-btn {
+    position: relative;
+    background: rgba(220, 38, 38, 0.1);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #dc2626;
+    font-size: 1.1rem;
+}
+
+.notifications-btn:hover {
+    background: rgba(220, 38, 38, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #dc2626;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.4rem;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Dropdown de notificaciones */
+.notifications-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    width: 320px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notifications-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-header h6 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.mark-all-read {
+    font-size: 0.8rem;
+    color: #dc2626;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.mark-all-read:hover {
+    text-decoration: underline;
+}
+
+.notifications-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    background: rgba(220, 38, 38, 0.05);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-icon {
+    width: 35px;
+    height: 35px;
+    background: rgba(220, 38, 38, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #dc2626;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content p {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1f2937;
+    line-height: 1.4;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.dropdown-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.view-all-btn {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.view-all-btn:hover {
+    text-decoration: underline;
+    color: #dc2626;
+}
+
+/* ============================================
+   PERFIL DE USUARIO
+   ============================================ */
+
+.user-profile-container {
+    position: relative;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.user-profile:hover {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+/* Avatar del usuario */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-initials {
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* Información del usuario */
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.1rem 0;
+    line-height: 1.2;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Indicador de dropdown */
+.dropdown-indicator {
+    color: #6b7280;
+    transition: transform 0.3s ease;
+}
+
+.user-profile:hover .dropdown-indicator {
+    color: #dc2626;
+}
+
+.user-profile.active .dropdown-indicator {
+    transform: rotate(180deg);
+}
+
+/* Dropdown del perfil */
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    width: 280px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.profile-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.header-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header-avatar-initials {
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.header-info h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.2rem 0;
+}
+
+.header-info span {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+.dropdown-menu {
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: rgba(220, 38, 38, 0.05);
+    color: #dc2626;
+    text-decoration: none;
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+    color: #6b7280;
+    transition: color 0.2s ease;
+}
+
+.dropdown-item:hover i {
+    color: #dc2626;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.logout-item {
+    color: #dc2626 !important;
+    font-weight: 600 !important;
+}
+
+.logout-item:hover {
+    background: rgba(220, 38, 38, 0.1) !important;
+}
+
+/* ============================================
+   USUARIOS NO AUTENTICADOS
+   ============================================ */
+
+.guest-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-btn, .register-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.login-btn {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.2);
+}
+
+.login-btn:hover {
+    background: #dc2626;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+    text-decoration: none;
+}
+
+.register-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.register-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* ============================================
+   TEMA OSCURO
+   ============================================ */
+
+body.dark-mode .tech-header,
+body.ithr-dark-mode .tech-header {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(55, 65, 81, 0.3);
+}
+
+body.dark-mode .welcome-title,
+body.ithr-dark-mode .welcome-title {
+    color: #f1f5f9;
+    background: linear-gradient(135deg, #dc2626, #fca5a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .welcome-subtitle,
+body.ithr-dark-mode .welcome-subtitle {
+    color: #94a3b8;
+}
+
+body.dark-mode .datetime-section,
+body.ithr-dark-mode .datetime-section {
+    background: rgba(220, 38, 38, 0.15);
+}
+
+body.dark-mode .datetime-item,
+body.ithr-dark-mode .datetime-item {
+    color: #cbd5e1;
+}
+
+body.dark-mode .user-name,
+body.ithr-dark-mode .user-name {
+    color: #f1f5f9;
+}
+
+body.dark-mode .user-role,
+body.ithr-dark-mode .user-role {
+    color: #94a3b8;
+}
+
+body.dark-mode .user-profile,
+body.ithr-dark-mode .user-profile {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(220, 38, 38, 0.3);
+}
+
+body.dark-mode .user-profile:hover,
+body.ithr-dark-mode .user-profile:hover {
+    background: rgba(220, 38, 38, 0.15);
+}
+
+body.dark-mode .notifications-dropdown,
+body.dark-mode .profile-dropdown,
+body.ithr-dark-mode .notifications-dropdown,
+body.ithr-dark-mode .profile-dropdown {
+    background: #1e293b;
+    border-color: rgba(55, 65, 81, 0.3);
+}
+
+body.dark-mode .dropdown-header h6,
+body.dark-mode .header-info h6,
+body.ithr-dark-mode .dropdown-header h6,
+body.ithr-dark-mode .header-info h6 {
+    color: #f1f5f9;
+}
+
+body.dark-mode .notification-content p,
+body.ithr-dark-mode .notification-content p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .dropdown-item,
+body.ithr-dark-mode .dropdown-item {
+    color: #cbd5e1;
+}
+
+body.dark-mode .dropdown-item:hover,
+body.ithr-dark-mode .dropdown-item:hover {
+    background: rgba(220, 38, 38, 0.15);
+    color: #fca5a5;
+}
+
+body.dark-mode .floating-particle,
+body.ithr-dark-mode .floating-particle {
+    background: rgba(220, 38, 38, 0.1);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .tech-header-container {
+        left: 280px;
+    }
+    
+    .header-content {
+        gap: 1.5rem;
+    }
+    
+    .datetime-section {
+        min-width: 120px;
+    }
+    
+    .welcome-title {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tech-header-container {
+        left: 20px;
+        top: 80px;
+    }
+    
+    .tech-header {
+        padding: 1rem 1.5rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .header-left {
+        justify-content: center;
+    }
+    
+    .header-right {
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .datetime-section {
+        flex-direction: row;
+        justify-content: space-around;
+        min-width: auto;
+    }
+    
+    .user-profile {
+        min-width: auto;
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .notifications-dropdown,
+    .profile-dropdown {
+        width: 300px;
+        right: 50%;
+        transform: translateX(50%) translateY(-10px);
+    }
+    
+    .notifications-dropdown.show,
+    .profile-dropdown.show {
+        transform: translateX(50%) translateY(0);
+    }
+    
+    .welcome-title {
+        font-size: 0.95rem;
+        text-align: center;
+    }
+    
+    .welcome-subtitle {
+        text-align: center;
+    }
+}
+
+/* Scrollbar para dropdowns */
+.notifications-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.notifications-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.3);
+    border-radius: 2px;
+}
+
+.notifications-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(220, 38, 38, 0.5);
+}

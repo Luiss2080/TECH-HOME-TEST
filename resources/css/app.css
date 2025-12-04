@@ -23,48 +23,6 @@
 @import './home/animations.css';
 @import './home/responsive.css';
 
-/* Admin */
-@import url('./admin/dashboard.css');
-@import url('./admin/index.css');
-@import url('./admin/crear.css');
-@import url('./admin/editar.css');
-@import url('./admin/ver.css');
-
-/* Categorías */
-@import url('./categorias/dashboard.css');
-@import url('./categorias/index.css');
-@import url('./categorias/crear.css');
-@import url('./categorias/editar.css');
-@import url('./categorias/ver.css');
-
-/* Cursos */
-@import url('./cursos/dashboard.css');
-@import url('./cursos/index.css');
-@import url('./cursos/crear.css');
-@import url('./cursos/editar.css');
-@import url('./cursos/ver.css');
-
-/* Componentes */
-@import url('./components/dashboard.css');
-@import url('./components/index.css');
-@import url('./components/crear.css');
-@import url('./components/editar.css');
-@import url('./components/ver.css');
-
-/* Materiales */
-@import url('./materials/dashboard.css');
-@import url('./materials/index.css');
-@import url('./materials/crear.css');
-@import url('./materials/editar.css');
-@import url('./materials/ver.css');
-
-/* Libros */
-@import url('./libros/dashboard.css');
-@import url('./libros/index.css');
-@import url('./libros/crear.css');
-@import url('./libros/editar.css');
-@import url('./libros/ver.css');
-
 /* ============================================
    ESTILOS BASE DE LA APLICACIÓN
    ============================================ */

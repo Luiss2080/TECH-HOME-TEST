@@ -1,125 +1,211 @@
 <!-- ============================================
- COMPONENTE HEADER TECH HOME
+ HEADER TECH HOME - Instituto de Robótica
  ============================================ -->
-<div class="tech-header-wrapper">
-    <div class="tech-header" id="techHeader">
-    <!-- Circuitos tecnológicos de fondo -->
-    <div class="tech-circuit"></div>
-
-    <!-- ============================================
-     CONTENIDO PRINCIPAL DEL HEADER
-     ============================================ -->
-    <div class="header-content">
-
-        <!-- ============================================
-     SECCIÓN DEL LOGO (POSICIONADO AL INICIO)
-     ============================================ -->
-        <div class="welcome-section">
-            <div class="loga-container">
-                <img src="{{ asset('imagenes/logos/LogoTech.png') }}" alt="Tech Home Logo" class="header-logo-img">
-            </div>
+<div class="tech-header-container">
+    <header class="tech-header" id="techHeader">
+        <!-- Fondo animado del header -->
+        <div class="header-background">
+            <div class="floating-particle particle-1"></div>
+            <div class="floating-particle particle-2"></div>
+            <div class="floating-particle particle-3"></div>
         </div>
 
-
         <!-- ============================================
-     SECCIÓN DERECHA: CONTROLES Y USUARIO
-     ============================================ -->
-        <div class="user-controls">
-
-            <!-- ============================================
-         BOTÓN DE NOTIFICACIONES
+         CONTENIDO PRINCIPAL DEL HEADER
          ============================================ -->
-            @auth
-                <a href="#" class="notifications-btn" title="Notificaciones">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge" id="notification-count" style="display: none;">0</span>
-                </a>
-            @endauth
+        <div class="header-content">
             <!-- ============================================
-         TARJETA DE USUARIO Y CONTROLES
-         ============================================ -->
-            <div class="user-info">
-                @auth
-
-                    <!-- ============================================
-             AVATAR DEL USUARIO
+             SECCIÓN IZQUIERDA - Logo y Bienvenida
              ============================================ -->
-                    <div class="user-avatar" id="user-avatar">
-                        @php
-                            // Mostrar avatar o iniciales del usuario
-                            if (!empty($_SESSION['usuario_avatar'])) {
-                                echo '<img src="' . htmlspecialchars($_SESSION['usuario_avatar']) . '" alt="Avatar">';
-                            } else {
-                                // Mostrar iniciales si no hay avatar
-                                $nombre = $_SESSION['usuario_nombre'] ?? 'U';
-                                $apellido = $_SESSION['usuario_apellido'] ?? 'S';
-                                $iniciales = strtoupper(substr($nombre, 0, 1) . substr($apellido, 0, 1));
-                                echo $iniciales;
-                            }
-                        @endphp
+            <div class="header-left">
+                <div class="logo-section">
+                    <div class="logo-container">
+                        <img src="{{ asset('imagenes/logos/LogoTech.png') }}" alt="Tech Home Logo" class="header-logo">
                     </div>
-
-                    <!-- ============================================
-             DATOS DEL USUARIO (DESDE SESIÓN PHP)
-             ============================================ -->
-                    <div class="user-details">
-                        <h4 id="user-name">
-                            @php
-                                $user = auth();
-                                echo $user ? htmlspecialchars($user->nombre . ' ' . $user->apellido) : 'Usuario';
-                            @endphp
-                        </h4>
-                        <span class="user-role" id="user-role">
-                            @php
-                                if ($user) {
-                                    $roles = $user->roles();
-                                    echo htmlspecialchars(!empty($roles) ? $roles[0]['nombre'] : 'Usuario');
-                                } else {
-                                    echo 'Usuario';
-                                }
-                            @endphp
-                        </span>
-                        <span class="user-email" id="user-email">
-                            {{ $user ? htmlspecialchars($user->email) : '' }}
-                        </span>
-                    </div>
-                @endauth
-                <!-- ============================================
-             INFORMACIÓN DE FECHA Y HORA
-             ============================================ -->
-                <div class="datetime-info">
-                    <div class="datetime-item">
-                        <i class="fas fa-calendar"></i>
-                        <span id="current-date"></span>
-                    </div>
-                    <div class="datetime-item">
-                        <i class="fas fa-clock"></i>
-                        <span id="current-time"></span>
+                    <div class="welcome-text">
+                        <h2 class="welcome-title">Bienvenido al Instituto de Robótica</h2>
+                        <span class="welcome-subtitle">TECH HOME</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- ============================================
-             BOTÓN CERRAR SESIÓN MEJORADO
+            <!-- ============================================
+             SECCIÓN DERECHA - Controles de usuario
              ============================================ -->
-                @auth
-                    <form action="{{ route('logout') }}" method="POST" class="logout-btn" title="Cerrar Sesión">
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Cerrar Sesión
-                        </button>
-                    </form>
-                @guest
-                    <form action="{{ route('login') }}" method="GET" class="login-btn" title="Iniciar Sesión">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Iniciar Sesión
-                        </button>
-                    </form>
-                @endguest
-                @endauth
+            <div class="header-right">
 
+                @auth
+                    <!-- ============================================
+                     INFORMACIÓN DE FECHA Y HORA
+                     ============================================ -->
+                    <div class="datetime-section">
+                        <div class="datetime-item">
+                            <i class="fas fa-calendar-day"></i>
+                            <span id="current-date" class="datetime-text"></span>
+                        </div>
+                        <div class="datetime-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="current-time" class="datetime-text"></span>
+                        </div>
+                    </div>
+
+                    <!-- ============================================
+                     BOTÓN DE NOTIFICACIONES
+                     ============================================ -->
+                    <div class="notifications-container">
+                        <button class="notifications-btn" id="notificationsBtn" title="Notificaciones">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notificationCount">3</span>
+                        </button>
+                        
+                        <!-- Dropdown de notificaciones -->
+                        <div class="notifications-dropdown" id="notificationsDropdown">
+                            <div class="dropdown-header">
+                                <h6>Notificaciones</h6>
+                                <span class="mark-all-read">Marcar como leídas</span>
+                            </div>
+                            <div class="notifications-list">
+                                <div class="notification-item">
+                                    <i class="fas fa-user-plus notification-icon"></i>
+                                    <div class="notification-content">
+                                        <p>Nuevo estudiante registrado</p>
+                                        <span class="notification-time">Hace 2 minutos</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <i class="fas fa-book notification-icon"></i>
+                                    <div class="notification-content">
+                                        <p>Nuevo material subido</p>
+                                        <span class="notification-time">Hace 15 minutos</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <i class="fas fa-graduation-cap notification-icon"></i>
+                                    <div class="notification-content">
+                                        <p>Curso completado por estudiante</p>
+                                        <span class="notification-time">Hace 1 hora</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-footer">
+                                <a href="{{ route('notificaciones') }}" class="view-all-btn">Ver todas</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================
+                     PERFIL DE USUARIO CON DROPDOWN
+                     ============================================ -->
+                    <div class="user-profile-container">
+                        <div class="user-profile" id="userProfile">
+                            <!-- Avatar del usuario -->
+                            <div class="user-avatar">
+                                @php
+                                    $user = auth()->user();
+                                    $avatar = $user->avatar ?? null;
+                                    
+                                    if ($avatar && file_exists(public_path($avatar))) {
+                                        echo '<img src="' . asset($avatar) . '" alt="Avatar" class="avatar-image">';
+                                    } else {
+                                        $nombre = $user->nombre ?? 'U';
+                                        $apellido = $user->apellido ?? 'S';
+                                        $iniciales = strtoupper(substr($nombre, 0, 1) . substr($apellido, 0, 1));
+                                        echo '<span class="avatar-initials">' . $iniciales . '</span>';
+                                    }
+                                @endphp
+                            </div>
+                            
+                            <!-- Información del usuario -->
+                            <div class="user-info">
+                                <h6 class="user-name">{{ $user->nombre ?? 'Usuario' }} {{ $user->apellido ?? '' }}</h6>
+                                <span class="user-role">
+                                    @php
+                                        $roles = $user ? $user->roles : [];
+                                        if ($roles && count($roles) > 0) {
+                                            echo ucfirst($roles[0]->nombre);
+                                        } else {
+                                            echo 'Usuario';
+                                        }
+                                    @endphp
+                                </span>
+                            </div>
+                            
+                            <!-- Indicador de dropdown -->
+                            <div class="dropdown-indicator">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown del perfil -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <div class="header-avatar">
+                                    @php
+                                        if ($avatar && file_exists(public_path($avatar))) {
+                                            echo '<img src="' . asset($avatar) . '" alt="Avatar" class="header-avatar-image">';
+                                        } else {
+                                            $iniciales = strtoupper(substr($user->nombre ?? 'U', 0, 1) . substr($user->apellido ?? 'S', 0, 1));
+                                            echo '<span class="header-avatar-initials">' . $iniciales . '</span>';
+                                        }
+                                    @endphp
+                                </div>
+                                <div class="header-info">
+                                    <h6>{{ $user->nombre ?? 'Usuario' }} {{ $user->apellido ?? '' }}</h6>
+                                    <span>{{ $user->email ?? 'usuario@email.com' }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="dropdown-menu">
+                                <a href="{{ route('perfil') }}" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Ver Perfil</span>
+                                </a>
+                                <a href="{{ route('perfil.configuracion') }}" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Configuración</span>
+                                </a>
+                                <a href="{{ route('perfil.editar') }}" class="dropdown-item">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar Perfil</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ route('ayuda') }}" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Ayuda</span>
+                                </a>
+                                <a href="{{ route('soporte') }}" class="dropdown-item">
+                                    <i class="fas fa-life-ring"></i>
+                                    <span>Soporte</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item logout-item">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Cerrar Sesión</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <!-- ============================================
+                     BOTONES PARA USUARIOS NO AUTENTICADOS
+                     ============================================ -->
+                    <div class="guest-actions">
+                        <a href="{{ route('login') }}" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Iniciar Sesión</span>
+                        </a>
+                        <a href="{{ route('register') }}" class="register-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Registrarse</span>
+                        </a>
+                    </div>
+                @endauth
             </div>
         </div>
-    </div>
-</div>
+    </header>
 </div>
