@@ -44,6 +44,13 @@ class HomeController extends Controller
                 'total_docentes' => 24
             ];
 
+            // Variables específicas para el dashboard welcome
+            $componentesActivos = $estadisticas['componentes'];
+            $cursosActivos = $estadisticas['cursos'];
+            $proyectosDesarrollo = $estadisticas['proyectos'];
+            $estudiantesActivos = $estadisticas['usuarios'];
+            $laboratoriosDisponibles = 8;
+
             $actividades_recientes = [
                 [
                     'tipo' => 'sistema',
@@ -89,7 +96,16 @@ class HomeController extends Controller
                 ]
             ];
 
-            return view('home.welcome', compact('estadisticas', 'actividades_recientes', 'notificaciones'));
+            return view('home.welcome', compact(
+                'estadisticas', 
+                'actividades_recientes', 
+                'notificaciones',
+                'componentesActivos',
+                'cursosActivos',
+                'proyectosDesarrollo',
+                'estudiantesActivos',
+                'laboratoriosDisponibles'
+            ));
             
         } catch (Exception $e) {
             return view('home.welcome', [

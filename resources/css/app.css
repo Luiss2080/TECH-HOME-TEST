@@ -18,12 +18,6 @@
 @import './auth/login.css';
 @import './auth/register.css';
 
-/* Home - Solo archivos que existen */
-@import './home/main.css';
-@import './home/components.css';
-@import './home/animations.css';
-@import './home/responsive.css';
-
 /* Páginas específicas */
 @import './pages/welcome.css';
 
