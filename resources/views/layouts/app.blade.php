@@ -45,11 +45,11 @@
         <!-- Main Content Area -->
         <div class="main-content-area">
             @yield('content')
+            
+            <!-- Footer Component -->
+            @include('layouts.footer')
         </div>
     </div>
-    
-    <!-- Footer Component -->
-    @include('layouts.footer')
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

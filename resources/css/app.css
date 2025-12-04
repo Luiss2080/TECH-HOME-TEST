@@ -3,23 +3,23 @@
    ============================================ */
 
 /* Variables CSS globales */
-@import './shared/variables.css';
+@import "./shared/variables.css";
 
 /* Utilidades compartidas */
-@import './shared/utilities.css';
+@import "./shared/utilities.css";
 
 /* Layouts principales */
-@import './layouts/header.css';
-@import './layouts/sidebar.css';
-@import './layouts/footer.css';
-@import './layouts/public.css';
+@import "./layouts/header.css";
+@import "./layouts/sidebar.css";
+@import "./layouts/footer.css";
+@import "./layouts/public.css";
 
 /* Estilos por sección */
-@import './auth/login.css';
-@import './auth/register.css';
+@import "./auth/login.css";
+@import "./auth/register.css";
 
 /* Páginas específicas */
-@import './home/welcome.css';
+@import "./home/welcome.css";
 
 /* ============================================
    ESTILOS BASE DE LA APLICACIÓN
@@ -31,9 +31,10 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 14px;
     line-height: 1.6;
     color: #1f2937;
@@ -44,22 +45,22 @@ html, body {
 /* Contenedor principal de la aplicación */
 .app-container {
     display: flex;
-    min-height: calc(100vh - 300px); /* Ajustar para el footer fijo */
+    flex-direction: column;
+    min-height: 100vh;
     position: relative;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding-bottom: 300px; /* Espacio para el footer */
+    margin-left: 300px; /* Sidebar width */
+    width: calc(100% - 300px);
 }
 
 /* Área de contenido principal */
 .main-content-area {
     flex: 1;
-    margin-left: var(--sidebar-width); /* Espacio para el sidebar */
-    margin-top: var(--header-height);
-    padding: 0 20px calc(300px + 40px) 20px; /* Espacio para el footer redondeado */
-    min-height: calc(100vh - var(--header-height) - 300px - 40px);
+    margin-top: 90px; /* Header height approx */
+    padding: 2rem;
+    min-height: calc(100vh - 90px); /* Full height minus header */
     position: relative;
     z-index: 1;
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
@@ -104,7 +105,7 @@ body.dark-theme .app-container {
         padding: 0 10px calc(320px + 20px) 10px; /* Ajustar padding para footer en móviles */
         min-height: calc(100vh - var(--header-height) - 320px - 20px);
     }
-    
+
     .app-container {
         padding-bottom: 320px; /* Ajustar padding para móviles */
     }
@@ -123,8 +124,14 @@ body.dark-theme .app-container {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .fade-out {
@@ -132,8 +139,14 @@ body.dark-theme .app-container {
 }
 
 @keyframes fadeOut {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-20px); }
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
 }
 
 /* Scrollbar personalizado */

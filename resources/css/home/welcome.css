@@ -33,23 +33,34 @@
    ============================================ */
 .welcome-dashboard {
     width: 100%;
-    min-height: calc(100vh - 140px);
-    background: linear-gradient(135deg, var(--welcome-bg) 0%, rgba(220, 38, 38, 0.02) 100%);
+    min-height: auto; /* Let content dictate height */
+    background: linear-gradient(
+        135deg,
+        var(--welcome-bg) 0%,
+        rgba(220, 38, 38, 0.02) 100%
+    );
     padding: 2rem;
     position: relative;
     overflow: hidden;
 }
 
 .welcome-dashboard::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+    background: radial-gradient(
+            circle at 20% 20%,
+            rgba(220, 38, 38, 0.05) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(5, 150, 105, 0.05) 0%,
+            transparent 50%
+        );
     pointer-events: none;
     z-index: 1;
 }
@@ -115,19 +126,27 @@
 }
 
 .hero-content::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--welcome-primary), var(--welcome-accent));
+    background: linear-gradient(
+        90deg,
+        var(--welcome-primary),
+        var(--welcome-accent)
+    );
 }
 
 .hero-icon .icon-container {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    background: linear-gradient(
+        135deg,
+        var(--welcome-primary),
+        var(--welcome-secondary)
+    );
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -202,7 +221,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--welcome-text);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
 }
 
 .current-date {
@@ -229,7 +248,11 @@
 .section-icon {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    background: linear-gradient(
+        135deg,
+        var(--welcome-primary),
+        var(--welcome-secondary)
+    );
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -272,13 +295,18 @@
 }
 
 .dashboard-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, var(--welcome-primary), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--welcome-primary),
+        transparent
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -400,7 +428,7 @@
     font-size: 2rem;
     font-weight: 700;
     color: var(--welcome-primary);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
 }
 
 .stat-label {
@@ -418,7 +446,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    background: linear-gradient(
+        135deg,
+        var(--welcome-primary),
+        var(--welcome-secondary)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
@@ -487,13 +519,18 @@
 }
 
 .quick-action-item::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(220, 38, 38, 0.1),
+        transparent
+    );
     transition: left 0.5s ease;
 }
 
@@ -510,7 +547,11 @@
 .action-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    background: linear-gradient(
+        135deg,
+        var(--welcome-primary),
+        var(--welcome-secondary)
+    );
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -541,7 +582,11 @@
 }
 
 .version-badge {
-    background: linear-gradient(135deg, var(--welcome-primary), var(--welcome-secondary));
+    background: linear-gradient(
+        135deg,
+        var(--welcome-primary),
+        var(--welcome-secondary)
+    );
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -553,7 +598,7 @@
 .build-info {
     font-size: 0.85rem;
     color: var(--welcome-text-muted);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
 }
 
 /* ============================================
@@ -582,7 +627,8 @@
 }
 
 @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
     }
     50% {
@@ -591,10 +637,12 @@
 }
 
 @keyframes blink {
-    0%, 50% {
+    0%,
+    50% {
         opacity: 1;
     }
-    51%, 100% {
+    51%,
+    100% {
         opacity: 0.3;
     }
 }
@@ -623,30 +671,30 @@
     .welcome-dashboard {
         padding: 1rem;
     }
-    
+
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 1.5rem;
         padding: 2rem;
     }
-    
+
     .hero-status {
         align-items: center;
     }
-    
+
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .quick-actions-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .hero-title {
         font-size: 1.875rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1.5rem;
     }
@@ -656,7 +704,7 @@
     .quick-actions-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .version-section {
         flex-direction: column;
         gap: 0.5rem;
@@ -676,7 +724,11 @@
 }
 
 [data-theme="dark"] .hero-content::before {
-    background: linear-gradient(90deg, var(--welcome-primary), var(--welcome-accent));
+    background: linear-gradient(
+        90deg,
+        var(--welcome-primary),
+        var(--welcome-accent)
+    );
 }
 
 [data-theme="dark"] .status-indicator {
@@ -727,7 +779,7 @@
         background: white !important;
         color: black !important;
     }
-    
+
     .dashboard-card,
     .quick-action-item {
         box-shadow: none !important;
